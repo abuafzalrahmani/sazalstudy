@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sazal Study | Admin</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f5f7fb;font-family:Arial,sans-serif;color:#172033}.wrap{max-width:760px;margin:35px auto;padding:0 16px}.head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.back{color:#2563eb;text-decoration:none}.panel{background:#fff;padding:22px;border-radius:18px;box-shadow:0 8px 30px #17203312;margin-bottom:18px}h1{margin:0}.row{display:grid;gap:8px;margin-bottom:15px}label{font-weight:700;font-size:14px}input,select{padding:12px;border:1px solid #dbe1ea;border-radius:10px;font-size:15px;width:100%}.btn{border:0;background:#2563eb;color:#fff;padding:12px 15px;border-radius:10px;font-weight:700;cursor:pointer}.danger{background:#dc2626}.item{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid #eee}.small{font-size:13px;color:#64748b}
+</style></head>
+<body><div class="wrap">
+<div class="head"><h1>🔐 Sazal Study Admin</h1><a class="back" href="index.html">← Website</a></div>
+<div class="panel">
+<h2>📤 Notes / PDF Upload</h2>
+<div class="row"><label>Title</label><input id="title" placeholder="जैसे: Class 12 English Chapter 1 Notes"></div>
+<div class="row"><label>Category</label><select id="category"><option>Class 6</option><option>Class 7</option><option>Class 8</option><option>Class 10</option><option>Class 11</option><option>Class 12</option><option>Bihar Board</option><option>GK</option><option>Important Questions</option></select></div>
+<div class="row"><label>Subject</label><input id="subject" placeholder="जैसे: English"></div>
+<div class="row"><label>PDF / Image / File</label><input id="file" type="file" accept=".pdf,image/*"></div>
+<button class="btn" id="add">➕ Upload & Publish</button>
+<p class="small">यह demo version files को इसी browser/device में सुरक्षित रखता है।</p>
+</div>
+<div class="panel"><h2>📚 Uploaded Material</h2><div id="list"></div></div>
+</div>
+<script>
+const DB='sazalStudyDB',STORE='notes';
+function openDB(){return new Promise((res,rej)=>{let r=indexedDB.open(DB,1);r.onupgradeneeded=()=>{if(!r.result.objectStoreNames.contains(STORE))r.result.createObjectStore(STORE,{keyPath:'id',autoIncrement:true})};r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+async function getAll(){let db=await openDB();return new Promise((res,rej)=>{let r=db.transaction(STORE).objectStore(STORE).getAll();r.onsuccess=()=>res(r.result.reverse());r.onerror=()=>rej(r.error)})}
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+async function render(){let a=await getAll();let box=document.getElementById('list');box.innerHTML=a.length?a.map(n=>`<div class="item"><div><b>${esc(n.title)}</b><div class="small">${esc(n.category)} • ${esc(n.subject||'')} • ${esc(n.fileName||'')}</div></div><button class="btn danger" onclick="del(${n.id})">Delete</button></div>`).join(''):'<p class="small">कोई material नहीं।</p>'}
+async function del(id){if(!confirm('यह material delete करें?'))return;let db=await openDB();db.transaction(STORE,'readwrite').objectStore(STORE).delete(id);setTimeout(render,100)}
+document.getElementById('add').onclick=async()=>{let title=document.getElementById('title').value.trim(),file=document.getElementById('file').files[0];if(!title||!file){alert('Title और file दोनों चुनें।');return}let fr=new FileReader();fr.onload=async()=>{let db=await openDB();db.transaction(STORE,'readwrite').objectStore(STORE).add({title,category:category.value,subject:subject.value.trim(),fileName:file.name,fileData:fr.result,createdAt:Date.now()});document.getElementById('title').value='';document.getElementById('subject').value='';document.getElementById('file').value='';alert('Material publish हो गया!');render()};fr.readAsDataURL(file)};
+render();
+</script></body></html>

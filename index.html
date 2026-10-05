@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sazal Study | Study Notes</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,system-ui,sans-serif;background:#f5f7fb;color:#172033}
+header{background:linear-gradient(135deg,#2563eb,#7c3aed);color:white;padding:22px 18px 42px}
+.nav{max-width:1100px;margin:auto;display:flex;justify-content:space-between;align-items:center}.logo{font-size:25px;font-weight:800}.tag{font-size:13px;opacity:.9}
+.admin{color:white;text-decoration:none;border:1px solid #ffffff66;padding:9px 13px;border-radius:10px}
+.hero{max-width:1100px;margin:28px auto 0}.hero h1{font-size:38px;margin:0 0 8px}.hero p{margin:0 0 20px;opacity:.9}
+.search{width:100%;padding:15px 18px;border:0;border-radius:14px;font-size:16px;outline:none}
+main{max-width:1100px;margin:-20px auto 40px;padding:0 16px}.panel{background:white;border-radius:18px;padding:22px;box-shadow:0 8px 30px #17203312;margin-bottom:20px}
+h2{margin:0 0 16px}.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+.cat{border:1px solid #e5e7eb;background:#fff;padding:17px;border-radius:14px;cursor:pointer;text-align:center;font-weight:700}.cat:hover{border-color:#2563eb;transform:translateY(-1px)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}.card{border:1px solid #e5e7eb;border-radius:15px;padding:17px;background:#fff}.badge{display:inline-block;background:#eef2ff;color:#4338ca;padding:5px 8px;border-radius:8px;font-size:12px;font-weight:700}.card h3{margin:11px 0 7px}.meta{color:#64748b;font-size:13px;margin-bottom:14px}.btn{display:inline-block;text-decoration:none;border:0;background:#2563eb;color:#fff;padding:9px 12px;border-radius:9px;cursor:pointer;font-weight:700}.empty{text-align:center;color:#64748b;padding:25px}
+footer{text-align:center;color:#64748b;padding:25px}
+@media(max-width:600px){.hero h1{font-size:30px}.admin{font-size:12px}.nav{gap:10px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="nav">
+    <div><div class="logo">📚 Sazal Study</div><div class="tag">आपकी पढ़ाई, आपकी तैयारी</div></div>
+    <a class="admin" href="admin.html">🔐 Admin</a>
+  </div>
+  <div class="hero">
+    <h1>Study Notes & PDFs</h1>
+    <p>Class, subject और chapter के अनुसार important study material खोजें।</p>
+    <input id="search" class="search" placeholder="🔍 Notes, subject या class खोजें...">
+  </div>
+</header>
+
+<main>
+  <section class="panel">
+    <h2>📚 Study Categories</h2>
+    <div class="cats" id="cats">
+      <div class="cat" data-filter="Class 6">🎓 Class 6</div>
+<div class="cat" data-filter="Class 7">🎓 Class 7</div>
+<div class="cat" data-filter="Class 8">🎓 Class 8</div>
+<div class="cat" data-filter="Class 10">🎓 Class 10</div>
+      <div class="cat" data-filter="Class 11">🎓 Class 11</div>
+      <div class="cat" data-filter="Class 12">🎓 Class 12</div>
+      <div class="cat" data-filter="Bihar Board">📘 Bihar Board</div>
+      <div class="cat" data-filter="GK">🧠 GK</div>
+      <div class="cat" data-filter="Important Questions">📝 Important Questions</div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>📄 Latest Study Material</h2>
+    <div id="notes" class="grid"></div>
+  </section>
+</main>
+<footer>© 2026 Sazal Study • Study Material Portal</footer>
+
+<script>
+const DB='sazalStudyDB', STORE='notes';
+function openDB(){return new Promise((res,rej)=>{let r=indexedDB.open(DB,1);r.onupgradeneeded=()=>{if(!r.result.objectStoreNames.contains(STORE))r.result.createObjectStore(STORE,{keyPath:'id',autoIncrement:true})};r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+async function allNotes(){let db=await openDB();return new Promise((res,rej)=>{let r=db.transaction(STORE).objectStore(STORE).getAll();r.onsuccess=()=>res(r.result.reverse());r.onerror=()=>rej(r.error)})}
+function render(list){const box=document.getElementById('notes');box.innerHTML='';if(!list.length){box.innerHTML='<div class="empty">अभी कोई Notes/PDF upload नहीं है। Admin से material जोड़ें।</div>';return}
+list.forEach(n=>{let d=document.createElement('div');d.className='card';d.innerHTML=`<span class="badge">${n.category||'Study'}</span><h3>${esc(n.title)}</h3><div class="meta">${esc(n.subject||'')} ${n.fileName?'• '+esc(n.fileName):''}</div>${n.fileData?`<a class="btn" download="${esc(n.fileName||n.title)}" href="${n.fileData}">⬇️ Download</a>`:''}`;box.appendChild(d)})}
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+let current=[]; allNotes().then(x=>{current=x;render(x)});
+document.getElementById('search').oninput=e=>{let q=e.target.value.toLowerCase();render(current.filter(n=>(n.title+' '+n.subject+' '+n.category).toLowerCase().includes(q)))};
+document.querySelectorAll('.cat').forEach(c=>c.onclick=()=>{let q=c.dataset.filter.toLowerCase();document.getElementById('search').value=c.dataset.filter;render(current.filter(n=>(n.category+' '+n.subject+' '+n.title).toLowerCase().includes(q)))});
+</script>
+</body>
+</html>
