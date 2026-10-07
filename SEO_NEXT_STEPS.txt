@@ -1,0 +1,12 @@
+Sazal Study – Google Search setup
+
+1. Upload all files from this folder to the root of the GitHub Pages repository.
+2. Make sure index.html, admin.html, supabase-config.js, robots.txt and sitemap.xml are in the repository root.
+3. Open the live site and verify that it works.
+4. In Google Search Console, add the exact GitHub Pages URL/prefix:
+   https://abuafzalrahmani.github.io/sazalstudy/
+5. Submit this sitemap:
+   https://abuafzalrahmani.github.io/sazalstudy/sitemap.xml
+6. Google indexing is not instant; Search Console can be used to request indexing of the homepage.
+
+Important: Do not put Supabase secret/service_role keys in these files.
