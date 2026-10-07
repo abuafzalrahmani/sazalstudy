@@ -53,9 +53,19 @@ $('login').onclick=async()=>{
   const email=$('email').value.trim(),password=$('password').value;
   if(!email||!password){showMsg($('loginMsg'),'Email और password भरें।',true);return}
   $('login').disabled=true;$('login').textContent='Logging in...';
-  const {error}=await sb.auth.signInWithPassword({email,password});
-  $('login').disabled=false;$('login').textContent='🔓 Login';
-  if(error)showMsg($('loginMsg'),'Login failed: '+error.message,true);else{$('loginMsg').style.display='none';updateUI()}
+  try{
+    const result=await Promise.race([
+      sb.auth.signInWithPassword({email,password}),
+      new Promise((_,reject)=>setTimeout(()=>reject(new Error('Login request timeout. Internet connection या Supabase URL check करें.')),15000))
+    ]);
+    if(result.error) throw result.error;
+    $('loginMsg').style.display='none';
+    await updateUI();
+  }catch(e){
+    showMsg($('loginMsg'),'Login failed: '+(e?.message||e),true);
+  }finally{
+    $('login').disabled=false;$('login').textContent='🔓 Login';
+  }
 };
 $('logout').onclick=async()=>{await sb.auth.signOut();updateUI()};
 $('add').onclick=async()=>{
@@ -75,6 +85,19 @@ $('add').onclick=async()=>{
   }catch(e){showMsg($('uploadMsg'),'Upload failed: '+e.message,true)}
   $('add').disabled=false;$('add').textContent='➕ Upload & Publish';
 };
-sb.auth.onAuthStateChange(()=>updateUI());
 updateUI();
+
+// Keep auth listener synchronous to avoid browser auth-lock issues
+sb.auth.onAuthStateChange((event, session)=>{
+  if(session){
+    $('loginPanel').classList.add('hidden');
+    $('app').classList.remove('hidden');
+    $('status').textContent=session.user.email || '';
+    refresh();
+  } else {
+    $('loginPanel').classList.remove('hidden');
+    $('app').classList.add('hidden');
+    $('status').textContent='';
+  }
+});
 </script></body></html>
