@@ -4,10 +4,21 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sazal Study | Admin</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#f5f7fb;font-family:Arial,sans-serif;color:#172033}.wrap{max-width:760px;margin:35px auto;padding:0 16px}.head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.back{color:#2563eb;text-decoration:none}.panel{background:#fff;padding:22px;border-radius:18px;box-shadow:0 8px 30px #17203312;margin-bottom:18px}h1{margin:0}.row{display:grid;gap:8px;margin-bottom:15px}label{font-weight:700;font-size:14px}input,select{padding:12px;border:1px solid #dbe1ea;border-radius:10px;font-size:15px;width:100%}.btn{border:0;background:#2563eb;color:#fff;padding:12px 15px;border-radius:10px;font-weight:700;cursor:pointer}.danger{background:#dc2626}.item{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid #eee}.small{font-size:13px;color:#64748b}
+*{box-sizing:border-box}body{margin:0;background:#f5f7fb;font-family:Arial,sans-serif;color:#172033}.wrap{max-width:760px;margin:35px auto;padding:0 16px}.head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.back{color:#2563eb;text-decoration:none}.panel{background:#fff;padding:22px;border-radius:18px;box-shadow:0 8px 30px #17203312;margin-bottom:18px}h1{margin:0}.row{display:grid;gap:8px;margin-bottom:15px}label{font-weight:700;font-size:14px}input,select{padding:12px;border:1px solid #dbe1ea;border-radius:10px;font-size:15px;width:100%}.btn{border:0;background:#2563eb;color:#fff;padding:12px 15px;border-radius:10px;font-weight:700;cursor:pointer}.danger{background:#dc2626}.muted{background:#64748b}.item{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid #eee}.small{font-size:13px;color:#64748b}.msg{padding:11px;border-radius:10px;background:#eef2ff;margin:12px 0;display:none}.hidden{display:none}.top-actions{display:flex;gap:8px;align-items:center}.status{font-size:13px;color:#64748b}
 </style></head>
 <body><div class="wrap">
-<div class="head"><h1>🔐 Sazal Study Admin</h1><a class="back" href="index.html">← Website</a></div>
+<div class="head"><h1>🔐 Sazal Study Admin</h1><div class="top-actions"><span id="status" class="status"></span><a class="back" href="index.html">← Website</a></div></div>
+
+<div id="loginPanel" class="panel">
+<h2>🔑 Admin Login</h2>
+<p class="small">अपने Supabase Auth account से login करें।</p>
+<div class="row"><label>Email</label><input id="email" type="email" placeholder="Admin email"></div>
+<div class="row"><label>Password</label><input id="password" type="password" placeholder="Password"></div>
+<button class="btn" id="login">🔓 Login</button>
+<div id="loginMsg" class="msg"></div>
+</div>
+
+<div id="app" class="hidden">
 <div class="panel">
 <h2>📤 Notes / PDF Upload</h2>
 <div class="row"><label>Title</label><input id="title" placeholder="जैसे: Class 12 English Chapter 1 Notes"></div>
@@ -15,17 +26,55 @@
 <div class="row"><label>Subject</label><input id="subject" placeholder="जैसे: English"></div>
 <div class="row"><label>PDF / Image / File</label><input id="file" type="file" accept=".pdf,image/*"></div>
 <button class="btn" id="add">➕ Upload & Publish</button>
-<p class="small">यह demo version files को इसी browser/device में सुरक्षित रखता है।</p>
+<button class="btn muted" id="logout" style="margin-left:8px">Logout</button>
+<div id="uploadMsg" class="msg"></div>
+<p class="small">File Supabase Storage के <b>study-files</b> bucket में और details <b>notes</b> table में save होंगी।</p>
 </div>
-<div class="panel"><h2>📚 Uploaded Material</h2><div id="list"></div></div>
+<div class="panel"><h2>📚 Published Material</h2><div id="list"></div></div>
 </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
 <script>
-const DB='sazalStudyDB',STORE='notes';
-function openDB(){return new Promise((res,rej)=>{let r=indexedDB.open(DB,1);r.onupgradeneeded=()=>{if(!r.result.objectStoreNames.contains(STORE))r.result.createObjectStore(STORE,{keyPath:'id',autoIncrement:true})};r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
-async function getAll(){let db=await openDB();return new Promise((res,rej)=>{let r=db.transaction(STORE).objectStore(STORE).getAll();r.onsuccess=()=>res(r.result.reverse());r.onerror=()=>rej(r.error)})}
+const $=id=>document.getElementById(id);
+function showMsg(el,text,error=false){el.textContent=text;el.style.display='block';el.style.background=error?'#fee2e2':'#eef2ff'}
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-async function render(){let a=await getAll();let box=document.getElementById('list');box.innerHTML=a.length?a.map(n=>`<div class="item"><div><b>${esc(n.title)}</b><div class="small">${esc(n.category)} • ${esc(n.subject||'')} • ${esc(n.fileName||'')}</div></div><button class="btn danger" onclick="del(${n.id})">Delete</button></div>`).join(''):'<p class="small">कोई material नहीं।</p>'}
-async function del(id){if(!confirm('यह material delete करें?'))return;let db=await openDB();db.transaction(STORE,'readwrite').objectStore(STORE).delete(id);setTimeout(render,100)}
-document.getElementById('add').onclick=async()=>{let title=document.getElementById('title').value.trim(),file=document.getElementById('file').files[0];if(!title||!file){alert('Title और file दोनों चुनें।');return}let fr=new FileReader();fr.onload=async()=>{let db=await openDB();db.transaction(STORE,'readwrite').objectStore(STORE).add({title,category:category.value,subject:subject.value.trim(),fileName:file.name,fileData:fr.result,createdAt:Date.now()});document.getElementById('title').value='';document.getElementById('subject').value='';document.getElementById('file').value='';alert('Material publish हो गया!');render()};fr.readAsDataURL(file)};
-render();
+async function refresh(){
+  const {data,error}=await sb.from('notes').select('*').order('created_at',{ascending:false});
+  if(error){$('list').innerHTML='<p class="small">Notes load नहीं हो पाए: '+esc(error.message)+'</p>';return}
+  $('list').innerHTML=data?.length?data.map(n=>`<div class="item"><div><b>${esc(n.title)}</b><div class="small">${esc(n.class||'')} • ${esc(n.subject||'')} • ${esc(n.file_name||'')}</div></div><a class="btn" href="${esc(n.file_url)}" target="_blank" rel="noopener">Open</a></div>`).join(''):'<p class="small">कोई material नहीं।</p>';
+}
+async function updateUI(){
+  const {data:{session}}=await sb.auth.getSession();
+  if(session){$('loginPanel').classList.add('hidden');$('app').classList.remove('hidden');$('status').textContent=session.user.email;refresh()}
+  else{$('loginPanel').classList.remove('hidden');$('app').classList.add('hidden');$('status').textContent=''}
+}
+$('login').onclick=async()=>{
+  const email=$('email').value.trim(),password=$('password').value;
+  if(!email||!password){showMsg($('loginMsg'),'Email और password भरें।',true);return}
+  $('login').disabled=true;$('login').textContent='Logging in...';
+  const {error}=await sb.auth.signInWithPassword({email,password});
+  $('login').disabled=false;$('login').textContent='🔓 Login';
+  if(error)showMsg($('loginMsg'),'Login failed: '+error.message,true);else{$('loginMsg').style.display='none';updateUI()}
+};
+$('logout').onclick=async()=>{await sb.auth.signOut();updateUI()};
+$('add').onclick=async()=>{
+  const title=$('title').value.trim(),subject=$('subject').value.trim(),file=$('file').files[0],category=$('category').value;
+  if(!title||!file){showMsg($('uploadMsg'),'Title और file दोनों चुनें।',true);return}
+  $('add').disabled=true;$('add').textContent='Uploading...';
+  try{
+    const {data:{user}}=await sb.auth.getUser(); if(!user) throw new Error('Admin login required');
+    const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+    const path=user.id+'/'+Date.now()+'-'+safe;
+    const up=await sb.storage.from('study-files').upload(path,file,{contentType:file.type||'application/octet-stream',upsert:false});
+    if(up.error)throw up.error;
+    const pub=sb.storage.from('study-files').getPublicUrl(path);
+    const ins=await sb.from('notes').insert({title,class:category,subject,file_url:pub.data.publicUrl,file_name:file.name,file_type:file.type||''}).select().single();
+    if(ins.error)throw ins.error;
+    $('title').value='';$('subject').value='';$('file').value='';showMsg($('uploadMsg'),'✅ Material successfully publish हो गया!');refresh();
+  }catch(e){showMsg($('uploadMsg'),'Upload failed: '+e.message,true)}
+  $('add').disabled=false;$('add').textContent='➕ Upload & Publish';
+};
+sb.auth.onAuthStateChange(()=>updateUI());
+updateUI();
 </script></body></html>
