@@ -1,0 +1,23 @@
+SAZAL STUDY - DELETE NOTES SETUP
+
+The admin dashboard now has a Delete button. Before using it, run the following SQL once in Supabase SQL Editor.
+
+1) Allow authenticated admins to delete rows from notes:
+
+create policy "Admin delete notes"
+on public.notes
+for delete
+to authenticated
+using (true);
+
+2) Allow authenticated admins to delete files from study-files:
+
+create policy "Admin delete study files"
+on storage.objects
+for delete
+to authenticated
+using (bucket_id = 'study-files');
+
+Keep your existing INSERT policies.
+
+After running the SQL, refresh admin.html. Delete asks for confirmation, removes the file from Storage, then removes the note from the notes table.
