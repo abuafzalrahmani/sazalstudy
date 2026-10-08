@@ -10,7 +10,10 @@
 body.dark{--bg:#0e1420;--card:#151d2b;--text:#f2f5fb;--muted:#aab4c5;--border:#263247;--shadow:0 8px 28px rgba(0,0,0,.25)}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;transition:.25s}
 .container{width:min(1120px,92%);margin:auto}.top{background:linear-gradient(135deg,var(--primary),var(--primary2));color:white;padding:16px 0 58px}
-.nav{display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{font-size:25px;font-weight:800}.brand span{opacity:.75}.nav button{border:0;border-radius:12px;padding:10px 13px;cursor:pointer;background:rgba(255,255,255,.18);color:#fff;font-size:18px}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{font-size:25px;font-weight:800}.brand span{opacity:.75}.nav-actions{display:flex;align-items:center;gap:8px}
+.admin-link,.plus-link{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;color:#fff;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.15);border-radius:12px;height:42px}
+.admin-link{padding:0 13px;font-weight:750;font-size:14px}.plus-link{width:42px;font-size:27px;font-weight:500}
+.nav button{border:0;border-radius:12px;padding:10px 13px;cursor:pointer;background:rgba(255,255,255,.18);color:#fff;font-size:18px}
 .hero{text-align:center;padding:48px 0 5px}.hero h1{font-size:clamp(30px,7vw,52px);margin:0 0 10px}.hero p{margin:0 auto 25px;max-width:620px;opacity:.9;font-size:16px}
 .search{display:flex;max-width:720px;margin:auto;background:white;border-radius:16px;padding:7px;box-shadow:0 12px 30px rgba(0,0,0,.16)}.search input{flex:1;border:0;outline:0;padding:13px 14px;font-size:15px;color:#222;background:transparent}.search button{border:0;border-radius:11px;background:var(--primary);color:white;padding:0 18px;font-weight:700}
 main{padding:34px 0 60px}.section-title{display:flex;align-items:end;justify-content:space-between;gap:10px;margin:28px 0 16px}.section-title h2{margin:0;font-size:24px}.section-title p{margin:0;color:var(--muted);font-size:13px}
@@ -25,7 +28,14 @@ footer{border-top:1px solid var(--border);padding:25px 0;text-align:center;color
 <body>
 <header class="top">
 <div class="container">
-<nav class="nav"><div class="brand">📚 Sazal <span>Study</span></div><button id="theme" aria-label="Dark mode">🌙</button></nav>
+<nav class="nav">
+<div class="brand">📚 Sazal <span>Study</span></div>
+<div class="nav-actions">
+<a class="admin-link" href="admin.html" title="Admin Dashboard">👤 Admin</a>
+<a class="plus-link" href="admin.html#upload" title="PDF / Image Upload">＋</a>
+<button id="theme" aria-label="Dark mode">🌙</button>
+</div>
+</nav>
 <div class="hero">
 <h1>आपकी पढ़ाई, आपकी तैयारी</h1>
 <p>Nursery से Class 12 तक Notes, PDFs, GK, Reasoning और Brain Booster — सब एक जगह।</p>
@@ -62,11 +72,9 @@ footer{border-top:1px solid var(--border);padding:25px 0;text-align:center;color
 </section>
 
 <section>
-<div class="section-title"><div><h2>📄 Study Material</h2><p>PDFs और useful resources</p></div></div>
+<div class="section-title"><div><h2>📄 Latest Uploaded Notes</h2><p>Admin द्वारा upload की गई नई study material</p></div></div>
 <div class="materials" id="materials">
-<article class="card material searchable"><h3>📘 Class Notes</h3><p>Class-wise notes और chapter material.</p><a class="pdf" href="#" onclick="return false">📥 PDF Download</a></article>
-<article class="card material searchable"><h3>📝 Important Questions</h3><p>Exam preparation के लिए महत्वपूर्ण प्रश्न.</p><a class="pdf" href="#" onclick="return false">📥 PDF Download</a></article>
-<article class="card material searchable"><h3>🧠 GK Questions</h3><p>Daily GK और competitive preparation.</p><a class="pdf" href="#" onclick="return false">📥 PDF Download</a></article>
+<div class="card material"><h3>⏳ Loading...</h3><p>Latest notes load हो रहे हैं।</p></div>
 </div>
 <div class="empty" id="empty">कोई result नहीं मिला। दूसरा keyword try करें।</div>
 </section>
@@ -84,18 +92,35 @@ classNames.forEach(([icon,name])=>{
  classes.appendChild(d);
 });
 const input=document.getElementById('search'), empty=document.getElementById('empty');
-input.addEventListener('input',()=>{
- const q=input.value.toLowerCase().trim();
- let found=0;
- document.querySelectorAll('.searchable').forEach(el=>{
-   const ok=el.innerText.toLowerCase().includes(q);
-   el.style.display=ok?'':'none'; if(ok) found++;
- });
- empty.style.display=q && !found?'block':'none';
-});
+
 const theme=document.getElementById('theme');
 if(localStorage.getItem('sazal-theme')==='dark'){document.body.classList.add('dark');theme.textContent='☀️'}
 theme.onclick=()=>{document.body.classList.toggle('dark');const dark=document.body.classList.contains('dark');theme.textContent=dark?'☀️':'🌙';localStorage.setItem('sazal-theme',dark?'dark':'light')};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script>
+const materials=document.getElementById('materials');
+function escHtml(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function fileIcon(type,name){return (type||'').includes('image') || /\\.(jpg|jpeg|png|webp|gif)$/i.test(name||'') ? '🖼️' : '📘'}
+async function loadLatest(){
+  const {data,error}=await sb.from('notes').select('*').order('created_at',{ascending:false}).limit(12);
+  if(error){materials.innerHTML='<div class="card material"><h3>📄 Study Material</h3><p>Notes load नहीं हो पाए।</p></div>';return}
+  if(!data?.length){materials.innerHTML='<div class="card material"><h3>📚 अभी कोई upload नहीं है</h3><p>Admin panel से PDF या image upload करें।</p></div>';return}
+  materials.innerHTML=data.map(n=>`<article class="card material searchable">
+    <h3>${fileIcon(n.file_type,n.file_name)} ${escHtml(n.title)}</h3>
+    <p>${escHtml(n.class||'')} ${n.subject?'• '+escHtml(n.subject):''}<br><span style="font-size:12px;color:var(--muted)">${escHtml(n.file_name||'')}</span></p>
+    <a class="pdf" href="${escHtml(n.file_url)}" target="_blank" rel="noopener">📥 Open / Download</a>
+  </article>`).join('');
+  applySearch();
+}
+function applySearch(){
+ const q=input.value.toLowerCase().trim(); let found=0;
+ document.querySelectorAll('.searchable').forEach(el=>{const ok=el.innerText.toLowerCase().includes(q);el.style.display=ok?'':'none';if(ok)found++});
+ empty.style.display=q&&!found?'block':'none';
+}
+input.addEventListener('input',applySearch);
+loadLatest();
 </script>
 </body>
 </html>
