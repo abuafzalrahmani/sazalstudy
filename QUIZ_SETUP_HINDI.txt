@@ -1,0 +1,16 @@
+SAZAL STUDY — ADMIN-MANAGED QUIZ SETUP
+
+1. ZIP extract करें। Existing admin.html, index.html, supabase-config.js, robots.txt, sitemap.xml और Google verification file शामिल हैं।
+2. Supabase Dashboard खोलें: https://supabase.com/dashboard
+3. अपना project खोलें > SQL Editor > New query.
+4. इस ZIP की QUIZ_DATABASE_SETUP.sql file खोलकर पूरा SQL copy/paste करें और RUN दबाएँ। यह quiz_questions table और policies बनाता है। Existing notes table/config को नहीं बदलता।
+5. GitHub repository में इस ZIP के sazalstudy-main folder की files upload करें। सबसे सुरक्षित तरीका: पहले repo का backup लें; फिर इन files को existing files के ऊपर replace करें। supabase-config.js में अपने project की current configuration ही रखें; अगर repo में पहले से अलग publishable key है, उसे overwrite न करें।
+6. GitHub Pages update होने के बाद वेबसाइट पर Admin > login करें। नीचे “Quiz / GK Test में प्रश्न जोड़ें” panel दिखेगा।
+7. GK / Reasoning / Brain Booster चुनें या Class चुनकर Class 1–12 select करें। प्रश्न, चारों options, correct answer, explanation भरें; “Website पर publish करें” checked रखें; Save करें।
+8. Website के Online Quiz & GK Test section में published questions दिखेंगे। जिस category में कोई published database question नहीं है, वहाँ built-in practice questions fallback के रूप में रहेंगे।
+9. किसी प्रश्न को Draft करने के लिए Unpublish दबाएँ। Delete स्थायी है।
+
+SECURITY NOTE:
+- केवल Supabase Publishable key browser में रखें; Secret/service_role key कभी नहीं।
+- इस SQL में authenticated users को question management rights मिलते हैं। यदि आपके Supabase Auth में admin के अलावा दूसरे user accounts भी हैं, तो production use से पहले admin-only role/policy लगाएँ।
+- Quiz results अभी browser में score दिखाते हैं; student-wise scores/leaderboard database में save नहीं होते।

@@ -89,6 +89,38 @@ body.dark .hero p{color:rgba(244,249,249,.88)}
 @media(max-width:560px){.top{padding-bottom:50px}.nav{align-items:flex-start}.brand{font-size:21px;padding-top:7px}.nav-actions{gap:6px}.nav-link.admin{font-size:13px;padding:9px 10px}.nav-link.plus{min-width:38px;padding:8px 10px}.hero{padding-top:40px}.hero:before{font-size:9px;letter-spacing:1px}.hero h1{letter-spacing:-.8px}.hero p{line-height:1.65}.search{border-radius:16px}.search input{padding:12px 10px;font-size:14px}.search button{padding:0 13px;font-size:13px}.class-card{min-height:132px}.section-title{gap:4px}.section-title h2{font-size:22px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 
+
+/* Online Quiz & GK Test */
+.quiz-section{margin:34px 0}
+.quiz-hero{padding:clamp(18px,4vw,30px);border:1px solid rgba(255,255,255,.52);border-radius:26px;background:linear-gradient(135deg,rgba(53,137,148,.13),rgba(255,255,255,.52) 52%,rgba(224,174,107,.16));box-shadow:0 14px 38px rgba(36,87,92,.09),inset 0 1px 0 rgba(255,255,255,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.quiz-tabs{display:flex;gap:9px;flex-wrap:wrap;margin:18px 0}
+.quiz-tab{border:1px solid rgba(79,147,154,.28);border-radius:999px;padding:10px 15px;background:rgba(255,255,255,.42);color:var(--text);font-weight:750;cursor:pointer}
+.quiz-tab.active{background:linear-gradient(135deg,#347f89,#559ba0);color:#fff;border-color:transparent;box-shadow:0 7px 18px rgba(45,119,128,.22)}
+.quiz-box{border:1px solid rgba(104,158,163,.26);border-radius:22px;padding:clamp(17px,3vw,26px);background:rgba(255,255,255,.43);box-shadow:0 10px 30px rgba(30,65,70,.06),inset 0 1px 0 rgba(255,255,255,.68);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.quiz-progress{height:7px;background:rgba(100,130,136,.16);border-radius:99px;overflow:hidden;margin:12px 0 22px}
+.quiz-progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,#398c98,#d6a15e);transition:width .25s}
+.quiz-qmeta{display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-size:13px;font-weight:700}
+.quiz-question{font-size:clamp(19px,3vw,24px);line-height:1.45;margin:12px 0 18px}
+.quiz-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.quiz-option{display:flex;gap:10px;align-items:center;text-align:left;padding:14px;border-radius:15px;border:1px solid rgba(94,145,151,.27);background:rgba(255,255,255,.42);color:var(--text);font:inherit;cursor:pointer;min-height:54px;transition:.18s}
+.quiz-option:hover:not(:disabled){transform:translateY(-2px);border-color:rgba(58,139,149,.65);background:rgba(108,183,190,.13)}
+.quiz-option .opt-letter{display:grid;place-items:center;flex:0 0 30px;height:30px;border-radius:10px;background:rgba(75,143,151,.13);font-size:12px;font-weight:850}
+.quiz-option.correct{border-color:#21966b;background:rgba(33,150,107,.13)}
+.quiz-option.wrong{border-color:#d45e5e;background:rgba(212,94,94,.12)}
+.quiz-feedback{display:none;margin-top:14px;padding:13px 15px;border-radius:14px;background:rgba(77,151,128,.12);line-height:1.6}
+.quiz-controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.quiz-btn{border:0;border-radius:13px;padding:12px 18px;font-weight:800;cursor:pointer;background:linear-gradient(135deg,#317e89,#4c9aa2);color:#fff;box-shadow:0 6px 17px rgba(42,116,125,.17)}
+.quiz-btn.secondary{background:rgba(255,255,255,.45);border:1px solid rgba(95,147,153,.28);color:var(--text);box-shadow:none}
+.quiz-btn:disabled{opacity:.45;cursor:not-allowed}
+.quiz-result{text-align:center;padding:24px 8px}
+.quiz-score{font-size:clamp(42px,8vw,64px);font-weight:900;letter-spacing:-2px;background:linear-gradient(120deg,#328895,#c18b4c);-webkit-background-clip:text;background-clip:text;color:transparent}
+.quiz-stats{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:18px 0}
+.quiz-stat{padding:10px 14px;border-radius:13px;background:rgba(255,255,255,.42);border:1px solid rgba(103,152,157,.2)}
+body.dark .quiz-hero,body.dark .quiz-box{background:rgba(22,37,43,.66);border-color:rgba(145,191,194,.17)}
+body.dark .quiz-option,body.dark .quiz-tab,body.dark .quiz-btn.secondary,body.dark .quiz-stat{background:rgba(255,255,255,.055);border-color:rgba(145,191,194,.2)}
+body.dark .quiz-tab.active{background:linear-gradient(135deg,#317e89,#4c9aa2);color:white}
+@media(max-width:560px){.quiz-options{grid-template-columns:1fr}.quiz-option{padding:12px}.quiz-tabs{gap:7px}.quiz-tab{padding:9px 12px;font-size:13px}}
+
 </style>
 </head>
 <body>
@@ -101,6 +133,21 @@ body.dark .hero p{color:rgba(244,249,249,.88)}
 <section><div class="section-title"><div><h2>🎓 Classes</h2><p>अपनी class चुनें — click करने पर उसी class की सामग्री दिखेगी</p></div></div><div class="grid" id="classes"></div></section>
 <section id="smart-learning"><div class="section-title"><div><h2>🧠 Smart Learning Zone</h2><p>Knowledge और thinking skills बढ़ाएँ</p></div></div><div class="subjects"><div class="card subject clickable searchable" data-filter="GK"><div class="ico">🌍</div><div><h3>GK</h3><p>General Knowledge & Quiz</p></div></div><div class="card subject clickable searchable" data-filter="Reasoning"><div class="ico">🔢</div><div><h3>Reasoning</h3><p>Logic & Practice Questions</p></div></div><div class="card subject clickable searchable" data-filter="Brain Booster"><div class="ico">🧩</div><div><h3>Brain Booster</h3><p>Puzzles & Thinking Challenges</p></div></div></div></section>
 <section><div class="section-title"><div><h2>📚 Subjects</h2><p>Subject चुनें — संबंधित material नीचे दिखेगा</p></div></div><div class="subjects" id="subjects"><div class="card subject clickable searchable" data-filter="Hindi"><div class="ico">📖</div><div><h3>Hindi</h3><p>Notes & Questions</p></div></div><div class="card subject clickable searchable" data-filter="English"><div class="ico">🔤</div><div><h3>English</h3><p>Grammar & Literature</p></div></div><div class="card subject clickable searchable" data-filter="Mathematics"><div class="ico">➗</div><div><h3>Mathematics</h3><p>Notes & Practice</p></div></div><div class="card subject clickable searchable" data-filter="Science"><div class="ico">🔬</div><div><h3>Science</h3><p>Physics, Chemistry, Biology</p></div></div><div class="card subject clickable searchable" data-filter="Social Science"><div class="ico">🌍</div><div><h3>Social Science</h3><p>History, Geography, Civics</p></div></div><div class="card subject clickable searchable" data-filter="GK"><div class="ico">🧠</div><div><h3>GK</h3><p>General Knowledge</p></div></div></div></section>
+
+<section class="quiz-section" id="online-quiz">
+  <div class="section-title"><div><h2>📝 Online Quiz & GK Test</h2><p>Practice करें, अपना score देखें और हर उत्तर से सीखें।</p></div></div>
+  <div class="quiz-hero">
+    <div><strong>🎯 अपनी तैयारी जाँचें</strong><p style="margin:7px 0 0;color:var(--muted);line-height:1.7">GK, Reasoning और Brain Booster के छोटे practice tests। हर प्रश्न का उत्तर चुनने के बाद explanation मिलेगा।</p></div>
+    <div class="quiz-tabs" id="quizTabs" role="tablist" aria-label="Quiz category">
+      <button class="quiz-tab active" type="button" data-quiz="GK">🌍 GK Test</button>
+      <button class="quiz-tab" type="button" data-quiz="Reasoning">🔢 Reasoning</button>
+      <button class="quiz-tab" type="button" data-quiz="Brain Booster">🧩 Brain Booster</button>
+      <button class="quiz-tab" type="button" data-quiz="Class 1">Class 1</button><button class="quiz-tab" type="button" data-quiz="Class 2">Class 2</button><button class="quiz-tab" type="button" data-quiz="Class 3">Class 3</button><button class="quiz-tab" type="button" data-quiz="Class 4">Class 4</button><button class="quiz-tab" type="button" data-quiz="Class 5">Class 5</button><button class="quiz-tab" type="button" data-quiz="Class 6">Class 6</button><button class="quiz-tab" type="button" data-quiz="Class 7">Class 7</button><button class="quiz-tab" type="button" data-quiz="Class 8">Class 8</button><button class="quiz-tab" type="button" data-quiz="Class 9">Class 9</button><button class="quiz-tab" type="button" data-quiz="Class 10">Class 10</button><button class="quiz-tab" type="button" data-quiz="Class 11">Class 11</button><button class="quiz-tab" type="button" data-quiz="Class 12">Class 12</button>
+    </div>
+    <div class="quiz-box" id="quizBox" aria-live="polite"></div>
+  </div>
+</section>
+
 <section id="study-material"><div class="section-title"><div><h2>📄 Latest Uploaded Notes</h2><p>Admin से upload की गई latest files यहाँ automatically आएँगी</p></div></div><div id="filterBar" class="filter-bar"><div>🔎 <span class="filter-name" id="filterName"></span></div><button class="clear" id="clearFilter">✕ सभी notes दिखाएँ</button></div><div id="notes" class="materials"><div class="loading">⏳ Notes load हो रहे हैं...</div></div><div class="empty" id="empty">इस category में अभी कोई material नहीं मिला।</div></section>
 <section><div class="section-title"><div><h2>📘 कैसे इस्तेमाल करें?</h2><p>Class/Subject पर click करें, फिर View या Download चुनें।</p></div></div><div class="notice">📌 <b>View</b> file को browser में खोलता है। <b>Download</b> file को device में save करने की कोशिश करता है। PDF और images दोनों supported हैं।</div></section>
 </main><footer>© 2026 Sazal Study • आपकी पढ़ाई, आपकी तैयारी</footer>
@@ -120,5 +167,72 @@ document.getElementById('clearFilter').onclick=()=>{activeFilter='';filterBar.cl
 async function loadNotes(){const {data,error}=await sb.from('notes').select('*').order('created_at',{ascending:false});if(error){notesEl.innerHTML='<div class="notice">❌ Notes load नहीं हो पाए। कृपया थोड़ी देर बाद फिर कोशिश करें।</div>';return}allNotes=data||[];renderNotes()}
 const input=document.getElementById('search');input.addEventListener('input',()=>{const q=input.value.toLowerCase().trim();document.querySelectorAll('.searchable').forEach(el=>{el.style.display=!q||el.innerText.toLowerCase().includes(q)?'':'none'});if(q){const n=allNotes.filter(x=>(x.title+' '+x.class+' '+x.subject+' '+x.file_name).toLowerCase().includes(q));if(n.length){activeFilter=q;filterName.textContent='Search: '+q;filterBar.classList.add('show');renderNotes()}}else{activeFilter='';filterBar.classList.remove('show');renderNotes()}});
 const theme=document.getElementById('theme');if(localStorage.getItem('sazal-theme')==='dark'){document.body.classList.add('dark');theme.textContent='☀️'}theme.onclick=()=>{document.body.classList.toggle('dark');const dark=document.body.classList.contains('dark');theme.textContent=dark?'☀️':'🌙';localStorage.setItem('sazal-theme',dark?'dark':'light')};
+
+// Built-in practice quizzes: works independently from the notes upload system.
+const quizSets={
+"GK":[
+{q:"भारत की राजधानी क्या है?",o:["मुंबई","नई दिल्ली","कोलकाता","चेन्नई"],a:1,e:"भारत की राजधानी नई दिल्ली है।"},
+{q:"भारत का राष्ट्रीय पशु कौन-सा है?",o:["एशियाई शेर","बंगाल टाइगर","हाथी","तेंदुआ"],a:1,e:"भारत का राष्ट्रीय पशु बाघ है।"},
+{q:"पृथ्वी का प्राकृतिक उपग्रह कौन है?",o:["मंगल","चंद्रमा","शुक्र","सूर्य"],a:1,e:"चंद्रमा पृथ्वी का प्राकृतिक उपग्रह है।"},
+{q:"सूर्य के सबसे निकट कौन-सा ग्रह है?",o:["शुक्र","पृथ्वी","बुध","मंगल"],a:2,e:"बुध सूर्य के सबसे निकट का ग्रह है।"},
+{q:"पानी का रासायनिक सूत्र क्या है?",o:["CO₂","O₂","H₂O","NaCl"],a:2,e:"पानी के एक अणु में दो हाइड्रोजन और एक ऑक्सीजन परमाणु होता है: H₂O।"},
+{q:"सौरमंडल का सबसे बड़ा ग्रह कौन-सा है?",o:["शनि","बृहस्पति","पृथ्वी","नेपच्यून"],a:1,e:"बृहस्पति सौरमंडल का सबसे बड़ा ग्रह है।"},
+{q:"भारत का संविधान दिवस कब मनाया जाता है?",o:["15 अगस्त","26 जनवरी","26 नवंबर","2 अक्टूबर"],a:2,e:"भारत में संविधान दिवस 26 नवंबर को मनाया जाता है।"},
+{q:"विश्व का सबसे बड़ा महासागर कौन-सा है?",o:["अटलांटिक","हिंद महासागर","आर्कटिक","प्रशांत"],a:3,e:"प्रशांत महासागर क्षेत्रफल के आधार पर सबसे बड़ा महासागर है।"},
+{q:"भारत का राष्ट्रीय पक्षी कौन है?",o:["तोता","मोर","हंस","गरुड़"],a:1,e:"भारत का राष्ट्रीय पक्षी भारतीय मोर है।"},
+{q:"भारत में गणतंत्र दिवस कब मनाया जाता है?",o:["15 अगस्त","26 जनवरी","14 नवंबर","1 मई"],a:1,e:"26 जनवरी 1950 को संविधान लागू हुआ था; इसी दिन गणतंत्र दिवस मनाया जाता है।"}
+],
+"Reasoning":[
+{q:"श्रृंखला पूरी करें: 2, 4, 8, 16, ___",o:["18","24","32","30"],a:2,e:"हर संख्या पिछली संख्या की दोगुनी है; अगली संख्या 32 है।"},
+{q:"अलग शब्द चुनें।",o:["सेब","आम","गाजर","केला"],a:2,e:"गाजर सब्ज़ी है, जबकि बाकी तीन फल हैं।"},
+{q:"यदि CAT को DBU लिखा जाए, तो DOG को कैसे लिखेंगे?",o:["EPH","EOG","DPH","FPI"],a:0,e:"हर अक्षर को अंग्रेज़ी वर्णमाला में एक स्थान आगे किया गया है: D→E, O→P, G→H।"},
+{q:"एक सप्ताह में कितने दिन होते हैं?",o:["5","6","7","8"],a:2,e:"एक सप्ताह में सात दिन होते हैं।"},
+{q:"श्रृंखला पूरी करें: 5, 10, 15, 20, ___",o:["22","24","25","30"],a:2,e:"हर बार 5 जोड़ा जा रहा है; अगली संख्या 25 है।"},
+{q:"राम उत्तर की ओर मुँह करके खड़ा है। वह दाएँ मुड़ता है। अब उसका मुँह किस दिशा में है?",o:["पश्चिम","पूर्व","दक्षिण","उत्तर"],a:1,e:"उत्तर की ओर से दाएँ मुड़ने पर दिशा पूर्व होती है।"},
+{q:"किताब : पढ़ना :: भोजन : ?",o:["लिखना","खाना","दौड़ना","सोना"],a:1,e:"किताब पढ़ी जाती है और भोजन खाया जाता है।"},
+{q:"इनमें सबसे छोटी संख्या कौन-सी है?",o:["0.8","0.08","0.18","0.8̅"],a:1,e:"0.08, 0.18 और 0.8 से छोटा है।"}
+],
+"Brain Booster":[
+{q:"एक दर्जन में 12 आम हैं। ऐसे 3 दर्जन में कितने आम होंगे?",o:["24","30","36","42"],a:2,e:"12 × 3 = 36 आम।"},
+{q:"आपके पास 3 लाल और 2 नीली गेंदें हैं। कुल कितनी गेंदें हैं?",o:["5","6","4","8"],a:0,e:"3 + 2 = 5 गेंदें।"},
+{q:"घड़ी में 3 बजे घंटे और मिनट की सुई के बीच छोटा कोण कितना होता है?",o:["45°","90°","120°","180°"],a:1,e:"3 बजे मिनट की सुई 12 पर और घंटे की सुई 3 पर होती है; कोण 90° है।"},
+{q:"कौन-सी संख्या 2 से और 5 से दोनों से विभाजित होती है?",o:["12","15","20","27"],a:2,e:"20 का अंतिम अंक 0 है, इसलिए यह 2 और 5 दोनों से विभाजित होता है।"},
+{q:"यदि आज सोमवार है, तो दो दिन बाद कौन-सा दिन होगा?",o:["मंगलवार","बुधवार","गुरुवार","शुक्रवार"],a:1,e:"सोमवार के बाद मंगलवार और फिर बुधवार आता है।"},
+{q:"एक वर्ग की कितनी भुजाएँ होती हैं?",o:["3","4","5","6"],a:1,e:"वर्ग की चार बराबर भुजाएँ होती हैं।"},
+{q:"किसका वजन आम तौर पर अधिक होगा: 1 kg रूई या 1 kg लोहा?",o:["रूई","लोहा","दोनों बराबर","बताया नहीं जा सकता"],a:2,e:"दोनों का द्रव्यमान 1 किलोग्राम है, इसलिए वजन बराबर होगा।"},
+{q:"श्रृंखला पूरी करें: 1, 1, 2, 3, 5, ___",o:["6","7","8","10"],a:2,e:"हर अगली संख्या पिछली दो संख्याओं का योग है; 3 + 5 = 8।"}
+]
+};
+let quizCategory='GK',quizIndex=0,quizScore=0,quizAnswers=[];
+function renderQuiz(){
+ const box=document.getElementById('quizBox'); if(!box)return;
+ const set=quizSets[quizCategory];
+ if(quizIndex>=set.length){
+  const pct=Math.round(quizScore/set.length*100);
+  box.innerHTML=`<div class="quiz-result"><div style="font-size:38px">🏆</div><h3>Quiz पूरा हुआ!</h3><div class="quiz-score">${quizScore}/${set.length}</div><p>आपका score: <b>${pct}%</b></p><div class="quiz-stats"><div class="quiz-stat">✅ सही: ${quizScore}</div><div class="quiz-stat">📘 गलत: ${set.length-quizScore}</div></div><p style="color:var(--muted)">अच्छी practice जारी रखें — हर प्रयास आपको बेहतर बनाएगा।</p><button class="quiz-btn" type="button" id="quizRestart">🔁 फिर से टेस्ट दें</button></div>`;
+  document.getElementById('quizRestart').onclick=()=>{quizIndex=0;quizScore=0;quizAnswers=[];renderQuiz()};return;
+ }
+ const item=set[quizIndex],answered=quizAnswers[quizIndex]!==undefined;
+ box.innerHTML=`<div class="quiz-qmeta"><span>${quizCategory} Practice</span><span>प्रश्न ${quizIndex+1} / ${set.length}</span></div><div class="quiz-progress"><span style="width:${quizIndex/set.length*100}%"></span></div><h3 class="quiz-question">${item.q}</h3><div class="quiz-options">${item.o.map((opt,i)=>`<button type="button" class="quiz-option ${answered&&i===item.a?'correct':answered&&i===quizAnswers[quizIndex]?'wrong':''}" data-opt="${i}" ${answered?'disabled':''}><span class="opt-letter">${String.fromCharCode(65+i)}</span><span>${opt}</span></button>`).join('')}</div><div class="quiz-feedback" id="quizFeedback" style="display:${answered?'block':'none'}">${answered?(quizAnswers[quizIndex]===item.a?'✅ सही जवाब! ':'❌ सही जवाब: '+item.o[item.a]+'. ')+item.e:''}</div><div class="quiz-controls"><button class="quiz-btn secondary" type="button" id="quizReset">↻ Restart</button><button class="quiz-btn" type="button" id="quizNext" ${answered?'':'disabled'}>${quizIndex===set.length-1?'Result देखें':'अगला प्रश्न →'}</button></div>`;
+ box.querySelectorAll('[data-opt]').forEach(btn=>btn.onclick=()=>{if(quizAnswers[quizIndex]!==undefined)return;const pick=Number(btn.dataset.opt);quizAnswers[quizIndex]=pick;if(pick===item.a)quizScore++;renderQuiz()});
+ document.getElementById('quizNext').onclick=()=>{if(quizAnswers[quizIndex]===undefined)return;quizIndex++;renderQuiz()};
+ document.getElementById('quizReset').onclick=()=>{quizIndex=0;quizScore=0;quizAnswers=[];renderQuiz()};
+}
+document.querySelectorAll('[data-quiz]').forEach(btn=>btn.addEventListener('click',()=>{quizCategory=btn.dataset.quiz;quizIndex=0;quizScore=0;quizAnswers=[];document.querySelectorAll('[data-quiz]').forEach(b=>b.classList.toggle('active',b===btn));renderQuiz()}));
+// Load published questions from Supabase. If a category has no published questions, built-in practice questions remain available.
+async function loadAdminQuestions(){
+ try {
+  if(!window.supabase || typeof sb==='undefined') return;
+  const {data,error}=await sb.from('quiz_questions').select('id,category,class_level,question,option_a,option_b,option_c,option_d,correct_option,explanation').eq('is_published',true).order('created_at',{ascending:true});
+  if(error){console.warn('Quiz question bank not available yet:',error.message);return;}
+  const grouped={};
+  (data||[]).forEach(row=>{const cat=(row.category==='Class' && row.class_level)?row.class_level:row.category; if(!cat)return; (grouped[cat] ||= []).push({q:row.question,o:[row.option_a,row.option_b,row.option_c,row.option_d],a:['A','B','C','D'].indexOf(String(row.correct_option).toUpperCase()),e:row.explanation||'इस प्रश्न का उत्तर ध्यान से समझें।'});});
+  Object.keys(grouped).forEach(cat=>{if(grouped[cat].length)quizSets[cat]=grouped[cat];});
+  renderQuiz();
+ } catch(e){console.warn('Quiz bank load error:',e);}
+}
+renderQuiz();
+loadAdminQuestions();
+
 loadNotes();
 </script></body></html>
