@@ -137,7 +137,7 @@ body.dark .feature-card{background:rgba(22,37,43,.66)}
 .save-note{margin-top:10px;width:100%;border:1px solid var(--border);border-radius:10px;padding:9px;background:rgba(80,150,160,.10);color:var(--text);font-weight:750;cursor:pointer}
 .save-note.saved{border-color:#29966d;color:#16845c}
 .saved-list{display:grid;gap:9px}.saved-row{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:10px;border:1px solid var(--border);border-radius:12px}
-#installApp{display:none}
+#installApp{display:inline-block!important}
 @media(max-width:560px){.feature-grid{grid-template-columns:1fr}.feature-card{padding:15px}}
 
 
@@ -197,8 +197,10 @@ body.dark .feature-card{background:rgba(22,37,43,.66)}
   </article>
   <article class="feature-card">
    <h3>🏆 Quiz Leaderboard</h3>
-   <p>इस device/browser पर दर्ज quiz scores की ranking। यह अभी shared global leaderboard नहीं है।</p>
-   <div id="localLeaderboard"></div><button class="feature-btn" id="clearScores" type="button">मेरे scores हटाएँ</button>
+   <p>अपने scores इस browser में देखें और nickname save करके shared ranking में शामिल हों।</p>
+   <div id="leaderboardStatus" class="note-meta">Global leaderboard के लिए Supabase SQL setup आवश्यक है।</div>
+   <div class="feature-row"><input class="feature-input" id="leaderName" maxlength="24" placeholder="अपना nickname लिखें" aria-label="Quiz leaderboard nickname"><button class="feature-btn" id="saveLeaderName" type="button">Nickname Save</button></div>
+   <h4>🌐 Global Top 10</h4><div id="globalLeaderboard"></div><hr><h4>📱 इस browser के scores</h4><div id="localLeaderboard"></div><button class="feature-btn" id="clearScores" type="button">मेरे scores हटाएँ</button>
   </article>
   <article class="feature-card"><h3>🔔 New Notes Notifications</h3><p>नई notes के लिए browser notification allow करें। यह तभी check करेगा जब website खुली हो।</p><button class="feature-btn" id="enableNotifications" type="button">🔔 Notifications चालू करें</button><div id="notificationStatus" class="note-meta"></div></article>
   <article class="feature-card"><h3>📈 Website Analytics</h3><p>Anonymous page visits और note clicks का count (किसी का नाम या email नहीं)। Supabase setup जरूरी है।</p><div id="analyticsSummary">Analytics setup check हो रहा है…</div></article>
@@ -365,7 +367,7 @@ loadAnalyticsSummary();
 // Notifications while this page is open (not background push). Checks the public notes table periodically.
 const noteNotifyKey='sazal-last-notified-note';let notificationPrimed=false;
 const notifyStatus=document.getElementById('notificationStatus');
-async function checkNewNotes(showNotice=false){try{if(typeof sb==='undefined')return;const {data,error}=await sb.from('notes').select('id,title,file_name,created_at').order('created_at',{ascending:false}).limit(1);if(error||!data?.length)return;const latest=data[0],prev=localStorage.getItem(noteNotifyKey);if(!prev){localStorage.setItem(noteNotifyKey,String(latest.id));return}if(String(latest.id)!==prev){localStorage.setItem(noteNotifyKey,String(latest.id));if(showNotice&&Notification.permission==='granted'&&notificationPrimed){new Notification('Sazal Study: New Notes',{body:latest.title||latest.file_name||'नई study material upload हुई है।'});}if(notifyStatus)notifyStatus.textContent='नई notes check हुईं।';}}
+async function checkNewNotes(showNotice=false){try{if(typeof sb==='undefined')return;const {data,error}=await sb.from('notes').select('id,title,file_name,created_at').order('created_at',{ascending:false}).limit(1);if(error||!data?.length)return;const latest=data[0],prev=localStorage.getItem(noteNotifyKey);if(!prev){localStorage.setItem(noteNotifyKey,String(latest.id));return}if(String(latest.id)!==prev){localStorage.setItem(noteNotifyKey,String(latest.id));if(showNotice&&('Notification' in window)&&Notification.permission==='granted'&&notificationPrimed){new Notification('Sazal Study: New Notes',{body:latest.title||latest.file_name||'नई study material upload हुई है।'});}if(notifyStatus)notifyStatus.textContent='नई notes check हुईं।';}}
  catch(e){console.info('Note notification check unavailable.');}}
 document.getElementById('enableNotifications')?.addEventListener('click',async()=>{if(!('Notification' in window)){notifyStatus.textContent='यह browser notifications support नहीं करता।';return}const permission=await Notification.requestPermission();if(permission==='granted'){notificationPrimed=true;await checkNewNotes(false);notifyStatus.textContent='Notifications permission चालू है। नई notes check करने के लिए website खुली रखें।';}else notifyStatus.textContent='Browser settings में notification permission allow करें।'});
 checkNewNotes(false);setInterval(()=>checkNewNotes(true),120000);
