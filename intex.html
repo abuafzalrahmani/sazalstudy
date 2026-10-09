@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#287f8b">
+<meta name="description" content="Sazal Study - Nursery to Class 12 Notes, PDFs, GK, Reasoning, Brain Booster and study material">
+<title>Sazal Study | Notes, PDFs & Study Material</title>
+<style>
+:root{--bg:#f6f8fc;--card:#fff;--text:#172033;--muted:#667085;--primary:#315efb;--primary2:#684cff;--border:#e7eaf0;--shadow:0 8px 28px rgba(28,39,70,.08)}
+body.dark{--bg:#0e1420;--card:#151d2b;--text:#f2f5fb;--muted:#aab4c5;--border:#263247;--shadow:0 8px 28px rgba(0,0,0,.25)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;transition:.25s}.container{width:min(1120px,92%);margin:auto}
+.top{background:linear-gradient(135deg,var(--primary),var(--primary2));color:white;padding:16px 0 58px}.nav{display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{font-size:25px;font-weight:800}.brand span{opacity:.75}.nav-actions{display:flex;align-items:center;gap:8px}.nav-link,.nav button{border:0;border-radius:12px;padding:10px 13px;cursor:pointer;background:rgba(255,255,255,.18);color:#fff;font-size:16px;text-decoration:none;font-weight:750}.nav-link.plus{font-size:23px;line-height:1;padding:8px 13px}.hero{text-align:center;padding:48px 0 5px}.hero h1{font-size:clamp(30px,7vw,52px);margin:0 0 10px}.hero p{margin:0 auto 25px;max-width:650px;opacity:.9;font-size:16px}.search{display:flex;max-width:720px;margin:auto;background:white;border-radius:16px;padding:7px;box-shadow:0 12px 30px rgba(0,0,0,.16)}.search input{flex:1;border:0;outline:0;padding:13px 14px;font-size:15px;color:#222;background:transparent}.search button{border:0;border-radius:11px;background:var(--primary);color:white;padding:0 18px;font-weight:700}
+main{padding:34px 0 60px}.section-title{display:flex;align-items:end;justify-content:space-between;gap:10px;margin:28px 0 16px}.section-title h2{margin:0;font-size:24px}.section-title p{margin:0;color:var(--muted);font-size:13px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;box-shadow:var(--shadow);transition:.2s}.card:hover{transform:translateY(-3px)}.clickable{cursor:pointer}.class-icon{font-size:27px}.class-card h3{margin:10px 0 4px}.class-card p{margin:0;color:var(--muted);font-size:13px}.subjects{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.subject{display:flex;align-items:center;gap:13px}.subject .ico{width:45px;height:45px;display:grid;place-items:center;border-radius:13px;background:rgba(49,94,251,.1);font-size:22px}.subject h3{margin:0 0 3px;font-size:16px}.subject p{margin:0;color:var(--muted);font-size:12px}
+.materials{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.material h3{margin:0 0 6px;font-size:17px}.material p{margin:0 0 14px;color:var(--muted);font-size:13px}.material-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}.action{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border-radius:10px;padding:10px 8px;font-weight:800;font-size:13px}.view{background:var(--primary);color:#fff}.download{background:rgba(49,94,251,.1);color:var(--primary);border:1px solid rgba(49,94,251,.18)}.dark .download{color:#b9c7ff}.filter-bar{display:none;align-items:center;justify-content:space-between;gap:10px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px 14px;margin-bottom:16px}.filter-bar.show{display:flex}.filter-name{font-weight:800}.clear{border:0;background:transparent;color:var(--primary);font-weight:800;cursor:pointer}.status{color:var(--muted);font-size:13px;margin:10px 0}.empty{display:none;text-align:center;color:var(--muted);padding:25px}.loading{text-align:center;color:var(--muted);padding:22px}.note-card{min-width:0}.note-meta{color:var(--muted);font-size:12px;margin-bottom:10px}.note-title{word-break:break-word}.file-type{display:inline-block;margin-left:5px;padding:3px 7px;border-radius:999px;background:rgba(49,94,251,.1);color:var(--primary);font-size:11px;font-weight:800}.no-material{grid-column:1/-1}.notice{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;color:var(--muted);font-size:14px}
+footer{border-top:1px solid var(--border);padding:25px 0;text-align:center;color:var(--muted);font-size:13px}@media(max-width:800px){.grid{grid-template-columns:repeat(3,1fr)}.subjects,.materials{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.container{width:94%}.grid{grid-template-columns:repeat(2,1fr);gap:10px}.card{padding:14px}.hero{padding-top:36px}.search button{padding:0 14px}.subjects,.materials{grid-template-columns:1fr}.section-title{align-items:start;flex-direction:column}.top{padding-bottom:42px}.nav-link.admin{font-size:14px;padding:9px 10px}.nav-link.plus{font-size:20px}.nav button{font-size:16px;padding:9px 10px}.material-actions{grid-template-columns:1fr 1fr}}
+
+/* Glassmorphism theme: translucent surfaces, subtle teal/gold edges, no solid full-card fills */
+:root{--glass-bg:rgba(255,255,255,.42);--glass-border:rgba(255,255,255,.78);--glass-shadow:0 12px 34px rgba(28,70,78,.10),inset 0 1px 0 rgba(255,255,255,.82);--glass-teal:rgba(54,151,166,.34);--glass-gold:rgba(242,184,91,.42)}
+body{background:radial-gradient(ellipse at 18% 10%,rgba(79,174,190,.13),transparent 38%),radial-gradient(ellipse at 82% 74%,rgba(255,191,112,.16),transparent 36%),linear-gradient(145deg,#f8fbfa,#f5f7f5 55%,#fffaf2);background-attachment:fixed}
+body.dark{background:radial-gradient(ellipse at 18% 10%,rgba(43,131,145,.20),transparent 38%),radial-gradient(ellipse at 82% 74%,rgba(178,124,54,.12),transparent 36%),linear-gradient(145deg,#101a20,#121923 55%,#1b1b1a);background-attachment:fixed}
+.card,.notice,.filter-bar{background:linear-gradient(135deg,rgba(255,255,255,.64),rgba(255,255,255,.22));border:1px solid var(--glass-border);box-shadow:var(--glass-shadow);backdrop-filter:blur(18px) saturate(135%);-webkit-backdrop-filter:blur(18px) saturate(135%);position:relative;overflow:hidden}
+.card:before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(135deg,rgba(71,166,181,.48),rgba(255,255,255,.08) 42%,rgba(242,184,91,.42));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.card:hover{transform:translateY(-4px);box-shadow:0 18px 42px rgba(32,103,111,.14),inset 0 1px 0 rgba(255,255,255,.9);border-color:rgba(81,166,177,.52)}
+body.dark .card,body.dark .notice,body.dark .filter-bar{background:linear-gradient(135deg,rgba(33,54,62,.72),rgba(24,34,43,.52));border-color:rgba(131,188,194,.22);box-shadow:0 14px 34px rgba(0,0,0,.20),inset 0 1px 0 rgba(255,255,255,.07)}
+.nav-link,.nav button{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.48);box-shadow:0 6px 20px rgba(0,0,0,.08),inset 0 1px 0 rgba(255,255,255,.38);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.nav-link:hover,.nav button:hover{background:rgba(255,255,255,.28);transform:translateY(-1px)}
+.subject .ico{background:linear-gradient(135deg,rgba(67,158,174,.20),rgba(255,255,255,.22));border:1px solid rgba(86,165,174,.25);box-shadow:inset 0 1px 0 rgba(255,255,255,.65)}
+.action{border:1px solid rgba(255,255,255,.68);box-shadow:0 5px 15px rgba(33,87,93,.08),inset 0 1px 0 rgba(255,255,255,.35);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:transform .18s,box-shadow .18s}
+.action:hover{transform:translateY(-2px);box-shadow:0 9px 22px rgba(33,87,93,.13),inset 0 1px 0 rgba(255,255,255,.45)}
+.view{background:linear-gradient(135deg,rgba(49,137,153,.86),rgba(49,94,251,.78));color:#fff;border-color:rgba(255,255,255,.42)}
+.download{background:rgba(255,255,255,.42);color:#267b8b;border-color:rgba(66,149,161,.34)}
+body.dark .download{background:rgba(79,139,148,.16);color:#c0edf0;border-color:rgba(131,188,194,.28)}
+.search{background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.78);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 12px 32px rgba(28,70,78,.10),inset 0 1px 0 rgba(255,255,255,.8)}
+.search button{background:linear-gradient(135deg,rgba(49,137,153,.92),rgba(49,94,251,.82));border:1px solid rgba(255,255,255,.38)}
+@media(prefers-reduced-motion:reduce){.card,.action,.nav-link,.nav button{transition:none}}
+
+/* Premium homepage layer — preserves existing IDs, links and Supabase logic */
+:root{
+ --primary:#287f8b;--primary2:#c78b43;
+ --premium-ink:#17363b;--premium-muted:#60777a;
+}
+body{color:var(--text);background:
+ radial-gradient(ellipse at 8% 4%,rgba(89,177,190,.20),transparent 34%),
+ radial-gradient(ellipse at 94% 24%,rgba(244,190,117,.20),transparent 32%),
+ linear-gradient(145deg,#f8fbfa 0%,#eef5f3 48%,#fff9f0 100%);background-attachment:fixed}
+.top{position:relative;isolation:isolate;overflow:hidden;padding:18px 0 72px;
+ background:linear-gradient(130deg,rgba(30,91,103,.92),rgba(48,135,146,.78) 52%,rgba(194,142,78,.78));
+ border-bottom:1px solid rgba(255,255,255,.55)}
+.top:before,.top:after{content:"";position:absolute;z-index:-1;pointer-events:none;border-radius:50%;filter:blur(1px)}
+.top:before{width:360px;height:360px;right:-95px;top:-185px;background:radial-gradient(circle,rgba(255,255,255,.26),rgba(255,255,255,0) 70%);border:1px solid rgba(255,255,255,.18)}
+.top:after{width:280px;height:280px;left:-115px;bottom:-190px;background:radial-gradient(circle,rgba(255,203,133,.25),rgba(255,255,255,0) 70%)}
+.brand{font-size:clamp(22px,3vw,28px);letter-spacing:-.7px;text-shadow:0 2px 15px rgba(0,0,0,.13)}
+.brand span{font-weight:600;opacity:.8}
+.nav{padding:8px 0}
+.nav-link,.nav button{border-radius:15px;padding:11px 15px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.48);box-shadow:0 8px 24px rgba(10,46,54,.12),inset 0 1px 0 rgba(255,255,255,.35);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.nav-link.plus{min-width:45px;font-size:25px}
+.hero{padding:60px 0 8px;position:relative}
+.hero:before{content:"✦  SMART LEARNING • BETTER FUTURE  ✦";display:inline-block;margin-bottom:20px;padding:8px 14px;border:1px solid rgba(255,255,255,.45);border-radius:999px;background:rgba(255,255,255,.13);font-size:11px;font-weight:800;letter-spacing:1.4px;color:rgba(255,255,255,.94);backdrop-filter:blur(10px)}
+.hero h1{max-width:850px;margin:0 auto 14px;font-size:clamp(34px,6.8vw,62px);font-weight:850;line-height:1.12;letter-spacing:-1.6px;text-shadow:0 3px 24px rgba(13,54,61,.14)}
+.hero p{max-width:670px;font-size:clamp(15px,2vw,18px);line-height:1.8;color:rgba(255,255,255,.92);margin-bottom:28px}
+.search{max-width:760px;border-radius:20px;padding:8px;gap:8px;box-shadow:0 18px 48px rgba(18,65,71,.19),inset 0 1px 0 rgba(255,255,255,.9)}
+.search input{padding:15px 16px;min-width:0}
+.search button{border-radius:14px;padding:0 22px;background:linear-gradient(135deg,#277f8a,#4b9ca3);box-shadow:0 5px 15px rgba(33,106,115,.18)}
+main.container{padding-top:28px}
+section{margin-bottom:34px}
+.section-title{margin:32px 0 17px}
+.section-title h2{font-size:clamp(21px,3vw,27px);letter-spacing:-.5px}
+.section-title p{margin-top:5px;line-height:1.5}
+.grid,.subjects,.materials{gap:16px}
+.card{border-radius:22px;padding:20px;transition:transform .24s ease,box-shadow .24s ease,border-color .24s ease}
+.card:hover{transform:translateY(-5px)}
+.class-card{min-height:142px}
+.class-icon{display:inline-grid;place-items:center;width:48px;height:48px;border-radius:16px;background:linear-gradient(135deg,rgba(71,166,181,.18),rgba(255,255,255,.34));border:1px solid rgba(91,166,173,.26);box-shadow:inset 0 1px 0 rgba(255,255,255,.7);font-size:25px}
+.class-card h3{font-size:17px;letter-spacing:-.2px}
+.class-card p,.subject p{line-height:1.55}
+.subject{min-height:92px}
+.subject .ico{flex:0 0 45px;border-radius:16px}
+.material{padding:20px}
+.material h3{line-height:1.45}
+.action{min-height:42px;border-radius:13px}
+.view{background:linear-gradient(135deg,rgba(49,137,153,.92),rgba(45,107,131,.88))}
+.download{background:rgba(255,255,255,.46)}
+.notice{border-radius:20px;line-height:1.8}
+footer{padding:30px 0;background:rgba(255,255,255,.14);margin-top:10px}
+body.dark{background:radial-gradient(ellipse at 8% 4%,rgba(49,126,138,.22),transparent 34%),radial-gradient(ellipse at 94% 24%,rgba(171,119,57,.13),transparent 32%),linear-gradient(145deg,#10191d,#131d24 55%,#201e1a);background-attachment:fixed}
+body.dark .top{background:linear-gradient(130deg,rgba(16,50,59,.96),rgba(28,82,91,.91) 55%,rgba(105,76,46,.88))}
+body.dark .hero p{color:rgba(244,249,249,.88)}
+@media(max-width:800px){.hero{padding-top:48px}.grid,.subjects,.materials{gap:12px}.card{padding:17px}}
+@media(max-width:560px){.top{padding-bottom:50px}.nav{align-items:flex-start}.brand{font-size:21px;padding-top:7px}.nav-actions{gap:6px}.nav-link.admin{font-size:13px;padding:9px 10px}.nav-link.plus{min-width:38px;padding:8px 10px}.hero{padding-top:40px}.hero:before{font-size:9px;letter-spacing:1px}.hero h1{letter-spacing:-.8px}.hero p{line-height:1.65}.search{border-radius:16px}.search input{padding:12px 10px;font-size:14px}.search button{padding:0 13px;font-size:13px}.class-card{min-height:132px}.section-title{gap:4px}.section-title h2{font-size:22px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+
+/* Online Quiz & GK Test */
+.quiz-section{margin:34px 0}
+.quiz-hero{padding:clamp(18px,4vw,30px);border:1px solid rgba(255,255,255,.52);border-radius:26px;background:linear-gradient(135deg,rgba(53,137,148,.13),rgba(255,255,255,.52) 52%,rgba(224,174,107,.16));box-shadow:0 14px 38px rgba(36,87,92,.09),inset 0 1px 0 rgba(255,255,255,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.quiz-tabs{display:flex;gap:9px;flex-wrap:wrap;margin:18px 0}
+.quiz-tab{border:1px solid rgba(79,147,154,.28);border-radius:999px;padding:10px 15px;background:rgba(255,255,255,.42);color:var(--text);font-weight:750;cursor:pointer}
+.quiz-tab.active{background:linear-gradient(135deg,#347f89,#559ba0);color:#fff;border-color:transparent;box-shadow:0 7px 18px rgba(45,119,128,.22)}
+.quiz-box{border:1px solid rgba(104,158,163,.26);border-radius:22px;padding:clamp(17px,3vw,26px);background:rgba(255,255,255,.43);box-shadow:0 10px 30px rgba(30,65,70,.06),inset 0 1px 0 rgba(255,255,255,.68);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.quiz-progress{height:7px;background:rgba(100,130,136,.16);border-radius:99px;overflow:hidden;margin:12px 0 22px}
+.quiz-progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,#398c98,#d6a15e);transition:width .25s}
+.quiz-qmeta{display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-size:13px;font-weight:700}
+.quiz-question{font-size:clamp(19px,3vw,24px);line-height:1.45;margin:12px 0 18px}
+.quiz-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.quiz-option{display:flex;gap:10px;align-items:center;text-align:left;padding:14px;border-radius:15px;border:1px solid rgba(94,145,151,.27);background:rgba(255,255,255,.42);color:var(--text);font:inherit;cursor:pointer;min-height:54px;transition:.18s}
+.quiz-option:hover:not(:disabled){transform:translateY(-2px);border-color:rgba(58,139,149,.65);background:rgba(108,183,190,.13)}
+.quiz-option .opt-letter{display:grid;place-items:center;flex:0 0 30px;height:30px;border-radius:10px;background:rgba(75,143,151,.13);font-size:12px;font-weight:850}
+.quiz-option.correct{border-color:#21966b;background:rgba(33,150,107,.13)}
+.quiz-option.wrong{border-color:#d45e5e;background:rgba(212,94,94,.12)}
+.quiz-feedback{display:none;margin-top:14px;padding:13px 15px;border-radius:14px;background:rgba(77,151,128,.12);line-height:1.6}
+.quiz-controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.quiz-btn{border:0;border-radius:13px;padding:12px 18px;font-weight:800;cursor:pointer;background:linear-gradient(135deg,#317e89,#4c9aa2);color:#fff;box-shadow:0 6px 17px rgba(42,116,125,.17)}
+.quiz-btn.secondary{background:rgba(255,255,255,.45);border:1px solid rgba(95,147,153,.28);color:var(--text);box-shadow:none}
+.quiz-btn:disabled{opacity:.45;cursor:not-allowed}
+.quiz-result{text-align:center;padding:24px 8px}
+.quiz-score{font-size:clamp(42px,8vw,64px);font-weight:900;letter-spacing:-2px;background:linear-gradient(120deg,#328895,#c18b4c);-webkit-background-clip:text;background-clip:text;color:transparent}
+.quiz-stats{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:18px 0}
+.quiz-stat{padding:10px 14px;border-radius:13px;background:rgba(255,255,255,.42);border:1px solid rgba(103,152,157,.2)}
+body.dark .quiz-hero,body.dark .quiz-box{background:rgba(22,37,43,.66);border-color:rgba(145,191,194,.17)}
+body.dark .quiz-option,body.dark .quiz-tab,body.dark .quiz-btn.secondary,body.dark .quiz-stat{background:rgba(255,255,255,.055);border-color:rgba(145,191,194,.2)}
+body.dark .quiz-tab.active{background:linear-gradient(135deg,#317e89,#4c9aa2);color:white}
+@media(max-width:560px){.quiz-options{grid-template-columns:1fr}.quiz-option{padding:12px}.quiz-tabs{gap:7px}.quiz-tab{padding:9px 12px;font-size:13px}}
+
+
+#previous-year-papers label{display:block;font-weight:750;font-size:13px;margin-bottom:6px;color:var(--muted)}#previous-year-papers select,#previous-year-papers input{background:var(--card);color:var(--text);border:1px solid var(--border)}#paperStatus:empty{display:none}
+
+/* Sazal Study enhancements */
+.feature-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.feature-card{border:1px solid var(--border);border-radius:20px;padding:18px;background:rgba(255,255,255,.42);box-shadow:var(--shadow);backdrop-filter:blur(14px)}
+body.dark .feature-card{background:rgba(22,37,43,.66)}
+.feature-card h3{margin:0 0 8px}.feature-card p{color:var(--muted);line-height:1.65}
+.feature-btn{border:0;border-radius:11px;padding:10px 14px;background:linear-gradient(135deg,#317e89,#4c9aa2);color:#fff;font-weight:800;cursor:pointer}
+.feature-input,.feature-select{max-width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;background:var(--card);color:var(--text)}
+.feature-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.ca-item{padding:12px 0;border-bottom:1px solid var(--border)}.ca-item:last-child{border-bottom:0}
+.save-note{margin-top:10px;width:100%;border:1px solid var(--border);border-radius:10px;padding:9px;background:rgba(80,150,160,.10);color:var(--text);font-weight:750;cursor:pointer}
+.save-note.saved{border-color:#29966d;color:#16845c}
+.saved-list{display:grid;gap:9px}.saved-row{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:10px;border:1px solid var(--border);border-radius:12px}
+#installApp{display:inline-block!important}
+@media(max-width:560px){.feature-grid{grid-template-columns:1fr}.feature-card{padding:15px}}
+
+
+.feature-input{min-width:0;width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--text)}
+.feature-card{min-width:0}.feature-card hr{border:0;border-top:1px solid var(--border);margin:14px 0}.news-link{display:block;text-decoration:none;color:var(--text);padding:10px 0;border-bottom:1px solid var(--border);font-weight:650;font-size:14px}.news-link small{display:block;color:var(--muted);font-weight:400;margin-top:4px}.analytics-number{font-size:24px;font-weight:850}.feature-btn:disabled{opacity:.55;cursor:not-allowed}
+@media(max-width:560px){.feature-grid{grid-template-columns:1fr!important}.feature-row{flex-wrap:wrap}.feature-row>*{flex:1 1 100%}.nav{flex-wrap:wrap}.nav-actions{flex-wrap:wrap}}
+</style>
+</head>
+<body>
+<header class="top">
+<div class="container">
+<nav class="nav"><div class="brand">📚 Sazal <span>Study</span></div><div class="nav-actions"><a class="nav-link" href="#previous-year-papers">📄 Papers</a><a class="nav-link admin" href="admin.html">👤 Admin</a><a class="nav-link plus" href="admin.html#upload" aria-label="Upload PDF or Image" title="Upload PDF / Image">＋</a><button id="theme" aria-label="Dark mode" title="Dark mode">🌙</button><button id="installApp" type="button" title="Install Sazal Study">📲 Install</button></div></nav>
+<div class="hero"><h1>आपकी पढ़ाई,<br>आपकी कामयाबी की तैयारी</h1><p>Nursery से Class 12 तक notes, PDFs, GK, Reasoning और Brain Booster — आपकी पढ़ाई का पूरा साथी, एक ही जगह।</p><div class="search"><input id="search" type="search" placeholder="Class, subject या study material खोजें..."><button type="button">🔍 Search</button></div></div>
+</div></header>
+<main class="container">
+<section><div class="section-title"><div><h2>🎓 Classes</h2><p>अपनी class चुनें — click करने पर उसी class की सामग्री दिखेगी</p></div></div><div class="grid" id="classes"></div></section>
+<section id="smart-learning"><div class="section-title"><div><h2>🧠 Smart Learning Zone</h2><p>Knowledge और thinking skills बढ़ाएँ</p></div></div><div class="subjects"><div class="card subject clickable searchable" data-filter="GK"><div class="ico">🌍</div><div><h3>GK</h3><p>General Knowledge & Quiz</p></div></div><div class="card subject clickable searchable" data-filter="Reasoning"><div class="ico">🔢</div><div><h3>Reasoning</h3><p>Logic & Practice Questions</p></div></div><div class="card subject clickable searchable" data-filter="Brain Booster"><div class="ico">🧩</div><div><h3>Brain Booster</h3><p>Puzzles & Thinking Challenges</p></div></div></div></section>
+<section><div class="section-title"><div><h2>📚 Subjects</h2><p>Subject चुनें — संबंधित material नीचे दिखेगा</p></div></div><div class="subjects" id="subjects"><div class="card subject clickable searchable" data-filter="Hindi"><div class="ico">📖</div><div><h3>Hindi</h3><p>Notes & Questions</p></div></div><div class="card subject clickable searchable" data-filter="English"><div class="ico">🔤</div><div><h3>English</h3><p>Grammar & Literature</p></div></div><div class="card subject clickable searchable" data-filter="Mathematics"><div class="ico">➗</div><div><h3>Mathematics</h3><p>Notes & Practice</p></div></div><div class="card subject clickable searchable" data-filter="Science"><div class="ico">🔬</div><div><h3>Science</h3><p>Physics, Chemistry, Biology</p></div></div><div class="card subject clickable searchable" data-filter="Social Science"><div class="ico">🌍</div><div><h3>Social Science</h3><p>History, Geography, Civics</p></div></div><div class="card subject clickable searchable" data-filter="GK"><div class="ico">🧠</div><div><h3>GK</h3><p>General Knowledge</p></div></div></div></section>
+
+<section class="quiz-section" id="online-quiz">
+  <div class="section-title"><div><h2>📝 Online Quiz & GK Test</h2><p>Practice करें, अपना score देखें और हर उत्तर से सीखें।</p></div></div>
+  <div class="quiz-hero">
+    <div><strong>🎯 अपनी तैयारी जाँचें</strong><p style="margin:7px 0 0;color:var(--muted);line-height:1.7">GK, Reasoning और Brain Booster के छोटे practice tests। हर प्रश्न का उत्तर चुनने के बाद explanation मिलेगा।</p></div>
+    <div class="quiz-tabs" id="quizTabs" role="tablist" aria-label="Quiz category">
+      <button class="quiz-tab active" type="button" data-quiz="GK">🌍 GK Test</button>
+      <button class="quiz-tab" type="button" data-quiz="Reasoning">🔢 Reasoning</button>
+      <button class="quiz-tab" type="button" data-quiz="Brain Booster">🧩 Brain Booster</button>
+      <button class="quiz-tab" type="button" data-quiz="Class 1">Class 1</button><button class="quiz-tab" type="button" data-quiz="Class 2">Class 2</button><button class="quiz-tab" type="button" data-quiz="Class 3">Class 3</button><button class="quiz-tab" type="button" data-quiz="Class 4">Class 4</button><button class="quiz-tab" type="button" data-quiz="Class 5">Class 5</button><button class="quiz-tab" type="button" data-quiz="Class 6">Class 6</button><button class="quiz-tab" type="button" data-quiz="Class 7">Class 7</button><button class="quiz-tab" type="button" data-quiz="Class 8">Class 8</button><button class="quiz-tab" type="button" data-quiz="Class 9">Class 9</button><button class="quiz-tab" type="button" data-quiz="Class 10">Class 10</button><button class="quiz-tab" type="button" data-quiz="Class 11">Class 11</button><button class="quiz-tab" type="button" data-quiz="Class 12">Class 12</button>
+    </div>
+    <div class="quiz-box" id="quizBox" aria-live="polite"></div>
+  </div>
+</section>
+
+<section id="previous-year-papers"><div class="section-title"><div><h2>📄 Previous Year Papers</h2><p>Board, Class, Subject और Year के अनुसार पुराने question papers खोजें।</p></div></div>
+<div class="card" style="margin-bottom:16px"><div class="subjects" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))"><div><label for="paperBoard">Board</label><select id="paperBoard" style="width:100%;padding:11px;border-radius:10px"><option value="">All Boards</option><option>Bihar Board</option><option>CBSE</option><option>ICSE</option><option>Other</option></select></div><div><label for="paperClass">Class</label><select id="paperClass" style="width:100%;padding:11px;border-radius:10px"><option value="">All Classes</option><option>Class 1</option><option>Class 2</option><option>Class 3</option><option>Class 4</option><option>Class 5</option><option>Class 6</option><option>Class 7</option><option>Class 8</option><option>Class 9</option><option>Class 10</option><option>Class 11</option><option>Class 12</option></select></div><div><label for="paperSubject">Subject</label><input id="paperSubject" placeholder="Subject खोजें" style="width:100%;padding:11px;border-radius:10px"></div><div><label for="paperYear">Year</label><select id="paperYear" style="width:100%;padding:11px;border-radius:10px"><option value="">All Years</option><option>2026</option><option>2025</option><option>2024</option><option>2023</option><option>2022</option><option>2021</option><option>2020</option><option>2019</option><option>2018</option><option>2017</option><option>2016</option><option>2015</option><option>2014</option><option>2013</option><option>2012</option><option>2011</option><option>2010</option></select></div></div></div>
+<div id="paperStatus" class="notice">⏳ Previous Year Papers load हो रहे हैं...</div><div id="paperResults" class="materials"></div></section>
+<section id="study-material"><div class="section-title"><div><h2>📄 Latest Uploaded Notes</h2><p>Admin से upload की गई latest files यहाँ automatically आएँगी</p></div></div><div id="filterBar" class="filter-bar"><div>🔎 <span class="filter-name" id="filterName"></span></div><button class="clear" id="clearFilter">✕ सभी notes दिखाएँ</button></div><div id="notes" class="materials"><div class="loading">⏳ Notes load हो रहे हैं...</div></div><div class="empty" id="empty">इस category में अभी कोई material नहीं मिला।</div></section>
+
+<section id="student-tools">
+ <div class="section-title"><div><h2>✨ Student Tools</h2><p>Exam countdown, saved notes और notifications</p></div></div>
+ <div class="feature-grid">
+  <article class="feature-card">
+   <h3>⏳ Exam Countdown</h3>
+   <p id="countdownText">अपनी परीक्षा की तारीख चुनें। तारीख इस browser में save रहेगी।</p>
+   <div class="feature-row"><input class="feature-input" type="date" id="examDate" aria-label="Exam date"><button class="feature-btn" id="saveExamDate" type="button">तारीख Save करें</button></div>
+  </article>
+  <article class="feature-card">
+   <h3>🔖 My Saved Notes</h3>
+   <p>Notes के नीचे Save button दबाकर उन्हें यहाँ bookmark करें। Saved notes इसी browser में रहेंगे।</p>
+   <div id="savedNotes" class="saved-list"></div>
+  </article>
+  <article class="feature-card"><h3>🔔 New Notes Notifications</h3><p>नई notes के लिए browser notification allow करें। यह तभी check करेगा जब website खुली हो।</p><button class="feature-btn" id="enableNotifications" type="button">🔔 Notifications चालू करें</button><div id="notificationStatus" class="note-meta"></div></article>
+  <article class="feature-card"><h3>📈 Website Analytics</h3><p>Anonymous page visits और note clicks का count (किसी का नाम या email नहीं)। Supabase setup जरूरी है।</p><div id="analyticsSummary">Analytics setup check हो रहा है…</div></article>
+ </div>
+</section>
+
+<section><div class="section-title"><div><h2>📘 कैसे इस्तेमाल करें?</h2><p>Class/Subject पर click करें, फिर View या Download चुनें।</p></div></div><div class="notice">📌 <b>View</b> file को browser में खोलता है। <b>Download</b> file को device में save करने की कोशिश करता है। PDF और images दोनों supported हैं।</div></section>
+</main><footer>© 2026 Sazal Study • आपकी पढ़ाई, आपकी तैयारी</footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script>
+const classes=document.getElementById('classes'),notesEl=document.getElementById('notes'),empty=document.getElementById('empty'),filterBar=document.getElementById('filterBar'),filterName=document.getElementById('filterName');
+const classNames=[['🧸','Nursery'],['🎨','LKG'],['🎒','UKG'],...Array.from({length:12},(_,i)=>['🎓',`Class ${i+1}`])];
+let allNotes=[],activeFilter='';
+classNames.forEach(([icon,name])=>{const d=document.createElement('div');d.className='card class-card clickable searchable';d.dataset.filter=name;d.innerHTML=`<div class="class-icon">${icon}</div><h3>${name}</h3><p>Notes • PDFs • Questions</p>`;d.onclick=()=>setFilter(name);classes.appendChild(d)});
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function isImage(n){const t=(n.file_type||'').toLowerCase(),f=(n.file_name||'').toLowerCase();return t.startsWith('image/')||/\.(jpg|jpeg|png|gif|webp|bmp|svg)$/i.test(f)}
+function getDownloadUrl(url,name){if(!url)return '#';try{const u=new URL(url);u.searchParams.set('download',name||'file');return u.toString()}catch(e){return url+(url.includes('?')?'&':'?')+'download='+encodeURIComponent(name||'file')}}
+function matches(n,filter){if(!filter)return true;const f=filter.toLowerCase();return [n.title,n.class,n.subject,n.file_name].some(v=>String(v||'').toLowerCase().includes(f))}
+function renderNotes(){const list=allNotes.filter(n=>matches(n,activeFilter));empty.style.display=list.length?'none':'block';notesEl.innerHTML=list.length?list.map(n=>{const image=isImage(n),viewLabel=image?'🖼️ View Image':'👁️ View';const type=image?'IMAGE':'PDF / FILE';return `<article class="card material note-card"><h3 class="note-title">${esc(n.title||n.file_name||'Study Material')} <span class="file-type">${type}</span></h3><div class="note-meta">${esc(n.class||'General')} • ${esc(n.subject||'Study Material')}</div><p>${esc(n.file_name||'Uploaded material')}</p><div class="material-actions"><a class="action view" href="${esc(n.file_url)}" target="_blank" rel="noopener">${viewLabel}</a><a class="action download" href="${esc(getDownloadUrl(n.file_url,n.file_name))}" download>⬇️ Download</a></div><button type="button" class="save-note" data-save-note="${esc(n.id)}">🔖 Save to My Notes</button></article>`}).join(''):'<div class="notice no-material">अभी इस filter के लिए कोई uploaded material नहीं है।</div>'}
+function setFilter(value){activeFilter=value;filterName.textContent=value;filterBar.classList.add('show');renderNotes();document.getElementById('study-material').scrollIntoView({behavior:'smooth',block:'start'})}
+document.querySelectorAll('[data-filter]').forEach(el=>{if(!el.onclick)el.addEventListener('click',()=>setFilter(el.dataset.filter))});
+document.getElementById('clearFilter').onclick=()=>{activeFilter='';filterBar.classList.remove('show');renderNotes()};
+async function loadNotes(){const {data,error}=await sb.from('notes').select('*').order('created_at',{ascending:false});if(error){notesEl.innerHTML='<div class="notice">❌ Notes load नहीं हो पाए। कृपया थोड़ी देर बाद फिर कोशिश करें।</div>';return}allNotes=data||[];renderNotes()}
+const input=document.getElementById('search');input.addEventListener('input',()=>{const q=input.value.toLowerCase().trim();document.querySelectorAll('.searchable').forEach(el=>{el.style.display=!q||el.innerText.toLowerCase().includes(q)?'':'none'});if(q){const n=allNotes.filter(x=>(x.title+' '+x.class+' '+x.subject+' '+x.file_name).toLowerCase().includes(q));if(n.length){activeFilter=q;filterName.textContent='Search: '+q;filterBar.classList.add('show');renderNotes()}}else{activeFilter='';filterBar.classList.remove('show');renderNotes()}});
+const theme=document.getElementById('theme');if(localStorage.getItem('sazal-theme')==='dark'){document.body.classList.add('dark');theme.textContent='☀️'}theme.onclick=()=>{document.body.classList.toggle('dark');const dark=document.body.classList.contains('dark');theme.textContent=dark?'☀️':'🌙';localStorage.setItem('sazal-theme',dark?'dark':'light')};
+
+// Built-in practice quizzes: works independently from the notes upload system.
+const quizSets={
+"GK":[
+{q:"भारत की राजधानी क्या है?",o:["मुंबई","नई दिल्ली","कोलकाता","चेन्नई"],a:1,e:"भारत की राजधानी नई दिल्ली है।"},
+{q:"भारत का राष्ट्रीय पशु कौन-सा है?",o:["एशियाई शेर","बंगाल टाइगर","हाथी","तेंदुआ"],a:1,e:"भारत का राष्ट्रीय पशु बाघ है।"},
+{q:"पृथ्वी का प्राकृतिक उपग्रह कौन है?",o:["मंगल","चंद्रमा","शुक्र","सूर्य"],a:1,e:"चंद्रमा पृथ्वी का प्राकृतिक उपग्रह है।"},
+{q:"सूर्य के सबसे निकट कौन-सा ग्रह है?",o:["शुक्र","पृथ्वी","बुध","मंगल"],a:2,e:"बुध सूर्य के सबसे निकट का ग्रह है।"},
+{q:"पानी का रासायनिक सूत्र क्या है?",o:["CO₂","O₂","H₂O","NaCl"],a:2,e:"पानी के एक अणु में दो हाइड्रोजन और एक ऑक्सीजन परमाणु होता है: H₂O।"},
+{q:"सौरमंडल का सबसे बड़ा ग्रह कौन-सा है?",o:["शनि","बृहस्पति","पृथ्वी","नेपच्यून"],a:1,e:"बृहस्पति सौरमंडल का सबसे बड़ा ग्रह है।"},
+{q:"भारत का संविधान दिवस कब मनाया जाता है?",o:["15 अगस्त","26 जनवरी","26 नवंबर","2 अक्टूबर"],a:2,e:"भारत में संविधान दिवस 26 नवंबर को मनाया जाता है।"},
+{q:"विश्व का सबसे बड़ा महासागर कौन-सा है?",o:["अटलांटिक","हिंद महासागर","आर्कटिक","प्रशांत"],a:3,e:"प्रशांत महासागर क्षेत्रफल के आधार पर सबसे बड़ा महासागर है।"},
+{q:"भारत का राष्ट्रीय पक्षी कौन है?",o:["तोता","मोर","हंस","गरुड़"],a:1,e:"भारत का राष्ट्रीय पक्षी भारतीय मोर है।"},
+{q:"भारत में गणतंत्र दिवस कब मनाया जाता है?",o:["15 अगस्त","26 जनवरी","14 नवंबर","1 मई"],a:1,e:"26 जनवरी 1950 को संविधान लागू हुआ था; इसी दिन गणतंत्र दिवस मनाया जाता है।"}
+],
+"Reasoning":[
+{q:"श्रृंखला पूरी करें: 2, 4, 8, 16, ___",o:["18","24","32","30"],a:2,e:"हर संख्या पिछली संख्या की दोगुनी है; अगली संख्या 32 है।"},
+{q:"अलग शब्द चुनें।",o:["सेब","आम","गाजर","केला"],a:2,e:"गाजर सब्ज़ी है, जबकि बाकी तीन फल हैं।"},
+{q:"यदि CAT को DBU लिखा जाए, तो DOG को कैसे लिखेंगे?",o:["EPH","EOG","DPH","FPI"],a:0,e:"हर अक्षर को अंग्रेज़ी वर्णमाला में एक स्थान आगे किया गया है: D→E, O→P, G→H।"},
+{q:"एक सप्ताह में कितने दिन होते हैं?",o:["5","6","7","8"],a:2,e:"एक सप्ताह में सात दिन होते हैं।"},
+{q:"श्रृंखला पूरी करें: 5, 10, 15, 20, ___",o:["22","24","25","30"],a:2,e:"हर बार 5 जोड़ा जा रहा है; अगली संख्या 25 है।"},
+{q:"राम उत्तर की ओर मुँह करके खड़ा है। वह दाएँ मुड़ता है। अब उसका मुँह किस दिशा में है?",o:["पश्चिम","पूर्व","दक्षिण","उत्तर"],a:1,e:"उत्तर की ओर से दाएँ मुड़ने पर दिशा पूर्व होती है।"},
+{q:"किताब : पढ़ना :: भोजन : ?",o:["लिखना","खाना","दौड़ना","सोना"],a:1,e:"किताब पढ़ी जाती है और भोजन खाया जाता है।"},
+{q:"इनमें सबसे छोटी संख्या कौन-सी है?",o:["0.8","0.08","0.18","0.8̅"],a:1,e:"0.08, 0.18 और 0.8 से छोटा है।"}
+],
+"Brain Booster":[
+{q:"एक दर्जन में 12 आम हैं। ऐसे 3 दर्जन में कितने आम होंगे?",o:["24","30","36","42"],a:2,e:"12 × 3 = 36 आम।"},
+{q:"आपके पास 3 लाल और 2 नीली गेंदें हैं। कुल कितनी गेंदें हैं?",o:["5","6","4","8"],a:0,e:"3 + 2 = 5 गेंदें।"},
+{q:"घड़ी में 3 बजे घंटे और मिनट की सुई के बीच छोटा कोण कितना होता है?",o:["45°","90°","120°","180°"],a:1,e:"3 बजे मिनट की सुई 12 पर और घंटे की सुई 3 पर होती है; कोण 90° है।"},
+{q:"कौन-सी संख्या 2 से और 5 से दोनों से विभाजित होती है?",o:["12","15","20","27"],a:2,e:"20 का अंतिम अंक 0 है, इसलिए यह 2 और 5 दोनों से विभाजित होता है।"},
+{q:"यदि आज सोमवार है, तो दो दिन बाद कौन-सा दिन होगा?",o:["मंगलवार","बुधवार","गुरुवार","शुक्रवार"],a:1,e:"सोमवार के बाद मंगलवार और फिर बुधवार आता है।"},
+{q:"एक वर्ग की कितनी भुजाएँ होती हैं?",o:["3","4","5","6"],a:1,e:"वर्ग की चार बराबर भुजाएँ होती हैं।"},
+{q:"किसका वजन आम तौर पर अधिक होगा: 1 kg रूई या 1 kg लोहा?",o:["रूई","लोहा","दोनों बराबर","बताया नहीं जा सकता"],a:2,e:"दोनों का द्रव्यमान 1 किलोग्राम है, इसलिए वजन बराबर होगा।"},
+{q:"श्रृंखला पूरी करें: 1, 1, 2, 3, 5, ___",o:["6","7","8","10"],a:2,e:"हर अगली संख्या पिछली दो संख्याओं का योग है; 3 + 5 = 8।"}
+]
+};
+let quizCategory='GK',quizIndex=0,quizScore=0,quizAnswers=[];
+function renderQuiz(){
+ const box=document.getElementById('quizBox'); if(!box)return;
+ const set=quizSets[quizCategory];
+ if(quizIndex>=set.length){
+  const pct=Math.round(quizScore/set.length*100);
+  box.innerHTML=`<div class="quiz-result"><div style="font-size:38px">🏆</div><h3>Quiz पूरा हुआ!</h3><div class="quiz-score">${quizScore}/${set.length}</div><p>आपका score: <b>${pct}%</b></p><div class="quiz-stats"><div class="quiz-stat">✅ सही: ${quizScore}</div><div class="quiz-stat">📘 गलत: ${set.length-quizScore}</div></div><p style="color:var(--muted)">अच्छी practice जारी रखें — हर प्रयास आपको बेहतर बनाएगा।</p><button class="quiz-btn" type="button" id="quizRestart">🔁 फिर से टेस्ट दें</button></div>`;
+  document.getElementById('quizRestart').onclick=()=>{quizIndex=0;quizScore=0;quizAnswers=[];renderQuiz()};return;
+ }
+ const item=set[quizIndex],answered=quizAnswers[quizIndex]!==undefined;
+ box.innerHTML=`<div class="quiz-qmeta"><span>${quizCategory} Practice</span><span>प्रश्न ${quizIndex+1} / ${set.length}</span></div><div class="quiz-progress"><span style="width:${quizIndex/set.length*100}%"></span></div><h3 class="quiz-question">${item.q}</h3><div class="quiz-options">${item.o.map((opt,i)=>`<button type="button" class="quiz-option ${answered&&i===item.a?'correct':answered&&i===quizAnswers[quizIndex]?'wrong':''}" data-opt="${i}" ${answered?'disabled':''}><span class="opt-letter">${String.fromCharCode(65+i)}</span><span>${opt}</span></button>`).join('')}</div><div class="quiz-feedback" id="quizFeedback" style="display:${answered?'block':'none'}">${answered?(quizAnswers[quizIndex]===item.a?'✅ सही जवाब! ':'❌ सही जवाब: '+item.o[item.a]+'. ')+item.e:''}</div><div class="quiz-controls"><button class="quiz-btn secondary" type="button" id="quizReset">↻ Restart</button><button class="quiz-btn" type="button" id="quizNext" ${answered?'':'disabled'}>${quizIndex===set.length-1?'Result देखें':'अगला प्रश्न →'}</button></div>`;
+ box.querySelectorAll('[data-opt]').forEach(btn=>btn.onclick=()=>{if(quizAnswers[quizIndex]!==undefined)return;const pick=Number(btn.dataset.opt);quizAnswers[quizIndex]=pick;if(pick===item.a)quizScore++;renderQuiz()});
+ document.getElementById('quizNext').onclick=()=>{if(quizAnswers[quizIndex]===undefined)return;quizIndex++;renderQuiz()};
+ document.getElementById('quizReset').onclick=()=>{quizIndex=0;quizScore=0;quizAnswers=[];renderQuiz()};
+}
+document.querySelectorAll('[data-quiz]').forEach(btn=>btn.addEventListener('click',()=>{quizCategory=btn.dataset.quiz;quizIndex=0;quizScore=0;quizAnswers=[];document.querySelectorAll('[data-quiz]').forEach(b=>b.classList.toggle('active',b===btn));renderQuiz()}));
+// Load published questions from Supabase. If a category has no published questions, built-in practice questions remain available.
+async function loadAdminQuestions(){
+ try {
+  if(!window.supabase || typeof sb==='undefined') return;
+  const {data,error}=await sb.from('quiz_questions').select('id,category,class_level,question,option_a,option_b,option_c,option_d,correct_option,explanation').eq('is_published',true).order('created_at',{ascending:true});
+  if(error){console.warn('Quiz question bank not available yet:',error.message);return;}
+  const grouped={};
+  (data||[]).forEach(row=>{const cat=(row.category==='Class' && row.class_level)?row.class_level:row.category; if(!cat)return; (grouped[cat] ||= []).push({q:row.question,o:[row.option_a,row.option_b,row.option_c,row.option_d],a:['A','B','C','D'].indexOf(String(row.correct_option).toUpperCase()),e:row.explanation||'इस प्रश्न का उत्तर ध्यान से समझें।'});});
+  Object.keys(grouped).forEach(cat=>{if(grouped[cat].length)quizSets[cat]=grouped[cat];});
+  renderQuiz();
+ } catch(e){console.warn('Quiz bank load error:',e);}
+}
+renderQuiz();
+loadAdminQuestions();
+
+
+// Student tools: local preferences, bookmarks, practice current affairs, and device-local score list.
+const STORE_KEYS={exam:'sazal-exam-date',saved:'sazal-saved-notes',scores:'sazal-local-scores'};
+function readLocal(key,fallback){try{const v=JSON.parse(localStorage.getItem(key));return v??fallback}catch(e){return fallback}}
+function writeLocal(key,value){try{localStorage.setItem(key,JSON.stringify(value));return true}catch(e){return false}}
+function renderSavedNotes(){
+ const host=document.getElementById('savedNotes');if(!host)return;
+ const ids=readLocal(STORE_KEYS.saved,[]);
+ const rows=ids.map(id=>allNotes.find(n=>String(n.id)===String(id))).filter(Boolean);
+ host.innerHTML=rows.length?rows.map(n=>`<div class="saved-row"><div><b>${esc(n.title||n.file_name||'Study Material')}</b><div class="note-meta">${esc(n.class||'General')} • ${esc(n.subject||'Study Material')}</div></div><div class="feature-row"><a class="action view" href="${esc(n.file_url)}" target="_blank" rel="noopener">खोलें</a><button class="feature-btn" type="button" data-unsave="${esc(n.id)}">हटाएँ</button></div></div>`).join(''):'<p>अभी कोई note save नहीं है।</p>';
+ host.querySelectorAll('[data-unsave]').forEach(b=>b.onclick=()=>{writeLocal(STORE_KEYS.saved,readLocal(STORE_KEYS.saved,[]).filter(id=>String(id)!==String(b.dataset.unsave)));renderSavedNotes();renderNotes()});
+}
+function refreshSaveButtons(){
+ document.querySelectorAll('[data-save-note]').forEach(b=>{const saved=readLocal(STORE_KEYS.saved,[]).some(id=>String(id)===String(b.dataset.saveNote));b.classList.toggle('saved',saved);b.textContent=saved?'✓ Saved — My Notes से हटाएँ':'🔖 Save to My Notes'});
+}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-save-note]');if(!b)return;const id=b.dataset.saveNote;let ids=readLocal(STORE_KEYS.saved,[]);ids=ids.some(x=>String(x)===String(id))?ids.filter(x=>String(x)!==String(id)):[...ids,id];writeLocal(STORE_KEYS.saved,ids);renderSavedNotes();refreshSaveButtons()});
+const originalRenderNotes=renderNotes;
+renderNotes=function(){originalRenderNotes();refreshSaveButtons();renderSavedNotes()};
+
+function renderCountdown(){
+ const input=document.getElementById('examDate'),out=document.getElementById('countdownText');if(!input||!out)return;
+ const raw=localStorage.getItem(STORE_KEYS.exam)||'';input.value=raw;
+ if(!raw){out.textContent='अपनी परीक्षा की तारीख चुनें। तारीख इस browser में save रहेगी।';return}
+ const target=new Date(raw+'T00:00:00');const today=new Date();today.setHours(0,0,0,0);
+ const days=Math.ceil((target-today)/86400000);
+ out.textContent=days>0?`परीक्षा में ${days} दिन बाकी हैं। तैयारी जारी रखें!`:days===0?'आज आपकी चुनी हुई परीक्षा की तारीख है। शुभकामनाएँ!':'चुनी गई तारीख बीत चुकी है। नई तारीख चुनें।';
+}
+document.getElementById('saveExamDate')?.addEventListener('click',()=>{const v=document.getElementById('examDate').value;if(!v){alert('पहले परीक्षा की तारीख चुनें।');return}localStorage.setItem(STORE_KEYS.exam,v);renderCountdown()});
+renderCountdown();
+
+const affairs=[
+ {q:'भारत का संविधान दिवस कब मनाया जाता है?',o:['15 अगस्त','26 नवंबर','26 जनवरी','2 अक्टूबर'],a:1,e:'संविधान दिवस 26 नवंबर को मनाया जाता है।'},
+ {q:'भारत की राजधानी क्या है?',o:['मुंबई','नई दिल्ली','कोलकाता','चेन्नई'],a:1,e:'भारत की राजधानी नई दिल्ली है।'},
+ {q:'सौरमंडल का सबसे बड़ा ग्रह कौन-सा है?',o:['मंगल','बृहस्पति','शुक्र','बुध'],a:1,e:'बृहस्पति सौरमंडल का सबसे बड़ा ग्रह है।'},
+ {q:'पानी का रासायनिक सूत्र क्या है?',o:['CO₂','H₂O','O₂','NaCl'],a:1,e:'पानी का रासायनिक सूत्र H₂O है।'},
+ {q:'भारत का राष्ट्रीय पक्षी कौन है?',o:['तोता','मोर','हंस','कबूतर'],a:1,e:'भारत का राष्ट्रीय पक्षी मोर है।'}
+];
+let affairsIndex=(Math.floor(Date.now()/86400000)%affairs.length);
+function renderAffair(){const host=document.getElementById('dailyAffairs');if(!host)return;const x=affairs[affairsIndex];host.innerHTML=`<div class="ca-item"><b>${esc(x.q)}</b><div class="feature-row" style="margin-top:9px">${x.o.map((v,i)=>`<button class="quiz-option" type="button" data-affair="${i}" style="min-height:40px;padding:9px">${String.fromCharCode(65+i)}. ${esc(v)}</button>`).join('')}</div><p id="affairFeedback" aria-live="polite"></p></div>`;host.querySelectorAll('[data-affair]').forEach(b=>b.onclick=()=>{host.querySelectorAll('[data-affair]').forEach(x=>x.disabled=true);document.getElementById('affairFeedback').textContent=(Number(b.dataset.affair)===x.a?'✅ सही जवाब! ':'❌ सही जवाब: '+x.o[x.a]+'. ')+x.e;});}
+document.getElementById('newAffairs')?.addEventListener('click',()=>{affairsIndex=(affairsIndex+1)%affairs.length;renderAffair()});renderAffair();
+
+// Progressive Web App install prompt. The app manifest/service worker are provided as separate files.
+let installPromptEvent=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPromptEvent=e;const b=document.getElementById('installApp');if(b)b.style.display='inline-block'});
+document.getElementById('installApp')?.addEventListener('click',async()=>{if(!installPromptEvent){alert('अगर Install बटन उपलब्ध नहीं है, browser menu में “Add to Home screen” या “Install app” देखें।');return}installPromptEvent.prompt();await installPromptEvent.userChoice;installPromptEvent=null;document.getElementById('installApp').style.display='none'});
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(err=>console.warn('PWA offline support not enabled:',err)));
+
+
+// Anonymous analytics: requires the optional site_events table in setup SQL.
+async function trackSiteEvent(eventType,details={}){try{if(typeof sb==='undefined')return;const {error}=await sb.from('site_events').insert({event_type:eventType,details});if(error)throw error;}catch(e){console.info('Analytics table not configured or event could not be saved.');}}
+trackSiteEvent('page_view',{path:location.pathname});
+document.addEventListener('click',e=>{const a=e.target.closest('a.action');if(a&&a.href)trackSiteEvent(a.classList.contains('download')?'note_download_click':'note_view_click',{path:location.pathname});});
+async function loadAnalyticsSummary(){const el=document.getElementById('analyticsSummary');if(!el)return;try{const {count,error}=await sb.from('site_events').select('id',{count:'exact',head:true}).eq('event_type','page_view');if(error)throw error;el.innerHTML=`<div class="analytics-number">${Number(count||0).toLocaleString('en-IN')}</div><small>Recorded page visits</small>`;}catch(e){el.textContent='Analytics के लिए setup SQL चलाना बाकी है।';}}
+loadAnalyticsSummary();
+
+// Notifications while this page is open (not background push). Checks the public notes table periodically.
+const noteNotifyKey='sazal-last-notified-note';let notificationPrimed=false;
+const notifyStatus=document.getElementById('notificationStatus');
+async function checkNewNotes(showNotice=false){try{if(typeof sb==='undefined')return;const {data,error}=await sb.from('notes').select('id,title,file_name,created_at').order('created_at',{ascending:false}).limit(1);if(error||!data?.length)return;const latest=data[0],prev=localStorage.getItem(noteNotifyKey);if(!prev){localStorage.setItem(noteNotifyKey,String(latest.id));return}if(String(latest.id)!==prev){localStorage.setItem(noteNotifyKey,String(latest.id));if(showNotice&&('Notification' in window)&&Notification.permission==='granted'&&notificationPrimed){new Notification('Sazal Study: New Notes',{body:latest.title||latest.file_name||'नई study material upload हुई है।'});}if(notifyStatus)notifyStatus.textContent='नई notes check हुईं।';}}
+ catch(e){console.info('Note notification check unavailable.');}}
+document.getElementById('enableNotifications')?.addEventListener('click',async()=>{if(!('Notification' in window)){notifyStatus.textContent='यह browser notifications support नहीं करता।';return}const permission=await Notification.requestPermission();if(permission==='granted'){notificationPrimed=true;await checkNewNotes(false);notifyStatus.textContent='Notifications permission चालू है। नई notes check करने के लिए website खुली रखें।';}else notifyStatus.textContent='Browser settings में notification permission allow करें।'});
+checkNewNotes(false);setInterval(()=>checkNewNotes(true),120000);
+
+loadNotes();
+
+// Public Previous Year Papers list. Only published rows are displayed.
+const paperResults=document.getElementById('paperResults'),paperStatus=document.getElementById('paperStatus');let allPapers=[];
+function renderPapers(){if(!paperResults)return;const board=document.getElementById('paperBoard').value,cl=document.getElementById('paperClass').value,sub=document.getElementById('paperSubject').value.trim().toLowerCase(),year=document.getElementById('paperYear').value;const rows=allPapers.filter(p=>(!board||p.board===board)&&(!cl||p.class_level===cl)&&(!year||String(p.year)===year)&&(!sub||String(p.subject||'').toLowerCase().includes(sub)));paperResults.innerHTML=rows.length?rows.map(p=>`<article class="card material"><h3>${esc(p.title||'Previous Year Paper')}</h3><div class="note-meta">${esc(p.board)} • ${esc(p.class_level)} • ${esc(p.subject)} • ${esc(p.year)}</div><p>📄 ${esc(p.file_name||'PDF Question Paper')}</p><div class="material-actions"><a class="action view" href="${esc(p.file_url)}" target="_blank" rel="noopener">👁️ View PDF</a><a class="action download" href="${esc(getDownloadUrl(p.file_url,p.file_name||'paper.pdf'))}" target="_blank" rel="noopener">⬇️ Download</a></div></article>`).join(''):'<div class="notice no-material">इस filter में अभी कोई paper नहीं मिला।</div>';}
+async function loadPapers(){if(!paperResults)return;const {data,error}=await sb.from('previous_year_papers').select('id,title,board,class_level,subject,year,file_url,file_name').eq('is_published',true).order('year',{ascending:false});if(error){paperStatus.textContent='Papers अभी load नहीं हो पाए। Admin से setup check करवाएँ।';return}allPapers=data||[];paperStatus.textContent=allPapers.length?`✅ ${allPapers.length} published paper(s) उपलब्ध हैं।`:'अभी कोई paper publish नहीं किया गया है।';renderPapers()}
+['paperBoard','paperClass','paperSubject','paperYear'].forEach(id=>document.getElementById(id)?.addEventListener('input',renderPapers));
+loadPapers();</script>
+<script>
+// Remove the two requested homepage panels if they exist in this version or are restored by older markup.
+(function(){
+  const targets=[/quiz\s*leaderboard/i,/daily\s*current\s*affairs\s*(?:&|and)\s*gk/i];
+  function removeRequestedPanels(){
+    document.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach(function(h){
+      const title=(h.textContent||'').replace(/[📰🏆📊]/g,'').trim();
+      if(!targets.some(function(re){return re.test(title)})) return;
+      let node=h;
+      while(node && node!==document.body){
+        if(node.matches && node.matches('section,article,.feature-card,.card,.feature-grid')) break;
+        node=node.parentElement;
+      }
+      if(node && node!==document.body) node.remove(); else h.remove();
+    });
+    document.querySelectorAll('[id]').forEach(function(el){
+      if(/^(globalLeaderboard|leaderboardStatus|leaderName|saveLeaderName|dailyAffairs|newAffairs)$/i.test(el.id)){
+        const panel=el.closest('section,article,.feature-card,.card');
+        if(panel) panel.remove(); else el.remove();
+      }
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',removeRequestedPanels); else removeRequestedPanels();
+})();
+</script>
+</body></html>
