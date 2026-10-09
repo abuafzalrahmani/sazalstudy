@@ -152,7 +152,7 @@ body{background:linear-gradient(145deg,#fff8f3 0%,#f7dfd2 48%,#fffaf7 100%);colo
 body.dark{--ink:#f4e7df;--glass:rgba(45,35,32,.78);background:linear-gradient(145deg,#211a18,#382720 55%,#201a18);color:var(--ink)}body.dark .home-panel{background:linear-gradient(135deg,rgba(100,66,51,.82),rgba(65,46,39,.9));border-color:#634637}body.dark .home-tile,body.dark .class-card,body.dark .search,body.dark .menu-pop,body.dark .bottom-nav{background:rgba(46,35,31,.88)!important;color:#f5e8e0!important;border-color:#62483b!important}body.dark .redesigned-hero h1,body.dark .redesigned-hero p,body.dark .search input{color:#f5e8e0!important}
 </style>
 <script>
-(function(){
+document.addEventListener('DOMContentLoaded', function(){
 const pages=['homeView','classPicker','classContent','previous-year-papers','study-material','student-tools','analyticsView'];
 function show(id){pages.forEach(x=>{const e=document.getElementById(x);if(e)e.hidden=x!==id});document.querySelectorAll('.bottom-item').forEach(b=>b.classList.toggle('active',({'homeView':'home','previous-year-papers':'papers','student-tools':'tools','analyticsView':'analytics'}[id]||'')===b.dataset.bottom));window.scrollTo({top:0,behavior:'smooth'});}
 let category='notes';const names={notes:'Class Notes',questions:'Class Questions',lectures:'Class Lectures'};
@@ -166,7 +166,7 @@ const oldSetFilter=window.setFilter;document.addEventListener('click',e=>{const 
 const searchBtn=document.getElementById('searchBtn');searchBtn.onclick=()=>{const q=document.getElementById('search').value.trim();if(!q)return;show('study-material');if(typeof window.setFilter==='function')window.setFilter(q)};document.getElementById('search').addEventListener('keydown',e=>{if(e.key==='Enter')searchBtn.click()});
 // Make legacy section navigable while preserving its Supabase-backed content and tools.
 const originalRender=window.renderNotes;show('homeView');
-})();
+});
 </script>
 
 </head>
@@ -247,7 +247,7 @@ function renderNotes(){const list=allNotes.filter(n=>matches(n,activeFilter));em
 function setFilter(value){activeFilter=value;filterName.textContent=value;filterBar.classList.add('show');renderNotes();document.getElementById('study-material').scrollIntoView({behavior:'smooth',block:'start'})}
 document.querySelectorAll('[data-filter]').forEach(el=>{if(!el.onclick)el.addEventListener('click',()=>setFilter(el.dataset.filter))});
 document.getElementById('clearFilter').onclick=()=>{activeFilter='';filterBar.classList.remove('show');renderNotes()};
-async function loadNotes(){const {data,error}=await sb.from('notes').select('*').order('created_at',{ascending:false});if(error){notesEl.innerHTML='<div class="notice">❌ Notes load नहीं हो पाए। कृपया थोड़ी देर बाद फिर कोशिश करें।</div>';return}allNotes=data||[];renderNotes()}
+async function loadNotes(){try{if(typeof sb==='undefined'||!sb||!sb.from){notesEl.innerHTML='<div class="notice">⚠️ Supabase कनेक्शन नहीं मिला। GitHub Pages पर supabase-config.js फ़ाइल उपलब्ध है और उसमें सही सेटिंग्स हैं, यह जाँचें।</div>';return}const {data,error}=await sb.from('notes').select('*').order('created_at',{ascending:false});if(error){console.error('Notes load failed:',error);notesEl.innerHTML='<div class="notice">❌ Notes load नहीं हो पाए। Supabase table/permissions जाँचें और फिर कोशिश करें।</div>';return}allNotes=data||[];renderNotes()}catch(e){console.error('Notes loading error:',e);notesEl.innerHTML='<div class="notice">❌ Notes लोड करते समय error आया। Internet और Supabase configuration जाँचें।</div>'}}
 const input=document.getElementById('search');input.addEventListener('input',()=>{const q=input.value.toLowerCase().trim();document.querySelectorAll('.searchable').forEach(el=>{el.style.display=!q||el.innerText.toLowerCase().includes(q)?'':'none'});if(q){const n=allNotes.filter(x=>(x.title+' '+x.class+' '+x.subject+' '+x.file_name).toLowerCase().includes(q));if(n.length){activeFilter=q;filterName.textContent='Search: '+q;filterBar.classList.add('show');renderNotes()}}else{activeFilter='';filterBar.classList.remove('show');renderNotes()}});
 const theme=document.getElementById('theme');if(localStorage.getItem('sazal-theme')==='dark'){document.body.classList.add('dark');theme.textContent='☀️'}theme.onclick=()=>{document.body.classList.toggle('dark');const dark=document.body.classList.contains('dark');theme.textContent=dark?'☀️':'🌙';localStorage.setItem('sazal-theme',dark?'dark':'light')};
 
