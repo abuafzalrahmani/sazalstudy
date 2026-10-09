@@ -145,10 +145,11 @@ body.dark .feature-card{background:rgba(22,37,43,.66)}
 .feature-card{min-width:0}.feature-card hr{border:0;border-top:1px solid var(--border);margin:14px 0}.news-link{display:block;text-decoration:none;color:var(--text);padding:10px 0;border-bottom:1px solid var(--border);font-weight:650;font-size:14px}.news-link small{display:block;color:var(--muted);font-weight:400;margin-top:4px}.analytics-number{font-size:24px;font-weight:850}.feature-btn:disabled{opacity:.55;cursor:not-allowed}
 @media(max-width:560px){.feature-grid{grid-template-columns:1fr!important}.feature-row{flex-wrap:wrap}.feature-row>*{flex:1 1 100%}.nav{flex-wrap:wrap}.nav-actions{flex-wrap:wrap}}
 
-/* Always-visible floating install control */
-#installApp{position:fixed!important;right:18px!important;bottom:18px!important;top:auto!important;left:auto!important;z-index:99999!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:8px!important;padding:14px 18px!important;border:2px solid #fff!important;border-radius:999px!important;background:linear-gradient(135deg,#176c79,#299aa0)!important;color:#fff!important;font-size:16px!important;font-weight:850!important;box-shadow:0 8px 28px rgba(0,0,0,.28)!important;cursor:pointer!important;visibility:visible!important;opacity:1!important}
-#installApp:focus{outline:3px solid #f4c36b!important;outline-offset:3px!important}
-@media(max-width:560px){#installApp{right:12px!important;bottom:12px!important;padding:12px 15px!important;font-size:14px!important}}
+/* Install button stays in the navbar immediately beside Dark Mode */
+.nav-actions #installApp{position:static!important;inset:auto!important;z-index:auto!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:6px!important;white-space:nowrap!important;padding:10px 12px!important;border:1px solid rgba(255,255,255,.55)!important;border-radius:12px!important;background:linear-gradient(135deg,rgba(255,255,255,.25),rgba(255,255,255,.12))!important;color:#fff!important;font-size:15px!important;font-weight:750!important;box-shadow:0 6px 20px rgba(0,0,0,.08),inset 0 1px 0 rgba(255,255,255,.38)!important;cursor:pointer!important;visibility:visible!important;opacity:1!important}
+.nav-actions #installApp:hover{background:rgba(255,255,255,.32)!important;transform:translateY(-1px)}
+.nav-actions #installApp:focus{outline:3px solid #f4c36b!important;outline-offset:3px!important}
+@media(max-width:560px){.nav-actions #installApp{padding:9px 9px!important;font-size:13px!important;gap:4px!important}.nav-actions{gap:6px!important}}
 </style>
 </head>
 <body>
