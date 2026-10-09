@@ -1,0 +1,18 @@
+{
+  "name": "Sazal Study",
+  "short_name": "Sazal Study",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f8fbfa",
+  "theme_color": "#287f8b",
+  "description": "Nursery to Class 12 study notes, quizzes and learning tools.",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

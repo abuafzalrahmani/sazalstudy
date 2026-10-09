@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#287f8b">
 <meta name="description" content="Sazal Study - Nursery to Class 12 Notes, PDFs, GK, Reasoning, Brain Booster and study material">
 <title>Sazal Study | Notes, PDFs & Study Material</title>
 <style>
@@ -123,12 +124,28 @@ body.dark .quiz-tab.active{background:linear-gradient(135deg,#317e89,#4c9aa2);co
 
 
 #previous-year-papers label{display:block;font-weight:750;font-size:13px;margin-bottom:6px;color:var(--muted)}#previous-year-papers select,#previous-year-papers input{background:var(--card);color:var(--text);border:1px solid var(--border)}#paperStatus:empty{display:none}
+
+/* Sazal Study enhancements */
+.feature-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.feature-card{border:1px solid var(--border);border-radius:20px;padding:18px;background:rgba(255,255,255,.42);box-shadow:var(--shadow);backdrop-filter:blur(14px)}
+body.dark .feature-card{background:rgba(22,37,43,.66)}
+.feature-card h3{margin:0 0 8px}.feature-card p{color:var(--muted);line-height:1.65}
+.feature-btn{border:0;border-radius:11px;padding:10px 14px;background:linear-gradient(135deg,#317e89,#4c9aa2);color:#fff;font-weight:800;cursor:pointer}
+.feature-input,.feature-select{max-width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;background:var(--card);color:var(--text)}
+.feature-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.ca-item{padding:12px 0;border-bottom:1px solid var(--border)}.ca-item:last-child{border-bottom:0}
+.save-note{margin-top:10px;width:100%;border:1px solid var(--border);border-radius:10px;padding:9px;background:rgba(80,150,160,.10);color:var(--text);font-weight:750;cursor:pointer}
+.save-note.saved{border-color:#29966d;color:#16845c}
+.saved-list{display:grid;gap:9px}.saved-row{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:10px;border:1px solid var(--border);border-radius:12px}
+#installApp{display:none}
+@media(max-width:560px){.feature-grid{grid-template-columns:1fr}.feature-card{padding:15px}}
+
 </style>
 </head>
 <body>
 <header class="top">
 <div class="container">
-<nav class="nav"><div class="brand">📚 Sazal <span>Study</span></div><div class="nav-actions"><a class="nav-link" href="#previous-year-papers">📄 Papers</a><a class="nav-link admin" href="admin.html">👤 Admin</a><a class="nav-link plus" href="admin.html#upload" aria-label="Upload PDF or Image" title="Upload PDF / Image">＋</a><button id="theme" aria-label="Dark mode" title="Dark mode">🌙</button></div></nav>
+<nav class="nav"><div class="brand">📚 Sazal <span>Study</span></div><div class="nav-actions"><a class="nav-link" href="#previous-year-papers">📄 Papers</a><a class="nav-link admin" href="admin.html">👤 Admin</a><a class="nav-link plus" href="admin.html#upload" aria-label="Upload PDF or Image" title="Upload PDF / Image">＋</a><button id="theme" aria-label="Dark mode" title="Dark mode">🌙</button><button id="installApp" type="button" title="Install Sazal Study">📲 Install</button></div></nav>
 <div class="hero"><h1>आपकी पढ़ाई,<br>आपकी कामयाबी की तैयारी</h1><p>Nursery से Class 12 तक notes, PDFs, GK, Reasoning और Brain Booster — आपकी पढ़ाई का पूरा साथी, एक ही जगह।</p><div class="search"><input id="search" type="search" placeholder="Class, subject या study material खोजें..."><button type="button">🔍 Search</button></div></div>
 </div></header>
 <main class="container">
@@ -154,6 +171,33 @@ body.dark .quiz-tab.active{background:linear-gradient(135deg,#317e89,#4c9aa2);co
 <div class="card" style="margin-bottom:16px"><div class="subjects" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))"><div><label for="paperBoard">Board</label><select id="paperBoard" style="width:100%;padding:11px;border-radius:10px"><option value="">All Boards</option><option>Bihar Board</option><option>CBSE</option><option>ICSE</option><option>Other</option></select></div><div><label for="paperClass">Class</label><select id="paperClass" style="width:100%;padding:11px;border-radius:10px"><option value="">All Classes</option><option>Class 1</option><option>Class 2</option><option>Class 3</option><option>Class 4</option><option>Class 5</option><option>Class 6</option><option>Class 7</option><option>Class 8</option><option>Class 9</option><option>Class 10</option><option>Class 11</option><option>Class 12</option></select></div><div><label for="paperSubject">Subject</label><input id="paperSubject" placeholder="Subject खोजें" style="width:100%;padding:11px;border-radius:10px"></div><div><label for="paperYear">Year</label><select id="paperYear" style="width:100%;padding:11px;border-radius:10px"><option value="">All Years</option><option>2026</option><option>2025</option><option>2024</option><option>2023</option><option>2022</option><option>2021</option><option>2020</option><option>2019</option><option>2018</option><option>2017</option><option>2016</option><option>2015</option><option>2014</option><option>2013</option><option>2012</option><option>2011</option><option>2010</option></select></div></div></div>
 <div id="paperStatus" class="notice">⏳ Previous Year Papers load हो रहे हैं...</div><div id="paperResults" class="materials"></div></section>
 <section id="study-material"><div class="section-title"><div><h2>📄 Latest Uploaded Notes</h2><p>Admin से upload की गई latest files यहाँ automatically आएँगी</p></div></div><div id="filterBar" class="filter-bar"><div>🔎 <span class="filter-name" id="filterName"></span></div><button class="clear" id="clearFilter">✕ सभी notes दिखाएँ</button></div><div id="notes" class="materials"><div class="loading">⏳ Notes load हो रहे हैं...</div></div><div class="empty" id="empty">इस category में अभी कोई material नहीं मिला।</div></section>
+
+<section id="student-tools">
+ <div class="section-title"><div><h2>✨ Student Tools</h2><p>Exam countdown, daily current affairs, saved notes और quiz ranking</p></div></div>
+ <div class="feature-grid">
+  <article class="feature-card">
+   <h3>⏳ Exam Countdown</h3>
+   <p id="countdownText">अपनी परीक्षा की तारीख चुनें। तारीख इस browser में save रहेगी।</p>
+   <div class="feature-row"><input class="feature-input" type="date" id="examDate" aria-label="Exam date"><button class="feature-btn" id="saveExamDate" type="button">तारीख Save करें</button></div>
+  </article>
+  <article class="feature-card">
+   <h3>📰 Daily Current Affairs & GK</h3>
+   <p>अभ्यास के लिए सवाल। ये built-in practice questions हैं, live news feed नहीं।</p>
+   <div id="dailyAffairs"></div><button class="feature-btn" id="newAffairs" type="button">दूसरा सवाल</button>
+  </article>
+  <article class="feature-card">
+   <h3>🔖 My Saved Notes</h3>
+   <p>Notes के नीचे Save button दबाकर उन्हें यहाँ bookmark करें। Saved notes इसी browser में रहेंगे।</p>
+   <div id="savedNotes" class="saved-list"></div>
+  </article>
+  <article class="feature-card">
+   <h3>🏆 Quiz Leaderboard</h3>
+   <p>इस device/browser पर दर्ज quiz scores की ranking। यह अभी shared global leaderboard नहीं है।</p>
+   <div id="localLeaderboard"></div><button class="feature-btn" id="clearScores" type="button">मेरे scores हटाएँ</button>
+  </article>
+ </div>
+</section>
+
 <section><div class="section-title"><div><h2>📘 कैसे इस्तेमाल करें?</h2><p>Class/Subject पर click करें, फिर View या Download चुनें।</p></div></div><div class="notice">📌 <b>View</b> file को browser में खोलता है। <b>Download</b> file को device में save करने की कोशिश करता है। PDF और images दोनों supported हैं।</div></section>
 </main><footer>© 2026 Sazal Study • आपकी पढ़ाई, आपकी तैयारी</footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script>
@@ -165,7 +209,7 @@ function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&l
 function isImage(n){const t=(n.file_type||'').toLowerCase(),f=(n.file_name||'').toLowerCase();return t.startsWith('image/')||/\.(jpg|jpeg|png|gif|webp|bmp|svg)$/i.test(f)}
 function getDownloadUrl(url,name){if(!url)return '#';try{const u=new URL(url);u.searchParams.set('download',name||'file');return u.toString()}catch(e){return url+(url.includes('?')?'&':'?')+'download='+encodeURIComponent(name||'file')}}
 function matches(n,filter){if(!filter)return true;const f=filter.toLowerCase();return [n.title,n.class,n.subject,n.file_name].some(v=>String(v||'').toLowerCase().includes(f))}
-function renderNotes(){const list=allNotes.filter(n=>matches(n,activeFilter));empty.style.display=list.length?'none':'block';notesEl.innerHTML=list.length?list.map(n=>{const image=isImage(n),viewLabel=image?'🖼️ View Image':'👁️ View';const type=image?'IMAGE':'PDF / FILE';return `<article class="card material note-card"><h3 class="note-title">${esc(n.title||n.file_name||'Study Material')} <span class="file-type">${type}</span></h3><div class="note-meta">${esc(n.class||'General')} • ${esc(n.subject||'Study Material')}</div><p>${esc(n.file_name||'Uploaded material')}</p><div class="material-actions"><a class="action view" href="${esc(n.file_url)}" target="_blank" rel="noopener">${viewLabel}</a><a class="action download" href="${esc(getDownloadUrl(n.file_url,n.file_name))}" download>⬇️ Download</a></div></article>`}).join(''):'<div class="notice no-material">अभी इस filter के लिए कोई uploaded material नहीं है।</div>'}
+function renderNotes(){const list=allNotes.filter(n=>matches(n,activeFilter));empty.style.display=list.length?'none':'block';notesEl.innerHTML=list.length?list.map(n=>{const image=isImage(n),viewLabel=image?'🖼️ View Image':'👁️ View';const type=image?'IMAGE':'PDF / FILE';return `<article class="card material note-card"><h3 class="note-title">${esc(n.title||n.file_name||'Study Material')} <span class="file-type">${type}</span></h3><div class="note-meta">${esc(n.class||'General')} • ${esc(n.subject||'Study Material')}</div><p>${esc(n.file_name||'Uploaded material')}</p><div class="material-actions"><a class="action view" href="${esc(n.file_url)}" target="_blank" rel="noopener">${viewLabel}</a><a class="action download" href="${esc(getDownloadUrl(n.file_url,n.file_name))}" download>⬇️ Download</a></div><button type="button" class="save-note" data-save-note="${esc(n.id)}">🔖 Save to My Notes</button></article>`}).join(''):'<div class="notice no-material">अभी इस filter के लिए कोई uploaded material नहीं है।</div>'}
 function setFilter(value){activeFilter=value;filterName.textContent=value;filterBar.classList.add('show');renderNotes();document.getElementById('study-material').scrollIntoView({behavior:'smooth',block:'start'})}
 document.querySelectorAll('[data-filter]').forEach(el=>{if(!el.onclick)el.addEventListener('click',()=>setFilter(el.dataset.filter))});
 document.getElementById('clearFilter').onclick=()=>{activeFilter='';filterBar.classList.remove('show');renderNotes()};
@@ -238,6 +282,61 @@ async function loadAdminQuestions(){
 }
 renderQuiz();
 loadAdminQuestions();
+
+
+// Student tools: local preferences, bookmarks, practice current affairs, and device-local score list.
+const STORE_KEYS={exam:'sazal-exam-date',saved:'sazal-saved-notes',scores:'sazal-local-scores'};
+function readLocal(key,fallback){try{const v=JSON.parse(localStorage.getItem(key));return v??fallback}catch(e){return fallback}}
+function writeLocal(key,value){try{localStorage.setItem(key,JSON.stringify(value));return true}catch(e){return false}}
+function renderSavedNotes(){
+ const host=document.getElementById('savedNotes');if(!host)return;
+ const ids=readLocal(STORE_KEYS.saved,[]);
+ const rows=ids.map(id=>allNotes.find(n=>String(n.id)===String(id))).filter(Boolean);
+ host.innerHTML=rows.length?rows.map(n=>`<div class="saved-row"><div><b>${esc(n.title||n.file_name||'Study Material')}</b><div class="note-meta">${esc(n.class||'General')} • ${esc(n.subject||'Study Material')}</div></div><div class="feature-row"><a class="action view" href="${esc(n.file_url)}" target="_blank" rel="noopener">खोलें</a><button class="feature-btn" type="button" data-unsave="${esc(n.id)}">हटाएँ</button></div></div>`).join(''):'<p>अभी कोई note save नहीं है।</p>';
+ host.querySelectorAll('[data-unsave]').forEach(b=>b.onclick=()=>{writeLocal(STORE_KEYS.saved,readLocal(STORE_KEYS.saved,[]).filter(id=>String(id)!==String(b.dataset.unsave)));renderSavedNotes();renderNotes()});
+}
+function refreshSaveButtons(){
+ document.querySelectorAll('[data-save-note]').forEach(b=>{const saved=readLocal(STORE_KEYS.saved,[]).some(id=>String(id)===String(b.dataset.saveNote));b.classList.toggle('saved',saved);b.textContent=saved?'✓ Saved — My Notes से हटाएँ':'🔖 Save to My Notes'});
+}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-save-note]');if(!b)return;const id=b.dataset.saveNote;let ids=readLocal(STORE_KEYS.saved,[]);ids=ids.some(x=>String(x)===String(id))?ids.filter(x=>String(x)!==String(id)):[...ids,id];writeLocal(STORE_KEYS.saved,ids);renderSavedNotes();refreshSaveButtons()});
+const originalRenderNotes=renderNotes;
+renderNotes=function(){originalRenderNotes();refreshSaveButtons();renderSavedNotes()};
+
+function renderCountdown(){
+ const input=document.getElementById('examDate'),out=document.getElementById('countdownText');if(!input||!out)return;
+ const raw=localStorage.getItem(STORE_KEYS.exam)||'';input.value=raw;
+ if(!raw){out.textContent='अपनी परीक्षा की तारीख चुनें। तारीख इस browser में save रहेगी।';return}
+ const target=new Date(raw+'T00:00:00');const today=new Date();today.setHours(0,0,0,0);
+ const days=Math.ceil((target-today)/86400000);
+ out.textContent=days>0?`परीक्षा में ${days} दिन बाकी हैं। तैयारी जारी रखें!`:days===0?'आज आपकी चुनी हुई परीक्षा की तारीख है। शुभकामनाएँ!':'चुनी गई तारीख बीत चुकी है। नई तारीख चुनें।';
+}
+document.getElementById('saveExamDate')?.addEventListener('click',()=>{const v=document.getElementById('examDate').value;if(!v){alert('पहले परीक्षा की तारीख चुनें।');return}localStorage.setItem(STORE_KEYS.exam,v);renderCountdown()});
+renderCountdown();
+
+const affairs=[
+ {q:'भारत का संविधान दिवस कब मनाया जाता है?',o:['15 अगस्त','26 नवंबर','26 जनवरी','2 अक्टूबर'],a:1,e:'संविधान दिवस 26 नवंबर को मनाया जाता है।'},
+ {q:'भारत की राजधानी क्या है?',o:['मुंबई','नई दिल्ली','कोलकाता','चेन्नई'],a:1,e:'भारत की राजधानी नई दिल्ली है।'},
+ {q:'सौरमंडल का सबसे बड़ा ग्रह कौन-सा है?',o:['मंगल','बृहस्पति','शुक्र','बुध'],a:1,e:'बृहस्पति सौरमंडल का सबसे बड़ा ग्रह है।'},
+ {q:'पानी का रासायनिक सूत्र क्या है?',o:['CO₂','H₂O','O₂','NaCl'],a:1,e:'पानी का रासायनिक सूत्र H₂O है।'},
+ {q:'भारत का राष्ट्रीय पक्षी कौन है?',o:['तोता','मोर','हंस','कबूतर'],a:1,e:'भारत का राष्ट्रीय पक्षी मोर है।'}
+];
+let affairsIndex=(Math.floor(Date.now()/86400000)%affairs.length);
+function renderAffair(){const host=document.getElementById('dailyAffairs');if(!host)return;const x=affairs[affairsIndex];host.innerHTML=`<div class="ca-item"><b>${esc(x.q)}</b><div class="feature-row" style="margin-top:9px">${x.o.map((v,i)=>`<button class="quiz-option" type="button" data-affair="${i}" style="min-height:40px;padding:9px">${String.fromCharCode(65+i)}. ${esc(v)}</button>`).join('')}</div><p id="affairFeedback" aria-live="polite"></p></div>`;host.querySelectorAll('[data-affair]').forEach(b=>b.onclick=()=>{host.querySelectorAll('[data-affair]').forEach(x=>x.disabled=true);document.getElementById('affairFeedback').textContent=(Number(b.dataset.affair)===x.a?'✅ सही जवाब! ':'❌ सही जवाब: '+x.o[x.a]+'. ')+x.e;});}
+document.getElementById('newAffairs')?.addEventListener('click',()=>{affairsIndex=(affairsIndex+1)%affairs.length;renderAffair()});renderAffair();
+
+function renderLeaderboard(){const host=document.getElementById('localLeaderboard');if(!host)return;const rows=readLocal(STORE_KEYS.scores,[]).sort((a,b)=>b.pct-a.pct||b.date.localeCompare(a.date)).slice(0,10);host.innerHTML=rows.length?'<ol>'+rows.map(x=>`<li>${esc(x.category)} — <b>${x.score}/${x.total} (${x.pct}%)</b> <small>${esc(x.date)}</small></li>`).join('')+'</ol>':'<p>Quiz पूरा करने पर आपका score यहाँ दिखेगा।</p>'}
+function recordLocalScore(category,score,total){const rows=readLocal(STORE_KEYS.scores,[]);rows.push({category,score,total,pct:Math.round(score/total*100),date:new Date().toLocaleDateString('en-IN')});writeLocal(STORE_KEYS.scores,rows.slice(-50));renderLeaderboard()}
+document.getElementById('clearScores')?.addEventListener('click',()=>{if(confirm('क्या इस browser के सभी saved quiz scores हटाएँ?')){localStorage.removeItem(STORE_KEYS.scores);renderLeaderboard()}});
+renderLeaderboard();
+// Save each completed quiz once; existing quiz flow and Supabase questions remain intact.
+const quizBoxForScore=document.getElementById('quizBox');
+if(quizBoxForScore){const quizObserver=new MutationObserver(()=>{const result=quizBoxForScore.querySelector('.quiz-result');if(!result||result.dataset.scoreSaved)return;result.dataset.scoreSaved='1';recordLocalScore(quizCategory,quizScore,quizSets[quizCategory]?.length||1)});quizObserver.observe(quizBoxForScore,{childList:true,subtree:true});}
+
+// Progressive Web App install prompt. The app manifest/service worker are provided as separate files.
+let installPromptEvent=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPromptEvent=e;const b=document.getElementById('installApp');if(b)b.style.display='inline-block'});
+document.getElementById('installApp')?.addEventListener('click',async()=>{if(!installPromptEvent){alert('अगर Install बटन उपलब्ध नहीं है, browser menu में “Add to Home screen” या “Install app” देखें।');return}installPromptEvent.prompt();await installPromptEvent.userChoice;installPromptEvent=null;document.getElementById('installApp').style.display='none'});
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(err=>console.warn('PWA offline support not enabled:',err)));
 
 loadNotes();
 
