@@ -239,11 +239,11 @@ async function loadAdminQuestions(){
 renderQuiz();
 loadAdminQuestions();
 
-loadNotes();loadPapers();
+loadNotes();
 
 // Public Previous Year Papers list. Only published rows are displayed.
 const paperResults=document.getElementById('paperResults'),paperStatus=document.getElementById('paperStatus');let allPapers=[];
 function renderPapers(){if(!paperResults)return;const board=document.getElementById('paperBoard').value,cl=document.getElementById('paperClass').value,sub=document.getElementById('paperSubject').value.trim().toLowerCase(),year=document.getElementById('paperYear').value;const rows=allPapers.filter(p=>(!board||p.board===board)&&(!cl||p.class_level===cl)&&(!year||String(p.year)===year)&&(!sub||String(p.subject||'').toLowerCase().includes(sub)));paperResults.innerHTML=rows.length?rows.map(p=>`<article class="card material"><h3>${esc(p.title||'Previous Year Paper')}</h3><div class="note-meta">${esc(p.board)} • ${esc(p.class_level)} • ${esc(p.subject)} • ${esc(p.year)}</div><p>📄 ${esc(p.file_name||'PDF Question Paper')}</p><div class="material-actions"><a class="action view" href="${esc(p.file_url)}" target="_blank" rel="noopener">👁️ View PDF</a><a class="action download" href="${esc(getDownloadUrl(p.file_url,p.file_name||'paper.pdf'))}" target="_blank" rel="noopener">⬇️ Download</a></div></article>`).join(''):'<div class="notice no-material">इस filter में अभी कोई paper नहीं मिला।</div>';}
 async function loadPapers(){if(!paperResults)return;const {data,error}=await sb.from('previous_year_papers').select('id,title,board,class_level,subject,year,file_url,file_name').eq('is_published',true).order('year',{ascending:false});if(error){paperStatus.textContent='Papers अभी load नहीं हो पाए। Admin से setup check करवाएँ।';return}allPapers=data||[];paperStatus.textContent=allPapers.length?`✅ ${allPapers.length} published paper(s) उपलब्ध हैं।`:'अभी कोई paper publish नहीं किया गया है।';renderPapers()}
 ['paperBoard','paperClass','paperSubject','paperYear'].forEach(id=>document.getElementById(id)?.addEventListener('input',renderPapers));
-</script></body></html>
+loadPapers();</script></body></html>
