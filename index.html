@@ -140,6 +140,10 @@ body.dark .feature-card{background:rgba(22,37,43,.66)}
 #installApp{display:none}
 @media(max-width:560px){.feature-grid{grid-template-columns:1fr}.feature-card{padding:15px}}
 
+
+.feature-input{min-width:0;width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--text)}
+.feature-card{min-width:0}.feature-card hr{border:0;border-top:1px solid var(--border);margin:14px 0}.news-link{display:block;text-decoration:none;color:var(--text);padding:10px 0;border-bottom:1px solid var(--border);font-weight:650;font-size:14px}.news-link small{display:block;color:var(--muted);font-weight:400;margin-top:4px}.analytics-number{font-size:24px;font-weight:850}.feature-btn:disabled{opacity:.55;cursor:not-allowed}
+@media(max-width:560px){.feature-grid{grid-template-columns:1fr!important}.feature-row{flex-wrap:wrap}.feature-row>*{flex:1 1 100%}.nav{flex-wrap:wrap}.nav-actions{flex-wrap:wrap}}
 </style>
 </head>
 <body>
@@ -182,7 +186,8 @@ body.dark .feature-card{background:rgba(22,37,43,.66)}
   </article>
   <article class="feature-card">
    <h3>📰 Daily Current Affairs & GK</h3>
-   <p>अभ्यास के लिए सवाल। ये built-in practice questions हैं, live news feed नहीं।</p>
+   <p>आज की headlines load करें और साथ में GK practice भी करें।</p>
+   <div id="liveNewsStatus" class="note-meta">Live headlines load हो रही हैं…</div><div id="liveNews"></div>
    <div id="dailyAffairs"></div><button class="feature-btn" id="newAffairs" type="button">दूसरा सवाल</button>
   </article>
   <article class="feature-card">
@@ -195,6 +200,8 @@ body.dark .feature-card{background:rgba(22,37,43,.66)}
    <p>इस device/browser पर दर्ज quiz scores की ranking। यह अभी shared global leaderboard नहीं है।</p>
    <div id="localLeaderboard"></div><button class="feature-btn" id="clearScores" type="button">मेरे scores हटाएँ</button>
   </article>
+  <article class="feature-card"><h3>🔔 New Notes Notifications</h3><p>नई notes के लिए browser notification allow करें। यह तभी check करेगा जब website खुली हो।</p><button class="feature-btn" id="enableNotifications" type="button">🔔 Notifications चालू करें</button><div id="notificationStatus" class="note-meta"></div></article>
+  <article class="feature-card"><h3>📈 Website Analytics</h3><p>Anonymous page visits और note clicks का count (किसी का नाम या email नहीं)। Supabase setup जरूरी है।</p><div id="analyticsSummary">Analytics setup check हो रहा है…</div></article>
  </div>
 </section>
 
@@ -325,7 +332,7 @@ function renderAffair(){const host=document.getElementById('dailyAffairs');if(!h
 document.getElementById('newAffairs')?.addEventListener('click',()=>{affairsIndex=(affairsIndex+1)%affairs.length;renderAffair()});renderAffair();
 
 function renderLeaderboard(){const host=document.getElementById('localLeaderboard');if(!host)return;const rows=readLocal(STORE_KEYS.scores,[]).sort((a,b)=>b.pct-a.pct||b.date.localeCompare(a.date)).slice(0,10);host.innerHTML=rows.length?'<ol>'+rows.map(x=>`<li>${esc(x.category)} — <b>${x.score}/${x.total} (${x.pct}%)</b> <small>${esc(x.date)}</small></li>`).join('')+'</ol>':'<p>Quiz पूरा करने पर आपका score यहाँ दिखेगा।</p>'}
-function recordLocalScore(category,score,total){const rows=readLocal(STORE_KEYS.scores,[]);rows.push({category,score,total,pct:Math.round(score/total*100),date:new Date().toLocaleDateString('en-IN')});writeLocal(STORE_KEYS.scores,rows.slice(-50));renderLeaderboard()}
+function recordLocalScore(category,score,total){const rows=readLocal(STORE_KEYS.scores,[]);rows.push({category,score,total,pct:Math.round(score/total*100),date:new Date().toLocaleDateString('en-IN')});writeLocal(STORE_KEYS.scores,rows.slice(-50));renderLeaderboard();submitGlobalScore(category,score,total)}
 document.getElementById('clearScores')?.addEventListener('click',()=>{if(confirm('क्या इस browser के सभी saved quiz scores हटाएँ?')){localStorage.removeItem(STORE_KEYS.scores);renderLeaderboard()}});
 renderLeaderboard();
 // Save each completed quiz once; existing quiz flow and Supabase questions remain intact.
@@ -337,6 +344,38 @@ let installPromptEvent=null;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPromptEvent=e;const b=document.getElementById('installApp');if(b)b.style.display='inline-block'});
 document.getElementById('installApp')?.addEventListener('click',async()=>{if(!installPromptEvent){alert('अगर Install बटन उपलब्ध नहीं है, browser menu में “Add to Home screen” या “Install app” देखें।');return}installPromptEvent.prompt();await installPromptEvent.userChoice;installPromptEvent=null;document.getElementById('installApp').style.display='none'});
 if('serviceWorker' in navigator && location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(err=>console.warn('PWA offline support not enabled:',err)));
+
+
+// Live headlines via RSS-to-JSON public endpoint. If the proxy is unavailable, the Google News link remains available.
+async function loadLiveHeadlines(){
+ const host=document.getElementById('liveNews'),status=document.getElementById('liveNewsStatus');if(!host||!status)return;
+ const fallback='<a class="news-link" href="https://news.google.com/search?q=India%20education%20current%20affairs&hl=en-IN&gl=IN&ceid=IN%3Aen" target="_blank" rel="noopener">Google News: India & Education Current Affairs ↗<small>Live headlines खोलने के लिए क्लिक करें</small></a>';
+ try{const url='https://api.rss2json.com/v1/api.json?rss_url='+encodeURIComponent('https://news.google.com/rss/search?q=India+current+affairs+education&hl=en-IN&gl=IN&ceid=IN:en');const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw Error('RSS unavailable');const j=await r.json();const items=(j.items||[]).slice(0,5);if(!items.length)throw Error('No headlines');host.innerHTML=items.map(x=>`<a class="news-link" href="${esc(x.link||'https://news.google.com/')}" target="_blank" rel="noopener">${esc(x.title||'News headline')}<small>${esc((x.pubDate||'').slice(0,16))} • Source: news feed</small></a>`).join('');status.textContent='Live RSS headlines • बाहरी news feed से';}
+ catch(e){host.innerHTML=fallback;status.textContent='Live feed proxy अभी उपलब्ध नहीं; नीचे Google News खोलें।';}
+}
+loadLiveHeadlines();
+
+// Anonymous analytics: requires the optional site_events table in setup SQL.
+async function trackSiteEvent(eventType,details={}){try{if(typeof sb==='undefined')return;const {error}=await sb.from('site_events').insert({event_type:eventType,details});if(error)throw error;}catch(e){console.info('Analytics table not configured or event could not be saved.');}}
+trackSiteEvent('page_view',{path:location.pathname});
+document.addEventListener('click',e=>{const a=e.target.closest('a.action');if(a&&a.href)trackSiteEvent(a.classList.contains('download')?'note_download_click':'note_view_click',{path:location.pathname});});
+async function loadAnalyticsSummary(){const el=document.getElementById('analyticsSummary');if(!el)return;try{const {count,error}=await sb.from('site_events').select('id',{count:'exact',head:true}).eq('event_type','page_view');if(error)throw error;el.innerHTML=`<div class="analytics-number">${Number(count||0).toLocaleString('en-IN')}</div><small>Recorded page visits</small>`;}catch(e){el.textContent='Analytics के लिए setup SQL चलाना बाकी है।';}}
+loadAnalyticsSummary();
+
+// Notifications while this page is open (not background push). Checks the public notes table periodically.
+const noteNotifyKey='sazal-last-notified-note';let notificationPrimed=false;
+const notifyStatus=document.getElementById('notificationStatus');
+async function checkNewNotes(showNotice=false){try{if(typeof sb==='undefined')return;const {data,error}=await sb.from('notes').select('id,title,file_name,created_at').order('created_at',{ascending:false}).limit(1);if(error||!data?.length)return;const latest=data[0],prev=localStorage.getItem(noteNotifyKey);if(!prev){localStorage.setItem(noteNotifyKey,String(latest.id));return}if(String(latest.id)!==prev){localStorage.setItem(noteNotifyKey,String(latest.id));if(showNotice&&Notification.permission==='granted'&&notificationPrimed){new Notification('Sazal Study: New Notes',{body:latest.title||latest.file_name||'नई study material upload हुई है।'});}if(notifyStatus)notifyStatus.textContent='नई notes check हुईं।';}}
+ catch(e){console.info('Note notification check unavailable.');}}
+document.getElementById('enableNotifications')?.addEventListener('click',async()=>{if(!('Notification' in window)){notifyStatus.textContent='यह browser notifications support नहीं करता।';return}const permission=await Notification.requestPermission();if(permission==='granted'){notificationPrimed=true;await checkNewNotes(false);notifyStatus.textContent='Notifications permission चालू है। नई notes check करने के लिए website खुली रखें।';}else notifyStatus.textContent='Browser settings में notification permission allow करें।'});
+checkNewNotes(false);setInterval(()=>checkNewNotes(true),120000);
+
+// Shared global leaderboard: requires quiz_leaderboard table and policies in setup SQL.
+const nameInput=document.getElementById('leaderName');if(nameInput)nameInput.value=localStorage.getItem('sazal-leader-name')||'';
+document.getElementById('saveLeaderName')?.addEventListener('click',()=>{const n=(nameInput.value||'').trim().replace(/[<>]/g,'').slice(0,24);if(!n){alert('Nickname लिखें।');return}localStorage.setItem('sazal-leader-name',n);nameInput.value=n;const st=document.getElementById('leaderboardStatus');if(st)st.textContent='Nickname इस browser में save हो गया।';});
+async function loadGlobalLeaderboard(){const host=document.getElementById('globalLeaderboard'),st=document.getElementById('leaderboardStatus');if(!host)return;try{const {data,error}=await sb.from('quiz_leaderboard').select('nickname,category,score,total,created_at').order('score',{ascending:false}).limit(10);if(error)throw error;host.innerHTML=(data||[]).length?'<ol>'+data.map(r=>`<li><b>${esc(r.nickname)}</b> — ${esc(r.category)}: ${Number(r.score)}/${Number(r.total)} <small>${Math.round(Number(r.score)/Math.max(1,Number(r.total))*100)}%</small></li>`).join('')+'</ol>':'<p>अभी global scores नहीं हैं। Quiz पूरा करके पहला score बनें!</p>';if(st)st.textContent='Shared leaderboard • top 10 scores';}catch(e){host.textContent='Global leaderboard चालू करने के लिए setup SQL चलाएँ।';if(st)st.textContent='Supabase setup pending';}}
+async function submitGlobalScore(category,score,total){const nickname=(localStorage.getItem('sazal-leader-name')||'').trim();if(!nickname)return;try{const {error}=await sb.from('quiz_leaderboard').insert({nickname,category:String(category).slice(0,40),score:Number(score),total:Number(total)});if(error)throw error;loadGlobalLeaderboard();}catch(e){console.info('Global leaderboard needs database setup.');}}
+loadGlobalLeaderboard();
 
 loadNotes();
 
