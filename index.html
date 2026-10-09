@@ -151,9 +151,15 @@ body.dark .feature-card{background:rgba(22,37,43,.66)}
 .nav-actions #installApp:focus{outline:3px solid #f4c36b!important;outline-offset:3px!important}
 @media(max-width:560px){.nav-actions #installApp{padding:9px 9px!important;font-size:13px!important;gap:4px!important}.nav-actions{gap:6px!important}}
 
-/* Uploaded study files and previous-year PDFs stay hidden until a class is selected or a search is performed. */
-#study-material,#previous-year-papers{display:none!important}
-#study-material.show-section,#previous-year-papers.show-section{display:block!important}
+/* Uploaded notes stay hidden on the homepage; Previous Year Papers search controls remain visible. */
+#study-material{display:none!important}
+#study-material.show-section{display:block!important}
+#previous-year-papers{display:block!important}
+#paperResults{display:none}
+#paperResults.show-results{display:grid}
+#paperStatus{display:none}
+#searchPapersBtn{margin-top:12px;border:0;border-radius:12px;padding:12px 18px;background:linear-gradient(135deg,#277f8a,#4b9ca3);color:#fff;font-weight:800;cursor:pointer}
+#paperSearchHint{margin:10px 0;color:var(--muted);font-size:13px}
 </style>
 </head>
 <body>
@@ -183,7 +189,7 @@ body.dark .feature-card{background:rgba(22,37,43,.66)}
 
 <section id="previous-year-papers"><div class="section-title"><div><h2>📄 Previous Year Papers</h2><p>Board, Class, Subject और Year के अनुसार पुराने question papers खोजें।</p></div></div>
 <div class="card" style="margin-bottom:16px"><div class="subjects" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))"><div><label for="paperBoard">Board</label><select id="paperBoard" style="width:100%;padding:11px;border-radius:10px"><option value="">All Boards</option><option>Bihar Board</option><option>CBSE</option><option>ICSE</option><option>Other</option></select></div><div><label for="paperClass">Class</label><select id="paperClass" style="width:100%;padding:11px;border-radius:10px"><option value="">All Classes</option><option>Class 1</option><option>Class 2</option><option>Class 3</option><option>Class 4</option><option>Class 5</option><option>Class 6</option><option>Class 7</option><option>Class 8</option><option>Class 9</option><option>Class 10</option><option>Class 11</option><option>Class 12</option></select></div><div><label for="paperSubject">Subject</label><input id="paperSubject" placeholder="Subject खोजें" style="width:100%;padding:11px;border-radius:10px"></div><div><label for="paperYear">Year</label><select id="paperYear" style="width:100%;padding:11px;border-radius:10px"><option value="">All Years</option><option>2026</option><option>2025</option><option>2024</option><option>2023</option><option>2022</option><option>2021</option><option>2020</option><option>2019</option><option>2018</option><option>2017</option><option>2016</option><option>2015</option><option>2014</option><option>2013</option><option>2012</option><option>2011</option><option>2010</option></select></div></div></div>
-<div id="paperStatus" class="notice">⏳ Previous Year Papers load हो रहे हैं...</div><div id="paperResults" class="materials"></div></section>
+<button id="searchPapersBtn" type="button">🔍 Search Previous Year Papers</button><p id="paperSearchHint">PDF देखने के लिए Board, Class, Subject और Year चुनकर Search दबाएँ। बिना पूरी जानकारी के कोई PDF नहीं दिखेगी।</p><div id="paperStatus" class="notice">⏳ Previous Year Papers load हो रहे हैं...</div><div id="paperResults" class="materials"></div></section>
 <section id="study-material"><div class="section-title"><div><h2>📄 Latest Uploaded Notes</h2><p>Admin से upload की गई latest files यहाँ automatically आएँगी</p></div></div><div id="filterBar" class="filter-bar"><div>🔎 <span class="filter-name" id="filterName"></span></div><button class="clear" id="clearFilter">✕ Homepage पर वापस जाएँ</button></div><div id="notes" class="materials"><div class="loading">⏳ Notes load हो रहे हैं...</div></div><div class="empty" id="empty">इस category में अभी कोई material नहीं मिला।</div></section>
 
 <section id="student-tools">
@@ -393,7 +399,34 @@ loadNotes();
 
 // Public Previous Year Papers list. Only published rows are displayed.
 const paperResults=document.getElementById('paperResults'),paperStatus=document.getElementById('paperStatus');let allPapers=[];
-function renderPapers(){if(!paperResults)return;const board=document.getElementById('paperBoard').value,cl=document.getElementById('paperClass').value,sub=document.getElementById('paperSubject').value.trim().toLowerCase(),year=document.getElementById('paperYear').value,q=(document.getElementById('search')?.value||'').trim().toLowerCase();const rows=allPapers.filter(p=>(!board||p.board===board)&&(!cl||String(p.class_level).toLowerCase()===cl.toLowerCase())&&(!year||String(p.year)===year)&&(!sub||String(p.subject||'').toLowerCase().includes(sub))&&(!q||[p.title,p.class_level,p.subject,p.file_name,p.board,String(p.year)].some(v=>String(v||'').toLowerCase().includes(q))));paperResults.innerHTML=rows.length?rows.map(p=>`<article class="card material"><h3>${esc(p.title||'Previous Year Paper')}</h3><div class="note-meta">${esc(p.board)} • ${esc(p.class_level)} • ${esc(p.subject)} • ${esc(p.year)}</div><p>📄 ${esc(p.file_name||'PDF Question Paper')}</p><div class="material-actions"><a class="action view" href="${esc(p.file_url)}" target="_blank" rel="noopener">👁️ View PDF</a><a class="action download" href="${esc(getDownloadUrl(p.file_url,p.file_name||'paper.pdf'))}" target="_blank" rel="noopener">⬇️ Download</a></div></article>`).join(''):'<div class="notice no-material">इस filter में अभी कोई paper नहीं मिला।</div>';}
+let papersSearchSubmitted=false;
+function renderPapers(){
+ if(!paperResults)return;
+ const board=document.getElementById('paperBoard').value;
+ const cl=document.getElementById('paperClass').value;
+ const sub=document.getElementById('paperSubject').value.trim().toLowerCase();
+ const year=document.getElementById('paperYear').value;
+ const q=(document.getElementById('search')?.value||'').trim().toLowerCase();
+ // Do not show any paper until the user explicitly searches with class, subject and year.
+ if(!papersSearchSubmitted || !cl || !sub || !year){
+   paperResults.classList.remove('show-results');
+   paperResults.innerHTML='';
+   document.getElementById('paperSearchHint').textContent='PDF देखने के लिए Board (वैकल्पिक), Class, Subject और Year चुनकर Search दबाएँ। Class, Subject और Year ज़रूरी हैं।';
+   return;
+ }
+ const rows=allPapers.filter(p=>(!board||String(p.board||'')===board)&&String(p.class_level||'').toLowerCase()===cl.toLowerCase()&&String(p.year)===year&&String(p.subject||'').toLowerCase().includes(sub)&&(!q||[p.title,p.class_level,p.subject,p.file_name,p.board,String(p.year)].some(v=>String(v||'').toLowerCase().includes(q))));
+ paperResults.classList.add('show-results');
+ document.getElementById('paperSearchHint').textContent=`Search: ${cl} • ${sub} • ${year}`;
+ paperResults.innerHTML=rows.length?rows.map(p=>`<article class="card material"><h3>${esc(p.title||'Previous Year Paper')}</h3><div class="note-meta">${esc(p.board)} • ${esc(p.class_level)} • ${esc(p.subject)} • ${esc(p.year)}</div><p>📄 ${esc(p.file_name||'PDF Question Paper')}</p><div class="material-actions"><a class="action view" href="${esc(p.file_url)}" target="_blank" rel="noopener">👁️ View PDF</a><a class="action download" href="${esc(getDownloadUrl(p.file_url,p.file_name||'paper.pdf'))}" target="_blank" rel="noopener">⬇️ Download</a></div></article>`).join(''):'<div class="notice no-material">इस Class, Subject और Year के लिए कोई paper नहीं मिला। Filters जाँचकर फिर कोशिश करें।</div>';
+}
+document.getElementById('searchPapersBtn')?.addEventListener('click',()=>{
+ const cl=document.getElementById('paperClass').value;
+ const sub=document.getElementById('paperSubject').value.trim();
+ const year=document.getElementById('paperYear').value;
+ if(!cl||!sub||!year){papersSearchSubmitted=false;renderPapers();document.getElementById('paperSearchHint').textContent='कृपया PDF खोजने के लिए Class, Subject और Year तीनों चुनें/भरें।';return;}
+ papersSearchSubmitted=true;renderPapers();
+});
+
 async function loadPapers(){if(!paperResults)return;const {data,error}=await sb.from('previous_year_papers').select('id,title,board,class_level,subject,year,file_url,file_name').eq('is_published',true).order('year',{ascending:false});if(error){paperStatus.textContent='Papers अभी load नहीं हो पाए। Admin से setup check करवाएँ।';return}allPapers=data||[];paperStatus.textContent=allPapers.length?`✅ ${allPapers.length} published paper(s) उपलब्ध हैं।`:'अभी कोई paper publish नहीं किया गया है।';renderPapers()}
-['paperBoard','paperClass','paperSubject','paperYear'].forEach(id=>document.getElementById(id)?.addEventListener('input',renderPapers));
+['paperBoard','paperClass','paperSubject','paperYear'].forEach(id=>document.getElementById(id)?.addEventListener('input',()=>{papersSearchSubmitted=false;renderPapers()}));
 loadPapers();</script></body></html>
