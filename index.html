@@ -144,6 +144,11 @@ body.dark .feature-card{background:rgba(22,37,43,.66)}
 .feature-input{min-width:0;width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--text)}
 .feature-card{min-width:0}.feature-card hr{border:0;border-top:1px solid var(--border);margin:14px 0}.news-link{display:block;text-decoration:none;color:var(--text);padding:10px 0;border-bottom:1px solid var(--border);font-weight:650;font-size:14px}.news-link small{display:block;color:var(--muted);font-weight:400;margin-top:4px}.analytics-number{font-size:24px;font-weight:850}.feature-btn:disabled{opacity:.55;cursor:not-allowed}
 @media(max-width:560px){.feature-grid{grid-template-columns:1fr!important}.feature-row{flex-wrap:wrap}.feature-row>*{flex:1 1 100%}.nav{flex-wrap:wrap}.nav-actions{flex-wrap:wrap}}
+
+/* Always-visible floating install control */
+#installApp{position:fixed!important;right:18px!important;bottom:18px!important;top:auto!important;left:auto!important;z-index:99999!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:8px!important;padding:14px 18px!important;border:2px solid #fff!important;border-radius:999px!important;background:linear-gradient(135deg,#176c79,#299aa0)!important;color:#fff!important;font-size:16px!important;font-weight:850!important;box-shadow:0 8px 28px rgba(0,0,0,.28)!important;cursor:pointer!important;visibility:visible!important;opacity:1!important}
+#installApp:focus{outline:3px solid #f4c36b!important;outline-offset:3px!important}
+@media(max-width:560px){#installApp{right:12px!important;bottom:12px!important;padding:12px 15px!important;font-size:14px!important}}
 </style>
 </head>
 <body>
@@ -344,7 +349,7 @@ if(quizBoxForScore){const quizObserver=new MutationObserver(()=>{const result=qu
 // Progressive Web App install prompt. The app manifest/service worker are provided as separate files.
 let installPromptEvent=null;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPromptEvent=e;const b=document.getElementById('installApp');if(b)b.style.display='inline-block'});
-document.getElementById('installApp')?.addEventListener('click',async()=>{if(!installPromptEvent){alert('अगर Install बटन उपलब्ध नहीं है, browser menu में “Add to Home screen” या “Install app” देखें।');return}installPromptEvent.prompt();await installPromptEvent.userChoice;installPromptEvent=null;document.getElementById('installApp').style.display='none'});
+document.getElementById('installApp')?.addEventListener('click',async()=>{if(!installPromptEvent){alert('Chrome में install prompt अभी उपलब्ध नहीं है। Chrome के ऊपर दाईं ओर ⋮ खोलें और “Install page as app” या “Install app” चुनें। अगर यह विकल्प नहीं है, तो पहले GitHub पर index.html, manifest.webmanifest, sw.js और icon.svg को repository के root में रखें, फिर वेबसाइट Ctrl+F5 से reload करें।');return}try{await installPromptEvent.prompt();await installPromptEvent.userChoice;}catch(err){console.warn('Install prompt could not be shown',err)}installPromptEvent=null;});
 if('serviceWorker' in navigator && location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(err=>console.warn('PWA offline support not enabled:',err)));
 
 
