@@ -349,4 +349,30 @@ const paperResults=document.getElementById('paperResults'),paperStatus=document.
 function renderPapers(){if(!paperResults)return;const board=document.getElementById('paperBoard').value,cl=document.getElementById('paperClass').value,sub=document.getElementById('paperSubject').value.trim().toLowerCase(),year=document.getElementById('paperYear').value;const rows=allPapers.filter(p=>(!board||p.board===board)&&(!cl||p.class_level===cl)&&(!year||String(p.year)===year)&&(!sub||String(p.subject||'').toLowerCase().includes(sub)));paperResults.innerHTML=rows.length?rows.map(p=>`<article class="card material"><h3>${esc(p.title||'Previous Year Paper')}</h3><div class="note-meta">${esc(p.board)} • ${esc(p.class_level)} • ${esc(p.subject)} • ${esc(p.year)}</div><p>📄 ${esc(p.file_name||'PDF Question Paper')}</p><div class="material-actions"><a class="action view" href="${esc(p.file_url)}" target="_blank" rel="noopener">👁️ View PDF</a><a class="action download" href="${esc(getDownloadUrl(p.file_url,p.file_name||'paper.pdf'))}" target="_blank" rel="noopener">⬇️ Download</a></div></article>`).join(''):'<div class="notice no-material">इस filter में अभी कोई paper नहीं मिला।</div>';}
 async function loadPapers(){if(!paperResults)return;const {data,error}=await sb.from('previous_year_papers').select('id,title,board,class_level,subject,year,file_url,file_name').eq('is_published',true).order('year',{ascending:false});if(error){paperStatus.textContent='Papers अभी load नहीं हो पाए। Admin से setup check करवाएँ।';return}allPapers=data||[];paperStatus.textContent=allPapers.length?`✅ ${allPapers.length} published paper(s) उपलब्ध हैं।`:'अभी कोई paper publish नहीं किया गया है।';renderPapers()}
 ['paperBoard','paperClass','paperSubject','paperYear'].forEach(id=>document.getElementById(id)?.addEventListener('input',renderPapers));
-loadPapers();</script></body></html>
+loadPapers();</script>
+<script>
+// Remove the two requested homepage panels if they exist in this version or are restored by older markup.
+(function(){
+  const targets=[/quiz\s*leaderboard/i,/daily\s*current\s*affairs\s*(?:&|and)\s*gk/i];
+  function removeRequestedPanels(){
+    document.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach(function(h){
+      const title=(h.textContent||'').replace(/[📰🏆📊]/g,'').trim();
+      if(!targets.some(function(re){return re.test(title)})) return;
+      let node=h;
+      while(node && node!==document.body){
+        if(node.matches && node.matches('section,article,.feature-card,.card,.feature-grid')) break;
+        node=node.parentElement;
+      }
+      if(node && node!==document.body) node.remove(); else h.remove();
+    });
+    document.querySelectorAll('[id]').forEach(function(el){
+      if(/^(globalLeaderboard|leaderboardStatus|leaderName|saveLeaderName|dailyAffairs|newAffairs)$/i.test(el.id)){
+        const panel=el.closest('section,article,.feature-card,.card');
+        if(panel) panel.remove(); else el.remove();
+      }
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',removeRequestedPanels); else removeRequestedPanels();
+})();
+</script>
+</body></html>
