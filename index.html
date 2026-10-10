@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function(){
 const pages=['homeView','classPicker','classContent','previous-year-papers','study-material','student-tools','analyticsView'];
 function show(id){pages.forEach(x=>{const e=document.getElementById(x);if(e)e.hidden=x!==id});document.querySelectorAll('.bottom-item').forEach(b=>b.classList.toggle('active',({'homeView':'home','previous-year-papers':'papers','student-tools':'tools','analyticsView':'analytics'}[id]||'')===b.dataset.bottom));window.scrollTo({top:0,behavior:'smooth'});}
 let category='notes';const names={notes:'Class Notes',questions:'Class Questions',lectures:'Class Lectures'};
-function openCategory(c){category=c;if(['notes','questions','lectures'].includes(c)){document.getElementById('pickerTitle').textContent=names[c]+' — Class चुनें';show('classPicker');return;} if(c==='gk'||c==='reasoning'||c==='brain'){show('classContent');document.getElementById('contentTitle').textContent=({gk:'🌍 GK',reasoning:'🧩 Reasoning',brain:'💡 Brain Booster'})[c];document.getElementById('contentSubtitle').textContent='Practice questions और quiz';document.getElementById('classContentHost').innerHTML='<div class="notice">नीचे quiz शुरू करें।</div>';const q=document.getElementById('online-quiz');q.style.display='block';document.getElementById('classContentHost').appendChild(q);const tab=({gk:'GK',reasoning:'Reasoning',brain:'Brain Booster'})[c];document.querySelectorAll('[data-quiz]').forEach(b=>{if(b.dataset.quiz===tab)b.click()});return;}}
+function openCategory(c){category=c;window.sazalActiveCategory=c;if(['notes','questions','lectures'].includes(c)){document.getElementById('pickerTitle').textContent=names[c]+' — Class चुनें';show('classPicker');return;} if(c==='gk'||c==='reasoning'||c==='brain'){show('classContent');document.getElementById('contentTitle').textContent=({gk:'🌍 GK',reasoning:'🧩 Reasoning',brain:'💡 Brain Booster'})[c];document.getElementById('contentSubtitle').textContent='Practice questions और quiz';document.getElementById('classContentHost').innerHTML='<div class="notice">नीचे quiz शुरू करें।</div>';const q=document.getElementById('online-quiz');q.style.display='block';document.getElementById('classContentHost').appendChild(q);const tab=({gk:'GK',reasoning:'Reasoning',brain:'Brain Booster'})[c];document.querySelectorAll('[data-quiz]').forEach(b=>{if(b.dataset.quiz===tab)b.click()});return;}}
 document.querySelectorAll('[data-open]').forEach(b=>b.addEventListener('click',()=>openCategory(b.dataset.open)));
 document.querySelectorAll('[data-home]').forEach(b=>b.addEventListener('click',()=>show('homeView')));
 document.querySelectorAll('[data-classes]').forEach(b=>b.addEventListener('click',()=>show('classPicker')));
@@ -261,8 +261,24 @@ classNames.forEach(([icon,name])=>{const d=document.createElement('div');d.class
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 function isImage(n){const t=(n.file_type||'').toLowerCase(),f=(n.file_name||'').toLowerCase();return t.startsWith('image/')||/\.(jpg|jpeg|png|gif|webp|bmp|svg)$/i.test(f)}
 function getDownloadUrl(url,name){if(!url)return '#';try{const u=new URL(url);u.searchParams.set('download',name||'file');return u.toString()}catch(e){return url+(url.includes('?')?'&':'?')+'download='+encodeURIComponent(name||'file')}}
-function matches(n,filter){if(!filter)return true;const f=filter.toLowerCase();return [n.title,n.class,n.subject,n.file_name].some(v=>String(v||'').toLowerCase().includes(f))}
-function renderNotes(){const list=allNotes.filter(n=>matches(n,activeFilter));empty.style.display=list.length?'none':'block';notesEl.innerHTML=list.length?list.map(n=>{const image=isImage(n),viewLabel=image?'🖼️ View Image':'👁️ View';const type=image?'IMAGE':'PDF / FILE';return `<article class="card material note-card"><h3 class="note-title">${esc(n.title||n.file_name||'Study Material')} <span class="file-type">${type}</span></h3><div class="note-meta">${esc(n.class||'General')} • ${esc(n.subject||'Study Material')}</div><p>${esc(n.file_name||'Uploaded material')}</p><div class="material-actions"><a class="action view" href="${esc(n.file_url)}" target="_blank" rel="noopener">${viewLabel}</a><a class="action download" href="${esc(getDownloadUrl(n.file_url,n.file_name))}" download>⬇️ Download</a></div><button type="button" class="save-note" data-save-note="${esc(n.id)}">🔖 Save to My Notes</button></article>`}).join(''):'<div class="notice no-material">अभी इस filter के लिए कोई uploaded material नहीं है।</div>'}
+function noteCategory(n){
+ const s=String(n.subject||'');
+ const marker=s.match(/\\[\\[SAZAL_CATEGORY:(notes|questions|lectures|gk|reasoning|brain)\\]\\]/i);
+ if(marker)return marker[1].toLowerCase();
+ // Backward compatibility for files uploaded before category tags existed.
+ if(/class questions/i.test(s))return 'questions';
+ const c=String(n.class||'').trim().toLowerCase();
+ if(c==='gk')return 'gk'; if(c==='reasoning')return 'reasoning'; if(c==='brain booster')return 'brain';
+ return 'notes';
+}
+function cleanSubject(n){return String(n.subject||'').replace(/\\[\\[SAZAL_CATEGORY:(?:notes|questions|lectures|gk|reasoning|brain)\\]\\]/ig,'').trim()||'Study Material'}
+function matches(n,filter){if(!filter)return true;const f=filter.toLowerCase();return [n.title,n.class,cleanSubject(n),n.file_name].some(v=>String(v||'').toLowerCase().includes(f))}
+function renderNotes(){
+ const activeCat=window.sazalActiveCategory||'notes';
+ const list=allNotes.filter(n=>noteCategory(n)===activeCat && matches(n,activeFilter));
+ empty.style.display=list.length?'none':'block';
+ notesEl.innerHTML=list.length?list.map(n=>{const image=isImage(n),viewLabel=image?'🖼️ View Image':'👁️ View';const type=image?'IMAGE':'PDF / FILE';return `<article class="card material note-card"><h3 class="note-title">${esc(n.title||n.file_name||'Study Material')} <span class="file-type">${type}</span></h3><div class="note-meta">${esc(n.class||'General')} • ${esc(cleanSubject(n))}</div><p>${esc(n.file_name||'Uploaded material')}</p><div class="material-actions"><a class="action view" href="${esc(n.file_url)}" target="_blank" rel="noopener">${viewLabel}</a><a class="action download" href="${esc(getDownloadUrl(n.file_url,n.file_name))}" download>⬇️ Download</a></div><button type="button" class="save-note" data-save-note="${esc(n.id)}">🔖 Save to My Notes</button></article>`}).join(''):'<div class="notice no-material">इस सेक्शन में अभी कोई uploaded material नहीं है।</div>'
+}
 function setFilter(value){activeFilter=value;filterName.textContent=value;filterBar.classList.add('show');renderNotes();document.getElementById('study-material').scrollIntoView({behavior:'smooth',block:'start'})}
 document.querySelectorAll('[data-filter]').forEach(el=>{if(!el.onclick)el.addEventListener('click',()=>setFilter(el.dataset.filter))});
 document.getElementById('clearFilter').onclick=()=>{activeFilter='';filterBar.classList.remove('show');renderNotes()};
@@ -410,6 +426,7 @@ loadPapers();</script><script id="sazalNavigationRepair">
 (function(){
   const pageIds=['homeView','classPicker','classContent','previous-year-papers','study-material','student-tools','analyticsView'];
   let currentCategory='notes';
+  window.sazalActiveCategory='notes';
   const categoryNames={notes:'Class Notes',questions:'Class Questions',lectures:'Class Lectures',gk:'GK',reasoning:'Reasoning',brain:'Brain Booster'};
   function showPage(id, fromPopState=false){
     // Keep browser Back/Forward in sync with the in-page navigation.
@@ -425,7 +442,7 @@ loadPapers();</script><script id="sazalNavigationRepair">
     showPage(pageIds.includes(id)?id:'homeView',true);
   });
   function openTile(cat){
-    currentCategory=cat;
+    currentCategory=cat;window.sazalActiveCategory=cat;
     if(cat==='notes'||cat==='questions'||cat==='lectures'){
       const title=document.getElementById('pickerTitle'); if(title) title.textContent=(categoryNames[cat]||'Study')+' — Class चुनें';
       showPage('classPicker'); return;
