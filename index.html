@@ -163,7 +163,7 @@ document.querySelectorAll('[data-home]').forEach(b=>b.addEventListener('click',(
 document.querySelectorAll('[data-classes]').forEach(b=>b.addEventListener('click',()=>show('classPicker')));
 document.querySelectorAll('[data-bottom]').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.bottom==='home')show('homeView');if(b.dataset.bottom==='papers')show('previous-year-papers');if(b.dataset.bottom==='tools')show('student-tools');if(b.dataset.bottom==='analytics')show('analyticsView')}));
 const menu=document.getElementById('menuPop');document.getElementById('menuToggle').onclick=()=>menu.classList.toggle('open');document.getElementById('menuTheme').onclick=()=>document.getElementById('theme').click();
-const oldSetFilter=window.setFilter;document.addEventListener('click',e=>{const card=e.target.closest('#classes [data-filter]');if(!card)return;const cl=card.dataset.filter;if((window.sazalActiveCategory||category)==='notes'&&/^Class (?:[1-9]|1[0-2])$/.test(cl)){e.preventDefault();e.stopImmediatePropagation();openSubjectCards(cl);return;}window.sazalClassFilter='';window.sazalSubjectFilter='';document.getElementById('contentTitle').textContent=cl+' — '+names[category];document.getElementById('contentSubtitle').textContent='इस class की उपलब्ध files';show('study-material');if(typeof window.setFilter==='function')window.setFilter(cl);});
+const oldSetFilter=window.setFilter;document.addEventListener('click',e=>{const card=e.target.closest('#classes [data-filter]');if(!card)return;const cl=card.dataset.filter;if(['notes','questions'].includes(window.sazalActiveCategory||category)&&/^Class (?:[1-9]|1[0-2])$/.test(cl)){e.preventDefault();e.stopImmediatePropagation();openSubjectCards(cl,window.sazalActiveCategory||category);return;}window.sazalClassFilter='';window.sazalSubjectFilter='';document.getElementById('contentTitle').textContent=cl+' — '+names[category];document.getElementById('contentSubtitle').textContent='इस class की उपलब्ध files';show('study-material');if(typeof window.setFilter==='function')window.setFilter(cl);});
 const searchBtn=document.getElementById('searchBtn');searchBtn.onclick=()=>{const q=document.getElementById('search').value.trim();if(!q)return;show('study-material');if(typeof window.setFilter==='function')window.setFilter(q)};document.getElementById('search').addEventListener('keydown',e=>{if(e.key==='Enter')searchBtn.click()});
 // Make legacy section navigable while preserving its Supabase-backed content and tools.
 const originalRender=window.renderNotes;show('homeView');
@@ -257,21 +257,23 @@ body.dark #menuPop a,body.dark #menuPop button{color:#f5eee9!important}
 const classes=document.getElementById('classes'),notesEl=document.getElementById('notes'),empty=document.getElementById('empty'),filterBar=document.getElementById('filterBar'),filterName=document.getElementById('filterName');
 const classNames=[['🧸','Nursery'],['🎨','LKG'],['🎒','UKG'],...Array.from({length:12},(_,i)=>['🎓',`Class ${i+1}`])];
 let allNotes=[],activeFilter='';window.sazalClassFilter='';window.sazalSubjectFilter='';
-classNames.forEach(([icon,name])=>{const d=document.createElement('div');d.className='card class-card clickable searchable';d.dataset.filter=name;d.innerHTML=`<div class="class-icon">${icon}</div><h3>${name}</h3><p>Notes • PDFs • Questions</p>`;d.onclick=()=>{if((window.sazalActiveCategory||'notes')==='notes'&&/^Class (?:[1-9]|1[0-2])$/.test(name)){openSubjectCards(name);return;}window.sazalClassFilter='';window.sazalSubjectFilter='';setFilter(name)};classes.appendChild(d)});
+classNames.forEach(([icon,name])=>{const d=document.createElement('div');d.className='card class-card clickable searchable';d.dataset.filter=name;d.innerHTML=`<div class="class-icon">${icon}</div><h3>${name}</h3><p>Notes • PDFs • Questions</p>`;d.onclick=()=>{if(['notes','questions'].includes(window.sazalActiveCategory||'notes')&&/^Class (?:[1-9]|1[0-2])$/.test(name)){openSubjectCards(name,window.sazalActiveCategory||'notes');return;}window.sazalClassFilter='';window.sazalSubjectFilter='';setFilter(name)};classes.appendChild(d)});
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-function openSubjectCards(className){
- const num=Number(className.replace('Class ',''));
- const subjects=num<=4?[['📘','English'],['📕','Hindi'],['➗','Math'],['📝','Urdu']]:[['📘','English'],['📕','Hindi'],['📝','Urdu'],['➗','Math'],['🔬','Science'],['🌍','Social Science']];
+function openSubjectCards(className, category='notes'){
+ const subjects=category==='questions'?[['📘','English'],['📕','Hindi'],['📝','Urdu'],['➗','Math'],['🔬','Science'],['🌍','Social Science']]:
+  (Number(className.replace('Class ',''))<=4?[['📘','English'],['📕','Hindi'],['➗','Math'],['📝','Urdu']]:[['📘','English'],['📕','Hindi'],['📝','Urdu'],['➗','Math'],['🔬','Science'],['🌍','Social Science']]);
+ const sectionName=category==='questions'?'Class Questions':'Class Notes';
  window.sazalClassFilter=className;window.sazalSubjectFilter='';
- document.getElementById('contentTitle').textContent=className+' — Class Notes';
+ window.sazalActiveCategory=category;
+ document.getElementById('contentTitle').textContent=className+' — '+sectionName;
  document.getElementById('contentSubtitle').textContent='अपना Subject Card चुनें';
  const host=document.getElementById('classContentHost');
- host.innerHTML='<div class="subject-choice-grid">'+subjects.map(([ico,sub])=>`<button type="button" class="subject-choice" data-subject-choice="${sub}"><span class="subject-icon">${ico}</span><b>${sub}</b><small>PDF Notes देखें</small></button>`).join('')+'</div>';
+ host.innerHTML='<div class="subject-choice-grid">'+subjects.map(([ico,sub])=>`<button type="button" class="subject-choice" data-subject-choice="${sub}"><span class="subject-icon">${ico}</span><b>${sub}</b><small>PDF Questions देखें</small></button>`).join('')+'</div>';
  show('classContent');
  host.querySelectorAll('[data-subject-choice]').forEach(btn=>btn.addEventListener('click',()=>{
-   const sub=btn.dataset.subjectChoice;window.sazalActiveCategory='notes';window.sazalClassFilter=className;window.sazalSubjectFilter=sub;activeFilter='';
+   const sub=btn.dataset.subjectChoice;window.sazalActiveCategory=category;window.sazalClassFilter=className;window.sazalSubjectFilter=sub;activeFilter='';
    document.getElementById('contentTitle').textContent=className+' — '+sub;
-   document.getElementById('contentSubtitle').textContent='इस Subject Card की PDF files';
+   document.getElementById('contentSubtitle').textContent=category==='questions'?'इस Subject Card के प्रश्न और PDF files':'इस Subject Card की PDF files';
    show('study-material');filterBar.classList.remove('show');renderNotes();
  }));
 }
@@ -493,7 +495,7 @@ loadPapers();</script><script id="sazalNavigationRepair">
     const classesBtn=e.target.closest('[data-classes]');
     if(classesBtn){e.preventDefault();e.stopImmediatePropagation();showPage('classPicker');return;}
     const card=e.target.closest('#classes [data-filter]');
-    if(card){e.preventDefault();e.stopImmediatePropagation();const cl=card.dataset.filter;if((window.sazalActiveCategory||currentCategory)==='notes'&&/^Class (?:[1-9]|1[0-2])$/.test(cl)){openSubjectCards(cl);return;}window.sazalClassFilter='';window.sazalSubjectFilter='';const title=document.getElementById('contentTitle');if(title)title.textContent=cl+' — '+(categoryNames[currentCategory]||'Study Material');const sub=document.getElementById('contentSubtitle');if(sub)sub.textContent='इस class की उपलब्ध files';showPage('study-material');applyFilter(cl);return;}
+    if(card){e.preventDefault();e.stopImmediatePropagation();const cl=card.dataset.filter;if(['notes','questions'].includes(window.sazalActiveCategory||currentCategory)&&/^Class (?:[1-9]|1[0-2])$/.test(cl)){openSubjectCards(cl,window.sazalActiveCategory||currentCategory);return;}window.sazalClassFilter='';window.sazalSubjectFilter='';const title=document.getElementById('contentTitle');if(title)title.textContent=cl+' — '+(categoryNames[currentCategory]||'Study Material');const sub=document.getElementById('contentSubtitle');if(sub)sub.textContent='इस class की उपलब्ध files';showPage('study-material');applyFilter(cl);return;}
   },true);
   document.addEventListener('DOMContentLoaded',function(){
     const menuToggle=document.getElementById('menuToggle'),menuPop=document.getElementById('menuPop');
