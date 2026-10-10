@@ -144,6 +144,7 @@ body.dark .feature-card{background:rgba(22,37,43,.66)}
 .feature-input{min-width:0;width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--text)}
 .feature-card{min-width:0}.feature-card hr{border:0;border-top:1px solid var(--border);margin:14px 0}.news-link{display:block;text-decoration:none;color:var(--text);padding:10px 0;border-bottom:1px solid var(--border);font-weight:650;font-size:14px}.news-link small{display:block;color:var(--muted);font-weight:400;margin-top:4px}.analytics-number{font-size:24px;font-weight:850}.feature-btn:disabled{opacity:.55;cursor:not-allowed}
 @media(max-width:560px){.feature-grid{grid-template-columns:1fr!important}.feature-row{flex-wrap:wrap}.feature-row>*{flex:1 1 100%}.nav{flex-wrap:wrap}.nav-actions{flex-wrap:wrap}}
+#menuPop{display:none;position:absolute;right:16px;top:62px;z-index:9999;padding:10px;background:var(--glass);border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 30px #0002}#menuPop.open{display:grid;gap:10px}#menuPop a,#menuPop button{padding:9px 12px;border:0;border-radius:9px;text-align:left;text-decoration:none;color:var(--ink);background:transparent;cursor:pointer}
 </style>
 
 <style>
@@ -172,7 +173,7 @@ const originalRender=window.renderNotes;show('homeView');
 </head>
 <body>
 <header class="top"><div class="container">
-<nav class="nav redesigned-nav"><button class="dots" id="menuToggle" aria-label="Menu">⋮</button><div class="brand">📚 <span>Sazal Study</span></div><div class="nav-actions"><a class="nav-link admin" href="admin.html">Admin</a><a class="nav-link plus" href="admin.html#upload" title="Upload">＋ Upload</a><button id="theme" aria-label="Dark mode" title="Dark mode">🌙</button><button id="installApp" type="button" title="Install Sazal Study">Install</button></div></nav>
+<nav class="nav redesigned-nav"><button class="dots" id="menuToggle" aria-label="Menu">⋮</button><div class="brand">📚 <span>Sazal Study</span></div><div class="nav-actions"><button id="theme" aria-label="Dark mode" title="Dark mode">🌙</button><button id="installApp" type="button" title="Install Sazal Study">Install</button></div></nav>
 <div class="menu-pop" id="menuPop"><a href="admin.html">👤 Admin</a><a href="admin.html#upload">⬆ Upload Notes</a><button id="menuTheme">🌙 Dark Mode</button></div>
 <div class="hero redesigned-hero"><div class="tagline">SMART LEARNING • BETTER FUTURE</div><h1>आपकी पढ़ाई&nbsp;&nbsp; आपकी कामयाबी</h1><p>Nursery से Class 12 तक आपकी पढ़ाई का साथी</p><div class="search"><input id="search" type="search" placeholder="Class, subject या study material खोजें..."><button id="searchBtn" type="button">⌕ Search</button></div></div>
 </div></header>
