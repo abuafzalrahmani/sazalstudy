@@ -247,7 +247,7 @@ function renderNotes(){const list=allNotes.filter(n=>matches(n,activeFilter));em
 function setFilter(value){activeFilter=value;filterName.textContent=value;filterBar.classList.add('show');renderNotes();document.getElementById('study-material').scrollIntoView({behavior:'smooth',block:'start'})}
 document.querySelectorAll('[data-filter]').forEach(el=>{if(!el.onclick)el.addEventListener('click',()=>setFilter(el.dataset.filter))});
 document.getElementById('clearFilter').onclick=()=>{activeFilter='';filterBar.classList.remove('show');renderNotes()};
-async function loadNotes(){try{if(typeof sb==='undefined'||!sb||typeof sb.from!=='function'){notesEl.innerHTML='<div class="notice">Supabase config लोड नहीं हुई। supabase-config.js और GitHub पर उसकी मौजूदगी जाँचें।</div>';return}const {data,error}=await sb.from('notes').select('*').order('created_at',{ascending:false});if(error){console.error('Notes load error:',error);notesEl.innerHTML='<div class="notice">Notes नहीं लोड हुए। Supabase notes table/permissions जाँचें।</div>';return}allNotes=data||[];renderNotes()}catch(e){console.error('Notes load error:',e);if(notesEl)notesEl.innerHTML='<div class="notice">Notes लोड करते समय error आया। Browser console देखें।</div>'}}
+async function loadNotes(){try{if(typeof sb==='undefined'||!sb||!sb.from){notesEl.innerHTML='<div class="notice">⚠️ Supabase कनेक्शन नहीं मिला। GitHub Pages पर supabase-config.js फ़ाइल उपलब्ध है और उसमें सही सेटिंग्स हैं, यह जाँचें।</div>';return}const {data,error}=await sb.from('notes').select('*').order('created_at',{ascending:false});if(error){console.error('Notes load failed:',error);notesEl.innerHTML='<div class="notice">❌ Notes load नहीं हो पाए। Supabase table/permissions जाँचें और फिर कोशिश करें।</div>';return}allNotes=data||[];renderNotes()}catch(e){console.error('Notes loading error:',e);notesEl.innerHTML='<div class="notice">❌ Notes लोड करते समय error आया। Internet और Supabase configuration जाँचें।</div>'}}
 const input=document.getElementById('search');input.addEventListener('input',()=>{const q=input.value.toLowerCase().trim();document.querySelectorAll('.searchable').forEach(el=>{el.style.display=!q||el.innerText.toLowerCase().includes(q)?'':'none'});if(q){const n=allNotes.filter(x=>(x.title+' '+x.class+' '+x.subject+' '+x.file_name).toLowerCase().includes(q));if(n.length){activeFilter=q;filterName.textContent='Search: '+q;filterBar.classList.add('show');renderNotes()}}else{activeFilter='';filterBar.classList.remove('show');renderNotes()}});
 const theme=document.getElementById('theme');if(localStorage.getItem('sazal-theme')==='dark'){document.body.classList.add('dark');theme.textContent='☀️'}theme.onclick=()=>{document.body.classList.toggle('dark');const dark=document.body.classList.contains('dark');theme.textContent=dark?'☀️':'🌙';localStorage.setItem('sazal-theme',dark?'dark':'light')};
 
@@ -387,4 +387,66 @@ const paperResults=document.getElementById('paperResults'),paperStatus=document.
 function renderPapers(){if(!paperResults)return;const board=document.getElementById('paperBoard').value,cl=document.getElementById('paperClass').value,sub=document.getElementById('paperSubject').value.trim().toLowerCase(),year=document.getElementById('paperYear').value;const rows=allPapers.filter(p=>(!board||p.board===board)&&(!cl||p.class_level===cl)&&(!year||String(p.year)===year)&&(!sub||String(p.subject||'').toLowerCase().includes(sub)));paperResults.innerHTML=rows.length?rows.map(p=>`<article class="card material"><h3>${esc(p.title||'Previous Year Paper')}</h3><div class="note-meta">${esc(p.board)} • ${esc(p.class_level)} • ${esc(p.subject)} • ${esc(p.year)}</div><p>📄 ${esc(p.file_name||'PDF Question Paper')}</p><div class="material-actions"><a class="action view" href="${esc(p.file_url)}" target="_blank" rel="noopener">👁️ View PDF</a><a class="action download" href="${esc(getDownloadUrl(p.file_url,p.file_name||'paper.pdf'))}" target="_blank" rel="noopener">⬇️ Download</a></div></article>`).join(''):'<div class="notice no-material">इस filter में अभी कोई paper नहीं मिला।</div>';}
 async function loadPapers(){if(!paperResults)return;const {data,error}=await sb.from('previous_year_papers').select('id,title,board,class_level,subject,year,file_url,file_name').eq('is_published',true).order('year',{ascending:false});if(error){paperStatus.textContent='Papers अभी load नहीं हो पाए। Admin से setup check करवाएँ।';return}allPapers=data||[];paperStatus.textContent=allPapers.length?`✅ ${allPapers.length} published paper(s) उपलब्ध हैं।`:'अभी कोई paper publish नहीं किया गया है।';renderPapers()}
 ['paperBoard','paperClass','paperSubject','paperYear'].forEach(id=>document.getElementById(id)?.addEventListener('input',renderPapers));
-loadPapers();</script></body></html>
+loadPapers();</script><script id="sazalNavigationRepair">
+(function(){
+  const pageIds=['homeView','classPicker','classContent','previous-year-papers','study-material','student-tools','analyticsView'];
+  let currentCategory='notes';
+  const categoryNames={notes:'Class Notes',questions:'Class Questions',lectures:'Class Lectures',gk:'GK',reasoning:'Reasoning',brain:'Brain Booster'};
+  function showPage(id, fromPopState=false){
+    // Keep browser Back/Forward in sync with the in-page navigation.
+    if(!fromPopState && history.state?.sazalPage!==id){
+      history.pushState({sazalPage:id},'', '#'+id);
+    }
+    pageIds.forEach(pid=>document.querySelectorAll('[id="'+pid+'"]').forEach(el=>{el.hidden=pid!==id;}));
+    document.querySelectorAll('.bottom-item').forEach(b=>b.classList.toggle('active',({'homeView':'home','previous-year-papers':'papers','student-tools':'tools','analyticsView':'analytics'}[id]||'')===b.dataset.bottom));
+    window.scrollTo(0,0);
+  }
+  window.addEventListener('popstate',function(event){
+    const id=event.state && event.state.sazalPage;
+    showPage(pageIds.includes(id)?id:'homeView',true);
+  });
+  function openTile(cat){
+    currentCategory=cat;
+    if(cat==='notes'||cat==='questions'||cat==='lectures'){
+      const title=document.getElementById('pickerTitle'); if(title) title.textContent=(categoryNames[cat]||'Study')+' — Class चुनें';
+      showPage('classPicker'); return;
+    }
+    if(cat==='gk'||cat==='reasoning'||cat==='brain'){
+      const title=document.getElementById('contentTitle'); if(title) title.textContent=categoryNames[cat];
+      const sub=document.getElementById('contentSubtitle'); if(sub) sub.textContent='Practice questions और quiz';
+      const host=document.getElementById('classContentHost');
+      const quiz=document.getElementById('online-quiz');
+      if(host&&quiz){host.innerHTML='<div class="notice">नीचे quiz शुरू करें।</div>';quiz.style.display='block';host.appendChild(quiz);}
+      showPage('classContent');
+      const tabName=cat==='gk'?'GK':cat==='reasoning'?'Reasoning':'Brain Booster';
+      document.querySelectorAll('[data-quiz]').forEach(b=>{if(b.dataset.quiz===tabName)b.click();});
+    }
+  }
+  function applyFilter(value){
+    const filterName=document.getElementById('filterName'); if(filterName)filterName.textContent=value;
+    const filterBar=document.getElementById('filterBar'); if(filterBar)filterBar.classList.add('show');
+    if(typeof window.setFilter==='function'){window.setFilter(value);return;}
+    const clear=document.getElementById('clearFilter'); if(clear)clear.click();
+  }
+  document.addEventListener('click',function(e){
+    const tile=e.target.closest('[data-open]');
+    if(tile){e.preventDefault();e.stopImmediatePropagation();openTile(tile.dataset.open);return;}
+    const bottom=e.target.closest('[data-bottom]');
+    if(bottom){e.preventDefault();e.stopImmediatePropagation();const key=bottom.dataset.bottom;showPage(({home:'homeView',papers:'previous-year-papers',tools:'student-tools',analytics:'analyticsView'})[key]||'homeView');return;}
+    const home=e.target.closest('[data-home]');
+    if(home){e.preventDefault();e.stopImmediatePropagation();showPage('homeView');return;}
+    const classesBtn=e.target.closest('[data-classes]');
+    if(classesBtn){e.preventDefault();e.stopImmediatePropagation();showPage('classPicker');return;}
+    const card=e.target.closest('#classes [data-filter]');
+    if(card){e.preventDefault();e.stopImmediatePropagation();const cl=card.dataset.filter;const title=document.getElementById('contentTitle');if(title)title.textContent=cl+' — '+(categoryNames[currentCategory]||'Study Material');const sub=document.getElementById('contentSubtitle');if(sub)sub.textContent='इस class की उपलब्ध files';showPage('study-material');applyFilter(cl);return;}
+  },true);
+  document.addEventListener('DOMContentLoaded',function(){
+    const menuToggle=document.getElementById('menuToggle'),menuPop=document.getElementById('menuPop');
+    if(menuToggle&&menuPop)menuToggle.addEventListener('click',()=>menuPop.classList.toggle('open'));
+    const searchBtn=document.getElementById('searchBtn'),search=document.getElementById('search');
+    if(searchBtn&&search)searchBtn.addEventListener('click',()=>{const q=search.value.trim();if(q){showPage('study-material');applyFilter(q);}});
+    if(search)search.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();if(searchBtn)searchBtn.click();}});
+  });
+})();
+</script>
+</body></html>
