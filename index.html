@@ -560,6 +560,7 @@ loadPapers();</script><script id="sazalNavigationRepair">
 })();
 </script>
 
+<script>
 // Sazal Study AI chat. Configure a secure server endpoint in window.SAZAL_AI_ENDPOINT.
 (()=>{
  const form=document.getElementById('aiForm'),input=document.getElementById('aiInput'),chat=document.getElementById('aiChat'),send=document.getElementById('aiSend'),status=document.getElementById('aiStatus');
@@ -578,4 +579,5 @@ loadPapers();</script><script id="sazalNavigationRepair">
  document.querySelectorAll('[data-ai-prompt]').forEach(b=>b.addEventListener('click',()=>{input.value=b.dataset.aiPrompt;input.focus();}));
 })();
 
+</script>
 </body></html>
