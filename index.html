@@ -151,6 +151,10 @@ body.dark .feature-card{background:rgba(22,37,43,.66)}
 .calculator-head{display:flex;justify-content:space-between;align-items:start;gap:12px;margin-bottom:14px}.calculator-head h3{margin:0 0 5px}.calculator-head p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}.calculator-close{border:1px solid var(--border);border-radius:10px;background:transparent;color:var(--text);padding:8px 10px;cursor:pointer;white-space:nowrap}
 .calculator-display{width:100%;height:72px;margin-bottom:12px;border:1px solid var(--border);border-radius:14px;padding:12px 16px;text-align:right;font-size:30px;font-weight:750;letter-spacing:.5px;background:var(--bg);color:var(--text)}
 .calculator-keys{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}.calculator-keys button{min-height:54px;border:1px solid var(--border);border-radius:13px;background:var(--bg);color:var(--text);font-size:20px;font-weight:700;cursor:pointer;touch-action:manipulation}.calculator-keys button:active{transform:scale(.97)}.calculator-keys .calc-op,.calculator-keys .calc-special{background:rgba(49,137,153,.13);color:var(--primary)}.calculator-keys .calc-equals{background:var(--primary);color:#fff;border-color:transparent}.calculator-keys .calc-zero{grid-column:span 2}.calculator-status{min-height:18px;margin:10px 0 0;color:var(--muted);font-size:12px}
+
+/* Sazal Study AI assistant */
+.ai-page{max-width:820px;margin:0 auto}.ai-shell{border:1px solid var(--line);border-radius:22px;overflow:hidden;background:var(--glass);box-shadow:0 12px 35px #55311f12}.ai-head{display:flex;align-items:center;gap:12px;padding:16px;background:linear-gradient(135deg,#f7e5d8,#fffaf5);border-bottom:1px solid var(--line);color:#68412e}.ai-avatar{width:44px;height:44px;border-radius:15px;background:#8d583c;color:white;display:grid;place-items:center;font-size:23px}.ai-head h2{margin:0;font-size:19px}.ai-head p{margin:4px 0 0;font-size:12px;color:#8a6a5b}.ai-chat{height:min(52vh,480px);min-height:300px;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:12px}.ai-msg{max-width:88%;padding:11px 13px;border-radius:16px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere;font-size:14px}.ai-msg.bot{align-self:flex-start;background:#f5e8df;color:#51382b;border-bottom-left-radius:5px}.ai-msg.user{align-self:flex-end;background:#805038;color:white;border-bottom-right-radius:5px}.ai-quick{display:flex;gap:8px;flex-wrap:wrap;padding:0 14px 12px}.ai-quick button{border:1px solid var(--line);background:var(--glass);color:var(--ink);border-radius:20px;padding:8px 11px;font-size:12px;cursor:pointer}.ai-compose{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line);background:rgba(255,255,255,.25)}.ai-compose textarea{flex:1;min-width:0;resize:vertical;min-height:45px;max-height:120px;border:1px solid var(--line);border-radius:13px;padding:12px;background:var(--glass);color:var(--ink);font:inherit}.ai-send{border:0;border-radius:13px;background:#805038;color:#fff;padding:0 16px;font-weight:700;cursor:pointer}.ai-send:disabled{opacity:.55;cursor:wait}.ai-note{font-size:11px;color:var(--ink);opacity:.7;padding:0 14px 12px}.bottom-nav{grid-template-columns:repeat(5,minmax(0,1fr))}.bottom-item[data-bottom="ai"] span{font-size:21px;color:#805038}.bottom-item[data-bottom="ai"] small{font-weight:800}@media(max-width:420px){.bottom-nav{gap:1px;padding-left:3px;padding-right:3px}.bottom-item{padding:3px 0}.bottom-item small{font-size:8px}.ai-chat{padding:12px;min-height:270px}}
+
 </style>
 
 <style>
@@ -161,7 +165,7 @@ body.dark{--ink:#f4e7df;--glass:rgba(45,35,32,.78);background:linear-gradient(14
 <script>
 document.addEventListener('DOMContentLoaded', function(){
 const pages=['homeView','classPicker','classContent','previous-year-papers','study-material','student-tools','analyticsView'];
-function show(id){pages.forEach(x=>{const e=document.getElementById(x);if(e)e.hidden=x!==id});document.querySelectorAll('.bottom-item').forEach(b=>b.classList.toggle('active',({'homeView':'home','previous-year-papers':'papers','student-tools':'tools','analyticsView':'analytics'}[id]||'')===b.dataset.bottom));window.scrollTo({top:0,behavior:'smooth'});}
+function show(id){pages.forEach(x=>{const e=document.getElementById(x);if(e)e.hidden=x!==id});document.querySelectorAll('.bottom-item').forEach(b=>b.classList.toggle('active',({'homeView':'home','previous-year-papers':'papers','student-tools':'tools','ai-assistant':'ai','analyticsView':'analytics'}[id]||'')===b.dataset.bottom));window.scrollTo({top:0,behavior:'smooth'});}
 let category='notes';const names={notes:'Class Notes',questions:'Class Questions',lectures:'Class Lectures'};
 function openCategory(c){category=c;window.sazalActiveCategory=c;window.sazalClassFilter='';window.sazalSubjectFilter='';if(['notes','questions','lectures'].includes(c)){document.getElementById('pickerTitle').textContent=names[c]+' — Class चुनें';show('classPicker');return;} if(c==='gk'||c==='reasoning'||c==='brain'){show('classContent');document.getElementById('contentTitle').textContent=({gk:'🌍 GK',reasoning:'🧩 Reasoning',brain:'💡 Brain Booster'})[c];document.getElementById('contentSubtitle').textContent='Practice questions और quiz';document.getElementById('classContentHost').innerHTML='<div class="notice">नीचे quiz शुरू करें।</div>';const q=document.getElementById('online-quiz');q.style.display='block';document.getElementById('classContentHost').appendChild(q);const tab=({gk:'GK',reasoning:'Reasoning',brain:'Brain Booster'})[c];document.querySelectorAll('[data-quiz]').forEach(b=>{if(b.dataset.quiz===tab)b.click()});return;}}
 document.querySelectorAll('[data-open]').forEach(b=>b.addEventListener('click',()=>openCategory(b.dataset.open)));
@@ -271,7 +275,10 @@ body.dark #menuPop a,body.dark #menuPop button{color:#f5eee9!important}
 </section>
 
 <section><div class="section-title"><div><h2>📘 कैसे इस्तेमाल करें?</h2><p>Class/Subject पर click करें, फिर View या Download चुनें।</p></div></div><div class="notice">📌 <b>View</b> file को browser में खोलता है। <b>Download</b> file को device में save करने की कोशिश करता है। PDF और images दोनों supported हैं।</div></section>
-</main><nav class="bottom-nav" aria-label="Main navigation"><button class="bottom-item active" data-bottom="home"><span>⌂</span><small>Home</small></button><button class="bottom-item" data-bottom="papers"><span>📄</span><small>Previous Year<br>Questions</small></button><button class="bottom-item" data-bottom="tools"><span>🧰</span><small>Student Tools</small></button><button class="bottom-item" data-bottom="analytics"><span>📊</span><small>Website Analytics</small></button></nav><footer>© 2026 Sazal Study • आपकी पढ़ाई, आपकी तैयारी</footer>
+<section id="ai-assistant" class="view-page ai-page" hidden><button class="back-btn" data-home>← Home</button><div class="ai-shell"><div class="ai-head"><div class="ai-avatar">✦</div><div><h2>Sazal AI Assistant</h2><p>पढ़ाई, नोट्स और प्रश्नों में आपकी मदद</p></div></div><div class="ai-chat" id="aiChat" aria-live="polite"><div class="ai-msg bot">नमस्ते! 👋 मैं Sazal Study Assistant हूँ। आप कोई विषय, सवाल या प्रश्न भेज सकते हैं।
+
+ध्यान दें: AI जवाब सेवा जोड़ने के बाद ही उपलब्ध होंगे। अभी आप चैट इंटरफ़ेस देख सकते हैं।</div></div><div class="ai-quick"><button type="button" data-ai-prompt="कक्षा 10 के लिए पढ़ाई का टाइम टेबल बनाओ।">📅 Study timetable</button><button type="button" data-ai-prompt="इस सवाल को आसान हिंदी में समझाओ: ">📘 सवाल समझाओ</button><button type="button" data-ai-prompt="मुझे 5 GK MCQ प्रश्न उत्तर सहित दो।">🧠 GK Quiz</button></div><form class="ai-compose" id="aiForm"><textarea id="aiInput" placeholder="अपना सवाल यहाँ लिखें…" rows="2" aria-label="अपना सवाल लिखें"></textarea><button class="ai-send" id="aiSend" type="submit">भेजें ➤</button></form><div class="ai-note" id="aiStatus">AI सेवा अभी कनेक्ट नहीं है। सुरक्षित AI API endpoint जोड़ने के बाद असली जवाब मिलेंगे।</div></div></section>
+</main><nav class="bottom-nav" aria-label="Main navigation"><button class="bottom-item active" data-bottom="home"><span>⌂</span><small>Home</small></button><button class="bottom-item" data-bottom="papers"><span>📄</span><small>Previous Year<br>Questions</small></button><button class="bottom-item" data-bottom="tools"><span>🧰</span><small>Student Tools</small></button><button class="bottom-item" data-bottom="ai"><span>✦</span><small>AI Assistant</small></button><button class="bottom-item" data-bottom="analytics"><span>📊</span><small>Website Analytics</small></button></nav><footer>© 2026 Sazal Study • आपकी पढ़ाई, आपकी तैयारी</footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script>
 const classes=document.getElementById('classes'),notesEl=document.getElementById('notes'),empty=document.getElementById('empty'),filterBar=document.getElementById('filterBar'),filterName=document.getElementById('filterName');
 const classNames=[['🧸','Nursery'],['🎨','LKG'],['🎒','UKG'],...Array.from({length:12},(_,i)=>['🎓',`Class ${i+1}`])];
@@ -491,7 +498,7 @@ async function loadPapers(){if(!paperResults)return;const {data,error}=await sb.
 ['paperBoard','paperClass','paperSubject','paperYear'].forEach(id=>document.getElementById(id)?.addEventListener('input',renderPapers));
 loadPapers();</script><script id="sazalNavigationRepair">
 (function(){
-  const pageIds=['homeView','classPicker','classContent','previous-year-papers','study-material','student-tools','analyticsView'];
+  const pageIds=['homeView','classPicker','classContent','previous-year-papers','study-material','student-tools','ai-assistant','analyticsView'];
   let currentCategory='notes';
   window.sazalActiveCategory='notes';
   const categoryNames={notes:'Class Notes',questions:'Class Questions',lectures:'Class Lectures',gk:'GK',reasoning:'Reasoning',brain:'Brain Booster'};
@@ -535,7 +542,7 @@ loadPapers();</script><script id="sazalNavigationRepair">
     const tile=e.target.closest('[data-open]');
     if(tile){e.preventDefault();e.stopImmediatePropagation();openTile(tile.dataset.open);return;}
     const bottom=e.target.closest('[data-bottom]');
-    if(bottom){e.preventDefault();e.stopImmediatePropagation();const key=bottom.dataset.bottom;showPage(({home:'homeView',papers:'previous-year-papers',tools:'student-tools',analytics:'analyticsView'})[key]||'homeView');return;}
+    if(bottom){e.preventDefault();e.stopImmediatePropagation();const key=bottom.dataset.bottom;showPage(({home:'homeView',papers:'previous-year-papers',tools:'student-tools',ai:'ai-assistant',analytics:'analyticsView'})[key]||'homeView');return;}
     const home=e.target.closest('[data-home]');
     if(home){e.preventDefault();e.stopImmediatePropagation();showPage('homeView');return;}
     const classesBtn=e.target.closest('[data-classes]');
@@ -552,4 +559,23 @@ loadPapers();</script><script id="sazalNavigationRepair">
   });
 })();
 </script>
+
+// Sazal Study AI chat. Configure a secure server endpoint in window.SAZAL_AI_ENDPOINT.
+(()=>{
+ const form=document.getElementById('aiForm'),input=document.getElementById('aiInput'),chat=document.getElementById('aiChat'),send=document.getElementById('aiSend'),status=document.getElementById('aiStatus');
+ if(!form||!input||!chat||!send)return;
+ const add=(text,who='bot')=>{const el=document.createElement('div');el.className='ai-msg '+who;el.textContent=text;chat.appendChild(el);chat.scrollTop=chat.scrollHeight;return el;};
+ const submit=async(text)=>{const q=(text||input.value).trim();if(!q)return;add(q,'user');input.value='';
+  const endpoint=String(window.SAZAL_AI_ENDPOINT||'').trim();
+  if(!endpoint){add('आपका सवाल मिल गया। असली AI जवाब चालू करने के लिए वेबसाइट में सुरक्षित backend/API endpoint सेट करना बाकी है। सुरक्षा के लिए API key को index.html में सीधे न डालें।');if(status)status.textContent='AI सेवा कनेक्ट करने की जरूरत है।';return;}
+  send.disabled=true;send.textContent='…';const pending=add('जवाब तैयार हो रहा है…');
+  try{const res=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:q,question:q,history:[...chat.querySelectorAll('.ai-msg')].slice(-12).map(n=>({role:n.classList.contains('user')?'user':'assistant',content:n.textContent}))})});if(!res.ok)throw new Error('HTTP '+res.status);const data=await res.json();pending.remove();const answer=data.answer||data.reply||data.message||data.output_text;if(typeof answer!=='string'||!answer.trim())throw new Error('Empty answer');add(answer);if(status)status.textContent='AI Assistant connected';}
+  catch(e){pending.remove();add('अभी जवाब नहीं मिल पाया। AI endpoint की configuration और server logs जाँचें, फिर दोबारा कोशिश करें।');if(status)status.textContent='AI सेवा से कनेक्शन नहीं हो पाया।';}
+  finally{send.disabled=false;send.textContent='भेजें ➤';input.focus();}
+ };
+ form.addEventListener('submit',e=>{e.preventDefault();submit();});
+ input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();submit();}});
+ document.querySelectorAll('[data-ai-prompt]').forEach(b=>b.addEventListener('click',()=>{input.value=b.dataset.aiPrompt;input.focus();}));
+})();
+
 </body></html>
