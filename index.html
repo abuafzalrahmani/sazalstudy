@@ -193,24 +193,13 @@ const originalRender=window.renderNotes;show('homeView');
 body.dark #menuPop{background:rgba(30,36,43,.98)!important;border-color:#53616b!important}
 body.dark #menuPop a,body.dark #menuPop button{color:#f5eee9!important}
 @media(max-width:560px){.top .redesigned-nav{gap:6px!important}.top .redesigned-nav .dots{flex-basis:36px!important;width:36px!important;height:40px!important}.top .redesigned-nav .brand{font-size:17px!important}.top .redesigned-nav .nav-actions{gap:4px!important}.top .redesigned-nav #theme{min-width:36px!important}.top .redesigned-nav #installApp{padding:8px 7px!important;font-size:12px!important}}
+
+.full-calculator{max-width:620px!important;padding:12px!important;background:#f7f7f7!important;color:#222!important;border:0!important;border-radius:26px!important;box-shadow:0 8px 30px #0001!important}.calculator-tabs{display:flex;align-items:center;justify-content:center;gap:22px;margin-bottom:18px}.calc-tab{border:0;background:transparent;color:#777;font-size:17px;padding:8px 4px;cursor:pointer}.calc-tab.active{color:#222;border-bottom:2px solid #fb8c16}.calculator-tabs .calculator-close{margin-left:auto;font-size:12px;padding:7px}.scientific-display{min-height:190px;display:flex;flex-direction:column;justify-content:flex-end;align-items:stretch;padding:10px 8px 20px}.calc-expression{text-align:right;color:#888;min-height:24px;overflow-wrap:anywhere}.full-calculator .calculator-display{border:0!important;background:transparent!important;height:78px!important;font-size:48px!important;font-weight:400!important;color:#111!important;margin:0!important;padding:4px!important}.scientific-keys{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:7px}.scientific-keys button{min-width:0;min-height:55px;border:0;border-radius:17px;background:#fff;color:#111;font-size:clamp(14px,3vw,22px);font-weight:500;cursor:pointer;box-shadow:0 1px 2px #00003}.scientific-keys button:active{transform:scale(.94);background:#eee}.scientific-keys .calc-special{color:#666}.scientific-keys .calc-orange{color:#ee8b27}.scientific-keys .calc-equals{background:#fb8c16;color:#fff}.scientific-keys .calc-zero{grid-column:auto}.converter-card{display:grid;gap:10px;padding:12px}.converter-card label{font-size:13px;color:#666}.converter-card input,.converter-card select{width:100%;padding:13px;border:1px solid #e5e5e5;border-radius:12px;background:white;color:#222;font:inherit}.converter-pair{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:end}.converter-pair button{border:0;border-radius:12px;padding:12px;background:#fff;color:#f28b19;font-size:22px}.converter-result{margin-top:10px;padding:18px;border-radius:17px;background:#fff;display:grid;gap:5px}.converter-result small{color:#777}.converter-result strong{font-size:27px;overflow-wrap:anywhere}@media(max-width:420px){.scientific-keys{gap:5px}.scientific-keys button{min-height:48px;border-radius:13px}.scientific-display{min-height:150px}.full-calculator{padding:8px!important}.calculator-tabs{gap:12px}.calc-tab{font-size:15px}}
 </style>
 <script id="sazal-three-dot-menu-repair">
 (function(){function init(){var toggle=document.getElementById('menuToggle'),pop=document.getElementById('menuPop'),theme=document.getElementById('theme'),menuTheme=document.getElementById('menuTheme');if(toggle&&pop&&!toggle.dataset.menuRepair){toggle.dataset.menuRepair='1';toggle.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();pop.classList.toggle('open');});document.addEventListener('click',function(e){if(!pop.contains(e.target)&&!toggle.contains(e.target))pop.classList.remove('open');});}if(menuTheme&&theme&&!menuTheme.dataset.themeRepair){menuTheme.dataset.themeRepair='1';menuTheme.addEventListener('click',function(e){e.preventDefault();theme.click();if(pop)pop.classList.remove('open');});}}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();})();
 </script>
 
-
-<style id="sazal-bottom-nav-animated-fix">
-.bottom-nav{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;align-items:stretch;gap:4px!important;padding-left:max(5px,env(safe-area-inset-left))!important;padding-right:max(5px,env(safe-area-inset-right))!important;overflow:visible!important}
-.bottom-item{min-width:0!important;width:100%;display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:7px 1px!important;border:1px solid transparent!important;border-radius:14px!important;transform:scale(1);transition:transform .28s cubic-bezier(.2,.8,.2,1),background .28s ease,box-shadow .28s ease,border-color .28s ease!important;position:relative}
-.bottom-item span{font-size:17px;line-height:1.15;transition:transform .28s ease,font-size .28s ease}
-.bottom-item small{display:block!important;font-size:clamp(7px,2.1vw,10px)!important;line-height:1.15!important;white-space:normal!important;overflow-wrap:anywhere;text-align:center;transition:font-weight .25s ease}
-.bottom-item.active{transform:scale(1.07);z-index:2;background:rgba(255,255,255,.96)!important;border-color:rgba(177,112,78,.42)!important;box-shadow:0 5px 16px rgba(112,71,49,.17),inset 0 0 0 1px rgba(255,255,255,.75)!important}
-.bottom-item.active span{transform:translateY(-1px) scale(1.12);font-size:19px}
-.bottom-item.active small{font-weight:900!important}
-.bottom-item:active{transform:scale(.96)}
-@media(max-width:380px){.bottom-nav{gap:1px!important;padding-left:3px!important;padding-right:3px!important}.bottom-item{padding:6px 0!important}.bottom-item small{font-size:7px!important}.bottom-item.active{transform:scale(1.035)}}
-@media(prefers-reduced-motion:reduce){.bottom-item,.bottom-item span,.bottom-item small{transition:none!important}}
-</style>
 </head>
 <body>
 <header class="top"><div class="container">
@@ -237,17 +226,19 @@ body.dark #menuPop a,body.dark #menuPop button{color:#f5eee9!important}
 <article class="feature-card"><h3>🔖 My Saved Notes</h3><p>अपने saved notes यहाँ देखें।</p><div id="savedNotes" class="saved-list"></div></article>
 <article class="feature-card"><h3>🔔 New Notes Notifications</h3><p>नई notes की notification चालू करें।</p><button class="feature-btn" id="enableNotifications">🔔 Notifications चालू करें</button><div id="notificationStatus" class="note-meta"></div></article>
 <article class="feature-card"><h3>🧮 Calculator</h3><p>जोड़, घटाव, गुणा और भाग करें।</p><button class="feature-btn" id="toggleCalculator" type="button">🧮 Calculator खोलें</button></article></div>
-<div id="calculatorPanel" class="calculator-panel" hidden>
- <div class="calculator-head"><div><h3>🧮 Calculator</h3><p>यहीं पर हिसाब करें — दूसरे पेज पर जाने की जरूरत नहीं।</p></div><button class="calculator-close" id="closeCalculator" type="button" aria-label="Calculator बंद करें">✕ बंद करें</button></div>
- <input id="calculatorDisplay" class="calculator-display" type="text" value="0" aria-label="Calculator display" readonly>
- <div class="calculator-keys" id="calculatorKeys">
-  <button type="button" data-calc="clear" class="calc-special">AC</button><button type="button" data-calc="back" class="calc-special">⌫</button><button type="button" data-value="%" class="calc-special">%</button><button type="button" data-value="/" class="calc-op">÷</button>
-  <button type="button" data-value="7">7</button><button type="button" data-value="8">8</button><button type="button" data-value="9">9</button><button type="button" data-value="*" class="calc-op">×</button>
-  <button type="button" data-value="4">4</button><button type="button" data-value="5">5</button><button type="button" data-value="6">6</button><button type="button" data-value="-" class="calc-op">−</button>
-  <button type="button" data-value="1">1</button><button type="button" data-value="2">2</button><button type="button" data-value="3">3</button><button type="button" data-value="+" class="calc-op">+</button>
-  <button type="button" data-value="0" class="calc-zero">0</button><button type="button" data-value=".">.</button><button type="button" data-calc="equals" class="calc-equals">=</button>
+<div id="calculatorPanel" class="calculator-panel full-calculator" hidden>
+ <div class="calculator-tabs"><button type="button" class="calc-tab active" data-calctab="scientific">Calculator</button><button type="button" class="calc-tab" data-calctab="converter">Converter</button><button class="calculator-close" id="closeCalculator" type="button" aria-label="Calculator बंद करें">✕ बंद करें</button></div>
+ <div id="scientificCalculator">
+  <div class="scientific-display"><div id="calcExpression" class="calc-expression"></div><input id="calculatorDisplay" class="calculator-display" type="text" value="0" aria-label="Calculator display" readonly></div>
+  <div class="scientific-keys" id="calculatorKeys">
+   <button type="button" data-calc="deg" class="calc-special">deg</button><button type="button" data-value="(" class="calc-special">(</button><button type="button" data-value=")" class="calc-special">)</button><button type="button" data-calc="clear" class="calc-orange">AC</button><button type="button" data-calc="back" class="calc-orange">⌫</button><button type="button" data-value="%" class="calc-orange">%</button><button type="button" data-value="/" class="calc-orange">÷</button>
+   <button type="button" data-calc="second" class="calc-special">2nd</button><button type="button" data-calc="reciprocal" class="calc-special">¹⁄ₓ</button><button type="button" data-calc="pi" class="calc-special">π</button><button data-value="7">7</button><button data-value="8">8</button><button data-value="9">9</button><button type="button" data-value="*" class="calc-orange">×</button>
+   <button type="button" data-calc="sin" class="calc-special">sin</button><button type="button" data-calc="tan" class="calc-special">tan</button><button type="button" data-calc="cos" class="calc-special">cos</button><button data-value="4">4</button><button data-value="5">5</button><button data-value="6">6</button><button type="button" data-value="-" class="calc-orange">−</button>
+   <button type="button" data-calc="fact" class="calc-special">x!</button><button type="button" data-calc="sqrt" class="calc-special">√x</button><button type="button" data-value="^" class="calc-special">xʸ</button><button data-value="1">1</button><button data-value="2">2</button><button data-value="3">3</button><button type="button" data-value="+" class="calc-orange">+</button>
+   <button type="button" data-calc="log" class="calc-special">lg</button><button type="button" data-calc="ln" class="calc-special">ln</button><button type="button" data-calc="e" class="calc-special">e</button><button data-value="00">00</button><button data-value="0">0</button><button data-value="." >.</button><button type="button" data-calc="equals" class="calc-equals">=</button>
+  </div><p id="calculatorStatus" class="calculator-status" aria-live="polite"></p>
  </div>
- <p id="calculatorStatus" class="calculator-status" aria-live="polite"></p>
+ <div id="unitConverter" hidden><div class="converter-card"><label for="convertType">Conversion type</label><select id="convertType"><option value="length">Length</option><option value="weight">Weight</option><option value="temperature">Temperature</option><option value="area">Area</option><option value="volume">Volume</option><option value="time">Time</option><option value="speed">Speed</option><option value="data">Data</option></select><label for="convertValue">Value</label><input id="convertValue" type="number" value="1"><div class="converter-pair"><div><label for="convertFrom">From</label><select id="convertFrom"></select></div><button id="swapUnits" type="button" aria-label="Swap units">⇄</button><div><label for="convertTo">To</label><select id="convertTo"></select></div></div><div class="converter-result"><small>Result</small><strong id="convertResult">0.3048</strong></div></div></div>
 </div></section>
 <section id="analyticsView" class="view-page" hidden><button class="back-btn" data-home>← Home</button><div class="section-title"><div><h2>📈 Website Analytics</h2><p>Website visits का anonymous summary</p></div></div><div class="feature-card"><div id="analyticsSummary">Analytics setup check हो रहा है…</div></div></section>
 <section class="quiz-section" id="online-quiz">
@@ -291,7 +282,7 @@ body.dark #menuPop a,body.dark #menuPop button{color:#f5eee9!important}
 <section id="ai-assistant" class="view-page ai-page" hidden><button class="back-btn" data-home>← Home</button><div class="ai-shell"><div class="ai-head"><div class="ai-avatar">✦</div><div><h2>Sazal AI Assistant</h2><p>पढ़ाई, नोट्स और प्रश्नों में आपकी मदद</p></div></div><div class="ai-chat" id="aiChat" aria-live="polite"><div class="ai-msg bot">नमस्ते! 👋 मैं Sazal Study Assistant हूँ। आप कोई विषय, सवाल या प्रश्न भेज सकते हैं।
 
 ध्यान दें: AI जवाब सेवा जोड़ने के बाद ही उपलब्ध होंगे। अभी आप चैट इंटरफ़ेस देख सकते हैं।</div></div><div class="ai-quick"><button type="button" data-ai-prompt="कक्षा 10 के लिए पढ़ाई का टाइम टेबल बनाओ।">📅 Study timetable</button><button type="button" data-ai-prompt="इस सवाल को आसान हिंदी में समझाओ: ">📘 सवाल समझाओ</button><button type="button" data-ai-prompt="मुझे 5 GK MCQ प्रश्न उत्तर सहित दो।">🧠 GK Quiz</button></div><form class="ai-compose" id="aiForm"><textarea id="aiInput" placeholder="अपना सवाल यहाँ लिखें…" rows="2" aria-label="अपना सवाल लिखें"></textarea><button class="ai-send" id="aiSend" type="submit">भेजें ➤</button></form><div class="ai-note" id="aiStatus">AI सेवा अभी कनेक्ट नहीं है। सुरक्षित AI API endpoint जोड़ने के बाद असली जवाब मिलेंगे।</div></div></section>
-</main><nav class="bottom-nav" aria-label="Main navigation"><button class="bottom-item active" data-bottom="home"><span>⌂</span><small>Home</small></button><button class="bottom-item" data-bottom="papers"><span>📄</span><small>Previous Year<br>Questions</small></button><button class="bottom-item" data-bottom="ai"><span>✦</span><small>AI Assistant</small></button><button class="bottom-item" data-bottom="tools"><span>🧰</span><small>Student Tools</small></button><button class="bottom-item" data-bottom="analytics"><span>📊</span><small>Website Analytics</small></button></nav><footer>© 2026 Sazal Study • आपकी पढ़ाई, आपकी तैयारी</footer>
+</main><nav class="bottom-nav" aria-label="Main navigation"><button class="bottom-item active" data-bottom="home"><span>⌂</span><small>Home</small></button><button class="bottom-item" data-bottom="papers"><span>📄</span><small>Previous Year<br>Questions</small></button><button class="bottom-item" data-bottom="tools"><span>🧰</span><small>Student Tools</small></button><button class="bottom-item" data-bottom="ai"><span>✦</span><small>AI Assistant</small></button><button class="bottom-item" data-bottom="analytics"><span>📊</span><small>Website Analytics</small></button></nav><footer>© 2026 Sazal Study • आपकी पढ़ाई, आपकी तैयारी</footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script>
 const classes=document.getElementById('classes'),notesEl=document.getElementById('notes'),empty=document.getElementById('empty'),filterBar=document.getElementById('filterBar'),filterName=document.getElementById('filterName');
 const classNames=[['🧸','Nursery'],['🎨','LKG'],['🎒','UKG'],...Array.from({length:12},(_,i)=>['🎓',`Class ${i+1}`])];
@@ -416,28 +407,26 @@ loadAdminQuestions();
 
 
 
-// Calculator stays inside the Student Tools page.
+// Scientific calculator + working unit converter inside Student Tools.
 (()=>{
  const panel=document.getElementById('calculatorPanel'),toggle=document.getElementById('toggleCalculator'),close=document.getElementById('closeCalculator'),display=document.getElementById('calculatorDisplay'),keys=document.getElementById('calculatorKeys'),status=document.getElementById('calculatorStatus');
  if(!panel||!toggle||!close||!display||!keys)return;
- let expression='',justCalculated=false;
- const paint=()=>{display.value=expression||'0'};
- toggle.addEventListener('click',()=>{panel.hidden=false;toggle.textContent='🧮 Calculator खुला है';panel.scrollIntoView({behavior:'smooth',block:'nearest'});});
- close.addEventListener('click',()=>{panel.hidden=true;toggle.textContent='🧮 Calculator खोलें'});
- keys.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const action=b.dataset.calc,value=b.dataset.value;if(status)status.textContent='';
-  if(action==='clear'){expression='';justCalculated=false;paint();return}
-  if(action==='back'){expression=expression.slice(0,-1);justCalculated=false;paint();return}
-  if(action==='equals'){
-   if(!expression)return;
-   try{if(!/^[0-9+*/().% -]+$/.test(expression))throw Error('invalid');const result=Function('"use strict"; return ('+expression+')')();if(typeof result!=='number'||!Number.isFinite(result))throw Error('invalid');expression=String(Number(result.toPrecision(12)));justCalculated=true;paint();}
-   catch(err){if(status)status.textContent='यह हिसाब सही नहीं है। कृपया जाँचें।'}return;
-  }
-  if(value===undefined)return;
-  if(justCalculated&&!['+','-','*','/','%'].includes(value))expression='';
-  justCalculated=false;
-  if(value==='.' ){const part=expression.split(/[+*/% -]/).pop();if(part.includes('.'))return;if(!part)expression+='0';}
-  expression+=value;paint();
- });
+ let expr='',deg=true,second=false,justCalculated=false;
+ const paint=()=>{display.value=expr||'0';const ex=document.getElementById('calcExpression');if(ex)ex.textContent=expr};
+ const fact=n=>{if(n<0||n>170||Math.floor(n)!==n)throw Error('factorial');let r=1;for(let i=2;i<=n;i++)r*=i;return r};
+ const evaluate=()=>{let x=expr.replace(/×/g,'*').replace(/÷/g,'/').replace(/π/g,'Math.PI').replace(/\\be\\b/g,'Math.E').replace(/(\d+(?:\.\d+)?)%/g,'($1/100)').replace(/\^/g,'**');if(!/^[0-9+*/().%\s-]*$/.test(x))throw Error('invalid');const n=Function('"use strict";return ('+x+')')();if(typeof n!=='number'||!Number.isFinite(n))throw Error('invalid');return n};
+ toggle.addEventListener('click',()=>{panel.hidden=false;toggle.textContent='🧮 Calculator खुला है';panel.scrollIntoView({behavior:'smooth',block:'nearest'});});close.addEventListener('click',()=>{panel.hidden=true;toggle.textContent='🧮 Calculator खोलें'});
+ document.querySelectorAll('[data-calctab]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-calctab]').forEach(t=>t.classList.toggle('active',t===b));document.getElementById('scientificCalculator').hidden=b.dataset.calctab!=='scientific';document.getElementById('unitConverter').hidden=b.dataset.calctab!=='converter'}));
+ keys.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const a=b.dataset.calc,v=b.dataset.value;if(status)status.textContent='';try{
+ if(a==='clear'){expr='';justCalculated=false;paint();return}if(a==='back'){expr=expr.slice(0,-1);justCalculated=false;paint();return}if(a==='deg'){deg=!deg;b.textContent=deg?'deg':'rad';return}if(a==='second'){second=!second;b.textContent=second?'2nd ✓':'2nd';return}
+ if(a==='equals'){if(!expr)return;const result=evaluate();document.getElementById('calcExpression').textContent=expr+' =';expr=String(Number(result.toPrecision(12)));justCalculated=true;paint();return}
+ if(a==='pi'){expr+='π';}else if(a==='e'){expr+='e';}else if(a==='reciprocal'){expr='1/('+expr+')'}else if(a==='sqrt'){expr='Math.sqrt('+expr+')';}else if(a==='sin'||a==='cos'||a==='tan'){let n=evaluate(),z=deg?n*Math.PI/180:n;let r=a==='sin'?(second?Math.asin(n):Math.sin(z)):a==='cos'?(second?Math.acos(n):Math.cos(z)):(second?Math.atan(n):Math.tan(z));if(second&&deg)r*=180/Math.PI;expr=String(Number(r.toPrecision(12)));justCalculated=true;}else if(a==='log'){expr=String(Math.log10(evaluate()));justCalculated=true}else if(a==='ln'){expr=String(Math.log(evaluate()));justCalculated=true}else if(a==='fact'){expr=String(fact(evaluate()));justCalculated=true}else if(v!==undefined){if(justCalculated&&!['+','-','*','/','%','^'].includes(v))expr='';expr+=v;justCalculated=false;}paint();
+ }catch(err){if(status)status.textContent='यह हिसाब सही नहीं है। कृपया जाँचें।'}});
+ const units={length:{Meter:1,Kilometer:1000,Centimeter:.01,Millimeter:.001,Mile:1609.344,Yard:.9144,Foot:.3048,Inch:.0254},weight:{Kilogram:1,Gram:.001,Milligram:.000001,Pound:.45359237,Ounce:.0283495,Tonne:1000},area:{'Square meter':1,'Square kilometer':1e6,'Square centimeter':.0001,'Square foot':.092903,'Acre':4046.856,'Hectare':10000},volume:{Liter:1,Milliliter:.001,'Cubic meter':1000,'US gallon':3.78541,Cup:.236588},time:{Second:1,Minute:60,Hour:3600,Day:86400,Week:604800},speed:{'Meter/second':1,'Kilometer/hour':1/3.6,'Mile/hour':.44704},data:{Byte:1,KB:1000,MB:1e6,GB:1e9,KiB:1024,MiB:1048576,GiB:1073741824}};
+ const type=document.getElementById('convertType'),from=document.getElementById('convertFrom'),to=document.getElementById('convertTo'),val=document.getElementById('convertValue'),res=document.getElementById('convertResult');
+ function setUnits(){let t=type.value,list=t==='temperature'?['Celsius','Fahrenheit','Kelvin']:Object.keys(units[t]);from.innerHTML=to.innerHTML=list.map(x=>`<option>${x}</option>`).join('');if(list.length>1)to.selectedIndex=1;convert()}
+ function convert(){let n=Number(val.value)||0,a=from.value,b=to.value,r=n;if(type.value==='temperature'){let c=a==='Celsius'?n:a==='Fahrenheit'?(n-32)*5/9:n-273.15;r=b==='Celsius'?c:b==='Fahrenheit'?c*9/5+32:c+273.15}else{let u=units[type.value];r=n*u[a]/u[b]}res.textContent=Number.isFinite(r)?Number(r.toPrecision(10)).toLocaleString(undefined,{maximumFractionDigits:8}):'—'}
+ type.addEventListener('change',setUnits);[from,to,val].forEach(x=>x.addEventListener('input',convert));document.getElementById('swapUnits').addEventListener('click',()=>{let x=from.value;from.value=to.value;to.value=x;convert()});setUnits();
 })();
 
 // Student tools: local preferences, bookmarks, practice current affairs, and device-local score list.
