@@ -145,6 +145,12 @@ body.dark .feature-card{background:rgba(22,37,43,.66)}
 .feature-card{min-width:0}.feature-card hr{border:0;border-top:1px solid var(--border);margin:14px 0}.news-link{display:block;text-decoration:none;color:var(--text);padding:10px 0;border-bottom:1px solid var(--border);font-weight:650;font-size:14px}.news-link small{display:block;color:var(--muted);font-weight:400;margin-top:4px}.analytics-number{font-size:24px;font-weight:850}.feature-btn:disabled{opacity:.55;cursor:not-allowed}
 @media(max-width:560px){.feature-grid{grid-template-columns:1fr!important}.feature-row{flex-wrap:wrap}.feature-row>*{flex:1 1 100%}.nav{flex-wrap:wrap}.nav-actions{flex-wrap:wrap}}
 #menuPop{display:none;position:absolute;right:16px;top:62px;z-index:9999;padding:10px;background:var(--glass);border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 30px #0002}#menuPop.open{display:grid;gap:10px}#menuPop a,#menuPop button{padding:9px 12px;border:0;border-radius:9px;text-align:left;text-decoration:none;color:var(--ink);background:transparent;cursor:pointer}
+
+/* Inline student calculator */
+.calculator-panel{margin-top:18px;padding:18px;border:1px solid var(--border);border-radius:20px;background:var(--card);box-shadow:var(--shadow);max-width:460px}
+.calculator-head{display:flex;justify-content:space-between;align-items:start;gap:12px;margin-bottom:14px}.calculator-head h3{margin:0 0 5px}.calculator-head p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}.calculator-close{border:1px solid var(--border);border-radius:10px;background:transparent;color:var(--text);padding:8px 10px;cursor:pointer;white-space:nowrap}
+.calculator-display{width:100%;height:72px;margin-bottom:12px;border:1px solid var(--border);border-radius:14px;padding:12px 16px;text-align:right;font-size:30px;font-weight:750;letter-spacing:.5px;background:var(--bg);color:var(--text)}
+.calculator-keys{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}.calculator-keys button{min-height:54px;border:1px solid var(--border);border-radius:13px;background:var(--bg);color:var(--text);font-size:20px;font-weight:700;cursor:pointer;touch-action:manipulation}.calculator-keys button:active{transform:scale(.97)}.calculator-keys .calc-op,.calculator-keys .calc-special{background:rgba(49,137,153,.13);color:var(--primary)}.calculator-keys .calc-equals{background:var(--primary);color:#fff;border-color:transparent}.calculator-keys .calc-zero{grid-column:span 2}.calculator-status{min-height:18px;margin:10px 0 0;color:var(--muted);font-size:12px}
 </style>
 
 <style>
@@ -212,7 +218,20 @@ body.dark #menuPop a,body.dark #menuPop button{color:#f5eee9!important}
 <section id="student-tools" class="view-page" hidden><button class="back-btn" data-home>← Home</button><div class="section-title"><div><h2>🧰 Student Tools</h2><p>आपकी पढ़ाई के लिए उपयोगी tools</p></div></div><div class="feature-grid">
 <article class="feature-card"><h3>⏳ Exam Countdown</h3><p id="countdownText">अपनी परीक्षा की तारीख चुनें।</p><div class="feature-row"><input class="feature-input" type="date" id="examDate" aria-label="Exam date"><button class="feature-btn" id="saveExamDate">तारीख Save करें</button></div></article>
 <article class="feature-card"><h3>🔖 My Saved Notes</h3><p>अपने saved notes यहाँ देखें।</p><div id="savedNotes" class="saved-list"></div></article>
-<article class="feature-card"><h3>🔔 New Notes Notifications</h3><p>नई notes की notification चालू करें।</p><button class="feature-btn" id="enableNotifications">🔔 Notifications चालू करें</button><div id="notificationStatus" class="note-meta"></div></article></div></section>
+<article class="feature-card"><h3>🔔 New Notes Notifications</h3><p>नई notes की notification चालू करें।</p><button class="feature-btn" id="enableNotifications">🔔 Notifications चालू करें</button><div id="notificationStatus" class="note-meta"></div></article>
+<article class="feature-card"><h3>🧮 Calculator</h3><p>जोड़, घटाव, गुणा और भाग करें।</p><button class="feature-btn" id="toggleCalculator" type="button">🧮 Calculator खोलें</button></article></div>
+<div id="calculatorPanel" class="calculator-panel" hidden>
+ <div class="calculator-head"><div><h3>🧮 Calculator</h3><p>यहीं पर हिसाब करें — दूसरे पेज पर जाने की जरूरत नहीं।</p></div><button class="calculator-close" id="closeCalculator" type="button" aria-label="Calculator बंद करें">✕ बंद करें</button></div>
+ <input id="calculatorDisplay" class="calculator-display" type="text" value="0" aria-label="Calculator display" readonly>
+ <div class="calculator-keys" id="calculatorKeys">
+  <button type="button" data-calc="clear" class="calc-special">AC</button><button type="button" data-calc="back" class="calc-special">⌫</button><button type="button" data-value="%" class="calc-special">%</button><button type="button" data-value="/" class="calc-op">÷</button>
+  <button type="button" data-value="7">7</button><button type="button" data-value="8">8</button><button type="button" data-value="9">9</button><button type="button" data-value="*" class="calc-op">×</button>
+  <button type="button" data-value="4">4</button><button type="button" data-value="5">5</button><button type="button" data-value="6">6</button><button type="button" data-value="-" class="calc-op">−</button>
+  <button type="button" data-value="1">1</button><button type="button" data-value="2">2</button><button type="button" data-value="3">3</button><button type="button" data-value="+" class="calc-op">+</button>
+  <button type="button" data-value="0" class="calc-zero">0</button><button type="button" data-value=".">.</button><button type="button" data-calc="equals" class="calc-equals">=</button>
+ </div>
+ <p id="calculatorStatus" class="calculator-status" aria-live="polite"></p>
+</div></section>
 <section id="analyticsView" class="view-page" hidden><button class="back-btn" data-home>← Home</button><div class="section-title"><div><h2>📈 Website Analytics</h2><p>Website visits का anonymous summary</p></div></div><div class="feature-card"><div id="analyticsSummary">Analytics setup check हो रहा है…</div></div></section>
 <section class="quiz-section" id="online-quiz">
   <div class="section-title"><div><h2>📝 Online Quiz & GK Test</h2><p>Practice करें, अपना score देखें और हर उत्तर से सीखें।</p></div></div>
@@ -375,6 +394,31 @@ async function loadAdminQuestions(){
 renderQuiz();
 loadAdminQuestions();
 
+
+
+// Calculator stays inside the Student Tools page.
+(()=>{
+ const panel=document.getElementById('calculatorPanel'),toggle=document.getElementById('toggleCalculator'),close=document.getElementById('closeCalculator'),display=document.getElementById('calculatorDisplay'),keys=document.getElementById('calculatorKeys'),status=document.getElementById('calculatorStatus');
+ if(!panel||!toggle||!close||!display||!keys)return;
+ let expression='',justCalculated=false;
+ const paint=()=>{display.value=expression||'0'};
+ toggle.addEventListener('click',()=>{panel.hidden=false;toggle.textContent='🧮 Calculator खुला है';panel.scrollIntoView({behavior:'smooth',block:'nearest'});});
+ close.addEventListener('click',()=>{panel.hidden=true;toggle.textContent='🧮 Calculator खोलें'});
+ keys.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const action=b.dataset.calc,value=b.dataset.value;if(status)status.textContent='';
+  if(action==='clear'){expression='';justCalculated=false;paint();return}
+  if(action==='back'){expression=expression.slice(0,-1);justCalculated=false;paint();return}
+  if(action==='equals'){
+   if(!expression)return;
+   try{if(!/^[0-9+*/().% -]+$/.test(expression))throw Error('invalid');const result=Function('"use strict"; return ('+expression+')')();if(typeof result!=='number'||!Number.isFinite(result))throw Error('invalid');expression=String(Number(result.toPrecision(12)));justCalculated=true;paint();}
+   catch(err){if(status)status.textContent='यह हिसाब सही नहीं है। कृपया जाँचें।'}return;
+  }
+  if(value===undefined)return;
+  if(justCalculated&&!['+','-','*','/','%'].includes(value))expression='';
+  justCalculated=false;
+  if(value==='.' ){const part=expression.split(/[+*/% -]/).pop();if(part.includes('.'))return;if(!part)expression+='0';}
+  expression+=value;paint();
+ });
+})();
 
 // Student tools: local preferences, bookmarks, practice current affairs, and device-local score list.
 const STORE_KEYS={exam:'sazal-exam-date',saved:'sazal-saved-notes',scores:'sazal-local-scores'};
